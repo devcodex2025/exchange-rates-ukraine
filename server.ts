@@ -94,6 +94,8 @@ app.get("/robots.txt", (req, res) => {
 
 // Vite integration / Static files
 async function setupVite() {
+  const distPath = path.resolve(__dirname, "dist");
+  
   if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -101,36 +103,29 @@ async function setupVite() {
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
+    // Serve static files from the dist directory
     app.use(express.static(distPath));
+    
+    // Fallback to index.html for SPA routing
     app.get("*", (req, res) => {
+      // Avoid infinite loops if assets are missing
+      if (req.url.startsWith('/api') || req.url.includes('.')) {
+        return res.status(404).send('Not found');
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
+}
 
-  if (!process.env.VERCEL && process.env.NODE_ENV !== "production") {
-    // Only listen in dev if setupVite is called
-    // In prod, startServer handles listen if needed
+// Start the server
+setupVite().then(() => {
+  // On Vercel, the app is exported and Vercel handles the gateway
+  // On Cloud Run/Local, we need to listen on a port
+  if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
   }
-}
-
-// In production on Vercel, we don't call setupVite() inside the export
-// but for our dev env we need it.
-if (!process.env.VERCEL) {
-  setupVite().then(() => {
-    if (process.env.NODE_ENV !== "production") {
-      app.listen(PORT, "0.0.0.0", () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-      });
-    }
-  });
-} else {
-  // On Vercel, we serve static files immediately
-  const distPath = path.join(process.cwd(), "dist");
-  app.use(express.static(distPath));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-}
+});
 
 export default app;

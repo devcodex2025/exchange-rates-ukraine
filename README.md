@@ -1,6 +1,6 @@
 # 🇺🇦 Курс Валют Україна — UA Rates Live
 
-![UA Rates Header](https://picsum.photos/seed/rates-header/1200/400)
+
 
 **Курс Валют Україна** — це сучасний, швидкий та адаптивний веб-додаток для моніторингу курсів валют (USD, EUR, PLN) у провідних банках України в режимі реального часу.
 
@@ -12,17 +12,6 @@
 - 🌓 **Темна Тема**: Підтримка системної теми та ручного перемикання для комфорту очей.
 - 📱 **Mobile First**: Ідеальне відображення на смартфонах, планшетах та десктопах.
 - 🔍 **SEO Оптимізація**: Налаштовані мета-теги та Schema.org (FAQ, FinancialService) для високих позицій у Google.
-
-## 📸 Скріншоти
-
-### Головна сторінка (Світла тема)
-![Dashboard Light](https://picsum.photos/seed/dashboard-light/800/600)
-
-### Розумний Калькулятор
-![Calculator](https://picsum.photos/seed/calculator/800/400)
-
-### Темна тема
-![Dashboard Dark](https://picsum.photos/seed/dashboard-dark/800/600)
 
 ## 🛠 Технологічний Стек
 
