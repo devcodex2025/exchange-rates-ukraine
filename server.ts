@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
@@ -54,31 +53,47 @@ app.get("/api/rates", async (req, res) => {
       fetchWithCache("mono", "https://api.monobank.ua/bank/currency")
     ]);
 
-    const raif = nbu ? nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
-      cc: r.cc,
-      buy: r.rate * 0.985,
-      sale: r.rate * 1.015
-    })) : [];
+    const fetchBankRates = async (bankSlug: string) => {
+      try {
+        const res = await fetch(`https://finance.ua/ua/currency/banks/${bankSlug}`).catch(() => null);
+        if (res && res.ok) {
+          const html = await res.text();
+          const usdMatch = html.match(/USD.*?([0-9]+\.[0-9]+).*?([0-9]+\.[0-9]+)/s);
+          const eurMatch = html.match(/EUR.*?([0-9]+\.[0-9]+).*?([0-9]+\.[0-9]+)/s);
+          const rates = [];
+          if (usdMatch) rates.push({ cc: "USD", buy: parseFloat(usdMatch[1]), sale: parseFloat(usdMatch[2]) });
+          if (eurMatch) rates.push({ cc: "EUR", buy: parseFloat(eurMatch[1]), sale: parseFloat(eurMatch[2]) });
+          return rates;
+        }
+      } catch (e) {
+        console.error(`Scraping error for ${bankSlug}:`, e);
+      }
+      return [];
+    };
 
-    const oschad = nbu ? nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
-      cc: r.cc,
-      buy: r.rate * 0.98,
-      sale: r.rate * 1.02
-    })) : [];
+    const [pumbRates, raifRates, oschadRates] = await Promise.all([
+      fetchBankRates("pumb"),
+      fetchBankRates("raif"),
+      fetchBankRates("oshhadbank")
+    ]);
 
-    const pumb = nbu ? nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
-      cc: r.cc,
-      buy: r.rate * 0.982,
-      sale: r.rate * 1.018
-    })) : [];
+    const getWithFallback = (rates: any[], margin: number) => {
+      if (rates.length > 0) return rates;
+      if (!nbu) return [];
+      return nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
+        cc: r.cc,
+        buy: Math.floor(r.rate * (1 - margin) * 100) / 100,
+        sale: Math.ceil(r.rate * (1 + margin) * 100) / 100
+      }));
+    };
 
     res.json({
       nbu,
       privat,
       mono,
-      raif,
-      oschad,
-      pumb,
+      raif: getWithFallback(raifRates, 0.015),
+      pumb: getWithFallback(pumbRates, 0.018),
+      oschad: getWithFallback(oschadRates, 0.012), 
       updatedAt: new Date().toISOString()
     });
   } catch (error) {
@@ -92,21 +107,23 @@ app.get("/robots.txt", (req, res) => {
   res.send(`User-agent: *\nAllow: /`);
 });
 
+// Static Serving & SPA Fallback (Production/Vercel)
+const distPath = path.join(process.cwd(), "dist");
+if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+  app.use(express.static(distPath));
+}
+
 // Vite integration / Static files
 async function setupVite() {
-  const distPath = path.resolve(__dirname, "dist");
-  
   if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
-    const vite = await createViteServer({
+    const { createServer } = await import("vite");
+    const vite = await createServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
-    // Serve static files from the dist directory
-    app.use(express.static(distPath));
-    
-    // Fallback to index.html for SPA routing
+    // SPA Fallback for routes not handled by static or API
     app.get("*", (req, res) => {
       // Avoid infinite loops if assets are missing
       if (req.url.startsWith('/api') || req.url.includes('.')) {
@@ -117,15 +134,24 @@ async function setupVite() {
   }
 }
 
-// Start the server
-setupVite().then(() => {
-  // On Vercel, the app is exported and Vercel handles the gateway
-  // On Cloud Run/Local, we need to listen on a port
-  if (!process.env.VERCEL) {
+// Start the server (Cloud Run/Local)
+if (!process.env.VERCEL) {
+  setupVite().then(() => {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
-  }
-});
+  });
+} else {
+  // On Vercel, setupVite logic (SPA fallback) still needs to run
+  // but we can't await it top-level if we want synchronous export
+  // However, Express handles routes in order. The API and Static are already registered.
+  // We just need the wildcard.
+  app.get("*", (req, res) => {
+    if (req.url.startsWith('/api') || req.url.includes('.')) {
+      return res.status(404).send('Not found');
+    }
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
 
 export default app;

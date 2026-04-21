@@ -132,7 +132,7 @@ export default function App() {
                 </div>
               </div>
               <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-800 dark:text-slate-100 mb-2">Завантаження Мережі</h3>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">Аналізуємо дані 6 банків України</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">Аналізуємо дані провідних банків України</p>
             </motion.div>
           )}
         </AnimatePresence>

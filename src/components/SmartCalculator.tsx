@@ -42,6 +42,13 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
   const calculate = () => {
     if (!data) return;
 
+    // Strict validation: must involve UAH, and not be UAH to UAH
+    if (fromCurrency === toCurrency || (fromCurrency !== 'UAH' && toCurrency !== 'UAH')) {
+      setResult(null);
+      setCurrentRate(null);
+      return;
+    }
+
     let targetRate = 0;
     let bankName = '';
 
@@ -106,14 +113,14 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
               bankName = banks.find(b => b.id === bankId)?.name || '';
             }
           } else {
-            if (rate > bestRate || bestRate === Infinity) {
+            if (rate > bestRate || (bestRate === Infinity && rate !== null)) {
               bestRate = rate;
               bankName = banks.find(b => b.id === bankId)?.name || '';
             }
           }
         }
       });
-      targetRate = bestRate === Infinity ? 0 : bestRate;
+      targetRate = (bestRate === Infinity || bestRate === 0) ? 0 : bestRate;
       setBestBankName(bankName);
     } else {
       targetRate = getRate(selectedBank, fromCurrency, toCurrency) || 0;
@@ -166,12 +173,22 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="space-y-1.5">
               <label className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 ml-1 tracking-widest">Сума</label>
-              <input 
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 font-mono font-black text-xl text-slate-800 dark:text-slate-100 focus:outline-none ring-offset-0 focus:ring-2 ring-indigo-500/20"
-              />
+              <div className="relative">
+                <input 
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-4 pr-20 py-3 font-mono font-black text-xl text-slate-800 dark:text-slate-100 focus:outline-none ring-offset-0 focus:ring-2 ring-indigo-500/20"
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 pointer-events-none">
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                    {fromCurrency === 'UAH' ? '₴' : fromCurrency === 'USD' ? '$' : '€'}
+                  </span>
+                  <span className="text-[10px] font-black text-slate-400 dark:text-slate-500">
+                    ({fromCurrency})
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="space-y-1.5">
               <label className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 ml-1 tracking-widest">Банк</label>
@@ -194,8 +211,23 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
             {['UAH', 'USD', 'EUR'].map(curr => (
               <button 
                 key={curr}
-                onClick={() => setFromCurrency(curr)}
-                className={`flex-1 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${fromCurrency === curr ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 dark:text-slate-600 hover:text-slate-100'}`}
+                onClick={() => {
+                  setFromCurrency(curr);
+                  // Auto-switch toCurrency if a non-UAH to non-UAH pair is about to be formed
+                  // or if from and to are the same
+                  if (curr !== 'UAH' && toCurrency !== 'UAH' && curr !== toCurrency) {
+                    setToCurrency('UAH');
+                  } else if (curr === toCurrency) {
+                    setToCurrency(curr === 'UAH' ? 'USD' : 'UAH');
+                  } else if (curr === 'UAH' && toCurrency === 'UAH') {
+                    setToCurrency('USD');
+                  }
+                }}
+                className={`flex-1 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${
+                  fromCurrency === curr 
+                    ? 'bg-indigo-600 text-white shadow-md' 
+                    : 'text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400'
+                }`}
               >
                 {curr}
               </button>
@@ -206,8 +238,13 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
             {['UAH', 'USD', 'EUR'].map(curr => (
               <button 
                 key={curr}
+                disabled={curr === fromCurrency || (curr !== 'UAH' && fromCurrency !== 'UAH')}
                 onClick={() => setToCurrency(curr)}
-                className={`flex-1 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${toCurrency === curr ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 dark:text-slate-600 hover:text-slate-100'}`}
+                className={`flex-1 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${
+                  toCurrency === curr 
+                    ? 'bg-indigo-600 text-white shadow-md' 
+                    : 'text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-20 disabled:hover:text-slate-400 dark:disabled:hover:text-slate-600 disabled:cursor-not-allowed'
+                }`}
               >
                 {curr}
               </button>
