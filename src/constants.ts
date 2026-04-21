@@ -8,7 +8,7 @@ export const CURRENCY_MAP: { [key: number]: string } = {
 };
 
 export const CURRENCY_NAMES: { [key: string]: string } = {
-  USD: "Долар США",
+  USD: "Доллар США",
   EUR: "Євро",
   UAH: "Гривня",
   PLN: "Польський злотий",

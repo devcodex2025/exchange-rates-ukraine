@@ -26,10 +26,11 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
   const [toCurrency, setToCurrency] = useState('USD');
   const [selectedBank, setSelectedBank] = useState('best');
   const [result, setResult] = useState<number | null>(null);
+  const [currentRate, setCurrentRate] = useState<number | null>(null);
   const [bestBankName, setBestBankName] = useState<string>('');
 
   const banks = [
-    { id: 'best', name: 'Найкращий курс' },
+    { id: 'best', name: 'Найкращий курс на сьогодні' },
     { id: 'privat', name: 'ПриватБанк' },
     { id: 'mono', name: 'monobank' },
     { id: 'oschad', name: 'Ощадбанк' },
@@ -44,23 +45,50 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
     let targetRate = 0;
     let bankName = '';
 
+    const getSymbol = (code: string) => {
+      if (code === 'UAH') return '₴';
+      if (code === 'USD') return '$';
+      if (code === 'EUR') return '€';
+      return '';
+    };
+
     const getRate = (bankId: string, from: string, to: string) => {
       const bankData = data[bankId as keyof typeof data];
-      if (!bankData) return null;
+      if (!bankData || !Array.isArray(bankData)) return null;
+
+      const targetCurrency = from === 'UAH' ? to : from;
 
       if (bankId === 'nbu') {
-        const rateObj = bankData.find((r: any) => r.cc === (from === 'UAH' ? to : from));
+        const rateObj = bankData.find((r: any) => r.cc === targetCurrency);
         if (rateObj) {
           return from === 'UAH' ? 1 / rateObj.rate : rateObj.rate;
         }
-      } else {
-        const rateObj = bankData.find((r: any) => r.code === (from === 'UAH' ? to : from));
+      } else if (bankId === 'privat') {
+        const rateObj = bankData.find((r: any) => r.ccy === targetCurrency);
         if (rateObj) {
-          if (from === 'UAH') {
-            return 1 / (rateObj.sale || rateObj.rate);
-          } else {
-            return rateObj.buy || rateObj.rate;
-          }
+          const buy = parseFloat(rateObj.buy);
+          const sale = parseFloat(rateObj.sale);
+          return from === 'UAH' ? 1 / sale : buy;
+        }
+      } else if (bankId === 'mono') {
+        const codes: { [key: string]: number } = { 'USD': 840, 'EUR': 978, 'UAH': 980 };
+        const fCode = codes[from];
+        const tCode = codes[to];
+        const rateObj = bankData.find((r: any) => 
+          (r.currencyCodeA === fCode && r.currencyCodeB === tCode) ||
+          (r.currencyCodeA === tCode && r.currencyCodeB === fCode)
+        );
+        if (rateObj) {
+          const buy = rateObj.rateBuy || rateObj.rateCross;
+          const sale = rateObj.rateSell || rateObj.rateCross;
+          return from === 'UAH' ? 1 / sale : buy;
+        }
+      } else {
+        const rateObj = bankData.find((r: any) => (r.cc || r.ccy || r.code) === targetCurrency);
+        if (rateObj) {
+          const buy = typeof rateObj.buy === 'string' ? parseFloat(rateObj.buy) : rateObj.buy || rateObj.rate;
+          const sale = typeof rateObj.sale === 'string' ? parseFloat(rateObj.sale) : rateObj.sale || rateObj.rate;
+          return from === 'UAH' ? 1 / sale : buy;
         }
       }
       return null;
@@ -69,7 +97,7 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
     if (selectedBank === 'best') {
       let bestRate = fromCurrency === 'UAH' ? 0 : Infinity;
       Object.keys(data).forEach(bankId => {
-        if (bankId === 'updatedAt') return;
+        if (bankId === 'updatedAt' || bankId === 'nbu') return;
         const rate = getRate(bankId, fromCurrency, toCurrency);
         if (rate) {
           if (fromCurrency === 'UAH') {
@@ -93,6 +121,7 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
     }
 
     setResult(amount * targetRate);
+    setCurrentRate(targetRate);
   };
 
   useEffect(() => {
@@ -186,6 +215,17 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
           </div>
 
           <div className="mt-auto pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
+            <div className="flex flex-col mb-4 bg-indigo-50/50 dark:bg-indigo-950/20 px-4 py-2 rounded-xl border border-indigo-100/30 dark:border-indigo-900/10">
+              <span className="text-[9px] font-black text-indigo-400 dark:text-indigo-600 uppercase tracking-widest mb-0.5">Курс розрахунку</span>
+              <span className="font-mono font-bold text-slate-700 dark:text-slate-300 text-sm">
+                {fromCurrency === 'UAH' ? (
+                  `1 ${toCurrency} = ${currentRate ? (1 / currentRate).toFixed(2) : '—'} ${fromCurrency}`
+                ) : (
+                  `1 ${fromCurrency} = ${currentRate ? currentRate.toFixed(2) : '—'} ${toCurrency}`
+                )}
+              </span>
+            </div>
+            
             <div className="flex justify-between items-end">
               <div>
                 <span className="block text-[10px] text-slate-400 dark:text-slate-600 font-black uppercase tracking-[0.2em] mb-1">
@@ -198,7 +238,14 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
                     animate={{ opacity: 1, x: 0 }}
                     className="text-4xl font-black font-mono text-indigo-700 dark:text-indigo-400 tracking-tighter"
                   >
-                    {result ? result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—'}
+                    {result ? (
+                      <>
+                        {result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        <span className="text-xl ml-2 opacity-60">
+                          {toCurrency === 'UAH' ? '₴' : toCurrency === 'USD' ? '$' : '€'} ({toCurrency})
+                        </span>
+                      </>
+                    ) : '—'}
                   </motion.span>
                 </AnimatePresence>
               </div>
