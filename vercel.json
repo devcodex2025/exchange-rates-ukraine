@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/rates",
-      "destination": "/api/rates.ts"
+      "src": "/api/rates",
+      "dest": "/api/rates.ts"
     },
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }

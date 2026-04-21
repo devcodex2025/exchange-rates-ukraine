@@ -24,7 +24,7 @@ export const FLAG_MAP: { [key: string]: string } = {
 };
 
 export const BANK_LOGOS: { [key: string]: string } = {
-  privat: "/logos/pryvat.png",
+  privat: "/logos/privat.png",
   mono: "/logos/mono.png",
   nbu: "/logos/nbu.png",
   raif: "/logos/raiffeisen.png",

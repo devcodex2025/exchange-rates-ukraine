@@ -46,7 +46,6 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({
                 src={logoUrl} 
                 alt={bank} 
                 className="max-w-full max-h-full object-contain" 
-                referrerPolicy="no-referrer"
                 onError={() => setImgError(true)}
               />
             ) : (
