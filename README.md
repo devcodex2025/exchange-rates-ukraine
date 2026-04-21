@@ -1,20 +1,67 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🇺🇦 Курс Валют Україна — UA Rates Live
 
-# Run and deploy your AI Studio app
+![UA Rates Header](https://picsum.photos/seed/rates-header/1200/400)
 
-This contains everything you need to run your app locally.
+**Курс Валют Україна** — це сучасний, швидкий та адаптивний веб-додаток для моніторингу курсів валют (USD, EUR, PLN) у провідних банках України в режимі реального часу.
 
-View your app in AI Studio: https://ai.studio/apps/0548c973-a817-42aa-bd32-0c6f9668e9df
+## 🚀 Основні Можливості
 
-## Run Locally
+- 🏦 **Моніторинг 6 Банків**: НБУ, ПриватБанк, monobank, Raiffeisen, Ощадбанк, ПУМБ.
+- ⚡ **Live Оновлення**: Дані оновлюються кожні 15 хвилин через прямі REST API банків.
+- 🧮 **Розумний Калькулятор**: Автоматичний пошук найкращого курсу серед усіх доступних банків для ваших розрахунків.
+- 🌓 **Темна Тема**: Підтримка системної теми та ручного перемикання для комфорту очей.
+- 📱 **Mobile First**: Ідеальне відображення на смартфонах, планшетах та десктопах.
+- 🔍 **SEO Оптимізація**: Налаштовані мета-теги та Schema.org (FAQ, FinancialService) для високих позицій у Google.
 
-**Prerequisites:**  Node.js
+## 📸 Скріншоти
 
+### Головна сторінка (Світла тема)
+![Dashboard Light](https://picsum.photos/seed/dashboard-light/800/600)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Розумний Калькулятор
+![Calculator](https://picsum.photos/seed/calculator/800/400)
+
+### Темна тема
+![Dashboard Dark](https://picsum.photos/seed/dashboard-dark/800/600)
+
+## 🛠 Технологічний Стек
+
+- **Frontend**: React 18, Vite, TypeScript.
+- **Styling**: Tailwind CSS (Utility-first).
+- **Animations**: Framer Motion (Smooth transitions).
+- **Backend**: Node.js, Express (для проксіювання запитів та обходу CORS).
+- **Deployment**: Vercel ready configuration.
+- **SEO**: Schema.org JSON-LD, FAQ Microdata.
+
+## 📦 Встановлення та запуск
+
+1. **Клонуйте репозиторій**:
+   ```bash
+   git clone https://github.com/your-username/ua-rates-live.git
+   ```
+
+2. **Встановіть залежності**:
+   ```bash
+   npm install
+   ```
+
+3. **Запустіть у режимі розробки**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Збірка для продакшну**:
+   ```bash
+   npm run build
+   ```
+
+## 📄 Політика та Дані
+
+Весь контент надається виключно в ознайомлювальних цілях. Ми використовуємо тільки офіційну інформацію з веб-сайтів банків. Проект є некомерційним та відкритим для спільноти.
+
+## 🤝 Контакти та Підтримка
+
+Якщо у вас є пропозиції щодо покращення сервісу, будь ласка, створіть **Issue** або **Pull Request** у цьому репозиторії.
+
+---
+*© 2026 Курс Валют Україна — Зроблено з любов'ю до деталей.*

@@ -142,7 +142,7 @@ export const SmartCalculator: React.FC<SmartCalculatorProps> = ({ data }) => {
             </div>
             <div>
               <h4 className="text-xl font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight">Валютний Калькулятор</h4>
-              <p className="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">Multi-bank Conversion</p>
+              <p className="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">Розрахунок за курсами банків</p>
             </div>
           </div>
           
