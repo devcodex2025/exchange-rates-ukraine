@@ -2,16 +2,12 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/server.ts"
-    },
-    {
-      "source": "/assets/(.*)",
-      "destination": "/dist/assets/$1"
+      "source": "/api/rates",
+      "destination": "/api/rates.ts"
     },
     {
       "source": "/(.*)",
-      "destination": "/server.ts"
+      "destination": "/"
     }
   ]
 }

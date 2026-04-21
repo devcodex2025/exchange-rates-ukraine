@@ -121,9 +121,6 @@ app.get("/robots.txt", (req, res) => {
 
 // Static Serving & SPA Fallback (Production/Vercel)
 const distPath = path.join(process.cwd(), "dist");
-if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
-  app.use(express.static(distPath));
-}
 
 // Vite integration / Static files
 async function setupVite() {
@@ -135,6 +132,9 @@ async function setupVite() {
     });
     app.use(vite.middlewares);
   } else {
+    // In production mode, explicitly serve static files from dist
+    app.use(express.static(distPath));
+    
     // SPA Fallback for routes not handled by static or API
     app.get("*", (req, res) => {
       // Avoid infinite loops if assets are missing

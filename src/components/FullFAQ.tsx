@@ -81,7 +81,6 @@ export const FullFAQ: React.FC = () => {
           <h2 className="text-xl font-black uppercase tracking-tight text-slate-800 dark:text-slate-100">
             Повний FAQ — Питання та Відповіді
           </h2>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500">Довідний центр валютного ринку</p>
         </div>
       </div>
 
