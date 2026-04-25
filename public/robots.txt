@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://exchange-rates-ukraine.vercel.app/sitemap.xml

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Fintech exchange rate dashboard background">
+  <rect width="1200" height="700" fill="#020617"/>
+  <g opacity=".45">
+    <path d="M0 520 C180 430 260 610 430 500 S760 280 1200 370 V700 H0Z" fill="#0891b2"/>
+    <path d="M0 620 C240 510 340 640 540 530 S850 420 1200 500 V700 H0Z" fill="#10b981"/>
+  </g>
+  <g fill="none" stroke="#e2e8f0" stroke-opacity=".22">
+    <path d="M80 160h280v120H80z"/>
+    <path d="M420 110h300v170H420z"/>
+    <path d="M790 150h330v190H790z"/>
+  </g>
+  <g fill="#f8fafc" opacity=".92" font-family="Arial, sans-serif" font-weight="700">
+    <text x="110" y="210" font-size="44">USD 41.28</text>
+    <text x="455" y="185" font-size="44">EUR 44.02</text>
+    <text x="830" y="225" font-size="44">UAH LIVE</text>
+  </g>
+</svg>

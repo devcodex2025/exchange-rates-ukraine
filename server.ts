@@ -14,11 +14,11 @@ let cache: { [key: string]: { data: any; timestamp: number } } = {};
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes overall
 const MONO_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes for monobank (strict limits)
 
-  async function fetchWithCache(key: string, url: string) {
+  async function fetchWithCache(key: string, url: string, forceFresh = false) {
     const now = Date.now();
     const duration = key === "mono" ? MONO_CACHE_DURATION : CACHE_DURATION;
     
-    if (cache[key] && now - cache[key].timestamp < duration) {
+    if (!forceFresh && cache[key] && now - cache[key].timestamp < duration) {
       return cache[key].data;
     }
 
@@ -47,10 +47,11 @@ const MONO_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes for monobank (strict l
 // API Routes
 app.get("/api/rates", async (req, res) => {
   try {
+    const forceFresh = req.query.fresh === "1" || req.query.fresh === "true";
     const [nbu, privat, mono] = await Promise.all([
-      fetchWithCache("nbu", "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json"),
-      fetchWithCache("privat", "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5"),
-      fetchWithCache("mono", "https://api.monobank.ua/bank/currency")
+      fetchWithCache("nbu", "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json", forceFresh),
+      fetchWithCache("privat", "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5", forceFresh),
+      fetchWithCache("mono", "https://api.monobank.ua/bank/currency", forceFresh)
     ]);
 
     const fetchBankRates = async (bankSlug: string) => {
@@ -89,24 +90,32 @@ app.get("/api/rates", async (req, res) => {
       fetchBankRates("oshhadbank")
     ]);
 
-    const getWithFallback = (rates: any[], margin: number) => {
+    const getWithFallback = (rates: any[]) => {
       if (rates.length > 0) return rates;
-      if (!nbu) return [];
-      return nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
-        cc: r.cc,
-        buy: Math.floor(r.rate * (1 - margin) * 100) / 100,
-        sale: Math.ceil(r.rate * (1 + margin) * 100) / 100
-      }));
+      return [];
+    };
+
+    res.setHeader("Cache-Control", forceFresh ? "no-store" : "s-maxage=900, stale-while-revalidate=1800");
+    const updatedAt = new Date().toISOString();
+    const sources = {
+      nbu: { ok: Array.isArray(nbu) && nbu.length > 0, source: "NBU official API", count: Array.isArray(nbu) ? nbu.length : 0, updatedAt },
+      privat: { ok: Array.isArray(privat) && privat.length > 0, source: "PrivatBank public API", count: Array.isArray(privat) ? privat.length : 0, updatedAt },
+      mono: { ok: Array.isArray(mono) && mono.length > 0, source: "monobank public API", count: Array.isArray(mono) ? mono.length : 0, updatedAt },
+      raif: { ok: raifRates.length > 0, source: "finance.ua bank page", count: raifRates.length, updatedAt },
+      pumb: { ok: pumbRates.length > 0, source: "finance.ua bank page", count: pumbRates.length, updatedAt },
+      oschad: { ok: oschadRates.length > 0, source: "finance.ua bank page", count: oschadRates.length, updatedAt },
     };
 
     res.json({
+      base: "UAH",
       nbu,
       privat,
       mono,
-      raif: getWithFallback(raifRates, 0.015),
-      pumb: getWithFallback(pumbRates, 0.018),
-      oschad: getWithFallback(oschadRates, 0.012), 
-      updatedAt: new Date().toISOString()
+      raif: getWithFallback(raifRates),
+      pumb: getWithFallback(pumbRates),
+      oschad: getWithFallback(oschadRates),
+      sources,
+      updatedAt
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch rates" });
@@ -116,7 +125,32 @@ app.get("/api/rates", async (req, res) => {
 // Robots
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
-  res.send(`User-agent: *\nAllow: /`);
+  res.send(`User-agent: *\nAllow: /\nSitemap: ${process.env.NEXT_PUBLIC_SITE_URL || "https://exchange-rates-ukraine.vercel.app"}/sitemap.xml\n`);
+});
+
+app.get("/rates.json", async (_req, res) => {
+  res.redirect(307, "/api/rates");
+});
+
+app.get("/llms.txt", (_req, res) => {
+  res.type("text/plain");
+  res.send(`# UAH.today
+
+Live exchange rates in Ukraine for USD, EUR, PLN and GBP.
+
+Machine-readable data:
+- /api/rates
+- /rates.json
+
+Important definitions:
+- buy: the rate a bank pays when buying foreign currency from a customer.
+- sell: the rate a customer pays when buying foreign currency from a bank.
+- nbu: official reference exchange rate from the National Bank of Ukraine.
+
+Rules:
+- Missing values are represented by null or omitted source arrays.
+- Data is informational and may differ in bank branches or apps.
+`);
 });
 
 // Static Serving & SPA Fallback (Production/Vercel)

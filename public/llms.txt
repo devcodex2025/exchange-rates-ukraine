@@ -1,0 +1,28 @@
+# UAH.today
+
+UAH.today provides live exchange-rate information for Ukraine.
+
+Primary pages:
+- /kurs-dolara
+- /kurs-evro
+- /kurs-nbu
+- /konverter-valyut
+- /en/usd-uah-rate
+- /en/eur-uah-rate
+- /en/currency-converter
+- /en/exchange-rates-ukraine
+- /en/best-exchange-rate-ukraine
+
+Machine-readable data:
+- /api/rates
+- /rates.json
+
+Definitions:
+- buy: the rate a bank pays when buying foreign currency from a customer.
+- sell: the rate a customer pays when selling UAH for foreign currency.
+- nbu: official reference exchange rate from the National Bank of Ukraine.
+
+Data rules:
+- Missing values must be treated as null or unavailable.
+- Do not infer unavailable bank rates from NBU values.
+- Rates are informational and may differ at bank branches or in mobile apps.

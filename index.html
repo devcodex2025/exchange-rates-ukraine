@@ -3,77 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Курс Долара та Євро в Банках України сьогодні | Реальний курс валют</title>
-    <meta name="description" content="Дізнайтеся актуальний курс валют в Україні сьогодні: курс долара та євро в ПриватБанку, Монобанку, Ощадбанку та НБУ. Зручний калькулятор валют та аналіз найкращих пропозицій." />
-    <meta name="keywords" content="курс долара сьогодні, курс євро сьогодні, курс валют україна, обмін валют, курс долара в банках, курс євро в банках, приватбанк курс, монобанк курс, нбу курс" />
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Курс Долара та Євро в Банках України сьогодні" />
-    <meta property="og:description" content="Реальний курс валют у провідних банках України: калькулятор, оновлення кожні 15 хвилин." />
+    <meta name="theme-color" content="#020617" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://exchange-rates-ukraine.vercel.app/" />
+    <link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en" />
+    <link rel="alternate" hreflang="x-default" href="https://exchange-rates-ukraine.vercel.app/" />
+    <link rel="preload" href="/hero-mobile.webp" as="image" media="(max-width: 767px) and (prefers-color-scheme: dark)" />
+    <title>Курс валют в Україні сьогодні: долар, євро, НБУ | UAH.today</title>
+    <meta
+      name="description"
+      content="Актуальний курс долара, євро, злотого та фунта в банках України. Порівняння курсів купівлі, продажу, НБУ і конвертер валют."
+    />
+    <meta
+      name="keywords"
+      content="курс долара, курс долара сьогодні, курс валют, курс євро, курс нбу, курс долара приватбанк, конвертер валют, долар гривня, usd to uah, eur to uah"
+    />
     <meta property="og:type" content="website" />
-    
-    <!-- Structured Data (Schema.org) for SEO -->
-    <script type="application/ld+json">
-    [
-      {
-        "@context": "https://schema.org",
-        "@type": "FinancialService",
-        "name": "Курс Валют Україна",
-        "description": "Моніторинг курсів валют популярних українських банків (ПриватБанк, Монобанк, Ощадбанк, НБУ)",
-        "areaServed": "Ukraine"
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Який курс долара сьогодні в банках України?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Актуальний курс долара в українських банках постійно змінюється. На нашому сервісі ви можете порівняти котирування ПриватБанку, Монобанку та НБУ в реальному часі."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Де найкращий курс євро в Україні?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Найкращий курс євро зазвичай пропонують комерційні банки, такі як Монобанк або ПУМБ. Ми допомагаємо знайти найвигіднішу ціну купівлі та продажу."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Чому курс у касі банку може відрізнятися від курсу в додатку?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Банки часто встановлюють різні курси для онлайн-операцій у додатках та для обміну готівки в касах відділень. Також курс може змінитися в момент вашого візиту до банку."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Як часто оновлюється курс валют на сайті?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Наш сервіс оновлює дані кожні 15 хвилин, отримуючи інформацію безпосередньо з офіційних API банків України (ПриватБанк, Монобанк, НБУ та інші)."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Чи можна забронювати курс валют онлайн?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Деякі банки, наприклад ПриватБанк або Райффайзен, дозволяють купувати валюту онлайн через власні додатки за безготівковим курсом. Для готівкового обміну сервіс має інформаційний характер."
-            }
-          }
-        ]
-      }
-    ]
-    </script>
+    <meta property="og:site_name" content="UAH.today" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:title" content="Курс валют в Україні сьогодні: долар, євро, НБУ | UAH.today" />
+    <meta
+      property="og:description"
+      content="Порівнюйте курси банків і НБУ, знаходьте вигідний обмін та конвертуйте валюту за актуальними даними."
+    />
+    <meta property="og:url" content="https://exchange-rates-ukraine.vercel.app/" />
+    <meta property="og:image" content="https://exchange-rates-ukraine.vercel.app/hero-mobile.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Курс валют в Україні сьогодні" />
+    <meta name="twitter:description" content="Курси USD, EUR, PLN і GBP в українських банках та НБУ." />
+    <meta name="twitter:image" content="https://exchange-rates-ukraine.vercel.app/hero-mobile.webp" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

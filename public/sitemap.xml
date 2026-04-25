@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en"/>
+  </url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/kurs-dolara</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/kurs-evro</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/kurs-nbu</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/konverter-valyut</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/kurs-dolara-privatbank</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/kurs-dolara-monobank</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en/usd-uah-rate</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en/eur-uah-rate</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en/currency-converter</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en/exchange-rates-ukraine</loc></url>
+  <url><loc>https://exchange-rates-ukraine.vercel.app/en/best-exchange-rate-ukraine</loc></url>
+</urlset>

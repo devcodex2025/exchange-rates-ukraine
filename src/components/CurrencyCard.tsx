@@ -1,109 +1,65 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { BANK_LOGOS } from '../constants';
-
-interface Rate {
-  code: string;
-  buy?: number;
-  sale?: number;
-  rate?: number;
-  name?: string;
-}
+import React from "react";
+import { ArrowDown, ArrowUp, Minus, TrendingUp } from "lucide-react";
+import { BANKS, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
+import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
 
 interface CurrencyCardProps {
-  bank: string;
-  rates: Rate[];
-  icon: any;
-  accentColor: string;
-  className?: string;
-  badge?: string | null;
-  bankKey?: string;
+  code: string;
+  rates: NormalizedRate[];
+  locale: Locale;
+  updatedAt?: string | null;
 }
 
-export const CurrencyCard: React.FC<CurrencyCardProps> = ({ 
-  bank, 
-  rates, 
-  icon: Icon, 
-  accentColor, 
-  className = "",
-  badge = null,
-  bankKey = ""
-}) => {
-  const [imgError, setImgError] = useState(false);
-  const logoUrl = bankKey ? BANK_LOGOS[bankKey] : null;
+export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale }) => {
+  const { bestBuy, bestSell } = getBestRates(rates, code);
+  const nbu = rates.find((rate) => rate.code === code && rate.bankId === "nbu")?.nbu ?? null;
+  const bank = BANKS.find((item) => item.id === bestSell?.bankId || item.id === bestBuy?.bankId);
+  const currency = CURRENCY_NAMES[code];
+  const copy = UI_COPY[locale];
+  const spread = bestBuy?.buy && bestSell?.sell ? bestSell.sell - bestBuy.buy : null;
 
   return (
-    <motion.section 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col ${className}`}
-    >
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-20 h-14 bg-white dark:bg-white rounded-2xl flex items-center justify-center shadow-inner overflow-hidden relative group p-1.5 border border-slate-100/50">
-            {logoUrl && !imgError ? (
-              <img 
-                src={logoUrl} 
-                alt={bank} 
-                className="max-w-full max-h-full object-contain" 
-                onError={() => setImgError(true)}
-              />
-            ) : (
-              <div className={`w-full h-full ${accentColor} rounded-xl flex items-center justify-center text-white`}>
-                <Icon size={32} />
-              </div>
-            )}
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition active:scale-[0.99] dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-2xl font-black text-slate-950 dark:text-white">{code}</span>
+            <span className="rounded-md bg-cyan-50 px-2 py-1 text-xs font-bold text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300">
+              {currency?.symbol}
+            </span>
           </div>
-          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">{bank}</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{currency?.[locale] || code}</p>
         </div>
-        {badge && (
-          <span className="text-[10px] font-black text-emerald-500 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md uppercase tracking-wider">
-            {badge}
-          </span>
+        {bank?.logo ? (
+          <img className="h-8 max-w-20 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
+        ) : (
+          <TrendingUp className="text-cyan-600" size={22} />
         )}
       </div>
-      
-      <div className="flex-grow flex flex-col gap-3">
-        <div className={`grid ${bankKey === 'nbu' ? 'grid-cols-2' : 'grid-cols-3'} text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pb-1 border-b border-slate-50 dark:border-slate-800/50`}>
-          <div>Валюта</div>
-          {bankKey === 'nbu' ? (
-            <div className="text-right">Курс</div>
-          ) : (
-            <>
-              <div className="text-right pr-2">Купівля</div>
-              <div className="text-right">Продаж</div>
-            </>
-          )}
+
+      <dl className="mt-5 grid grid-cols-2 gap-3">
+        <div className="rounded-lg bg-cyan-50 p-3 dark:bg-cyan-950/30">
+          <dt className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-cyan-700 dark:text-cyan-300">
+            <ArrowUp size={12} /> {copy.buy}
+          </dt>
+          <dd className="mt-1 font-mono text-2xl font-black text-slate-950 dark:text-white">{formatRate(bestBuy?.buy)}</dd>
+          <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{bestBuy?.bankName || copy.noData}</p>
         </div>
-        {rates.slice(0, 3).map((rate) => (
-          <div key={rate.code} className={`grid ${bankKey === 'nbu' ? 'grid-cols-2' : 'grid-cols-3'} items-center py-1.5 group`}>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">
-                {rate.code === 'USD' ? 'Доллар $' : rate.code === 'EUR' ? 'Євро €' : rate.code === 'UAH' ? 'Гривня ₴' : rate.code}
-              </span>
-            </div>
-            {bankKey === 'nbu' ? (
-              <div className="text-right font-mono font-black text-indigo-600 dark:text-indigo-400 text-lg">
-                {rate.rate ? rate.rate.toFixed(2) : "—"}
-              </div>
-            ) : (
-              <>
-                <div className="text-right pr-2 font-mono font-black text-slate-900 dark:text-slate-100 text-lg">
-                  {rate.buy ? rate.buy.toFixed(2) : rate.rate ? rate.rate.toFixed(2) : "—"}
-                </div>
-                <div className="text-right font-mono font-black text-indigo-600 dark:text-indigo-400 text-lg">
-                  {rate.sale ? rate.sale.toFixed(2) : rate.rate ? rate.rate.toFixed(2) : "—"}
-                </div>
-              </>
-            )}
-          </div>
-        ))}
+        <div className="rounded-lg bg-amber-50 p-3 dark:bg-amber-950/30">
+          <dt className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-amber-700 dark:text-amber-300">
+            <ArrowDown size={12} /> {copy.sell}
+          </dt>
+          <dd className="mt-1 font-mono text-2xl font-black text-slate-950 dark:text-white">{formatRate(bestSell?.sell)}</dd>
+          <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{bestSell?.bankName || copy.noData}</p>
+        </div>
+      </dl>
+
+      <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs dark:border-slate-800">
+        <span className="font-semibold text-slate-500 dark:text-slate-400">{copy.nbu} {formatRate(nbu)}</span>
+        <span className="flex items-center gap-1 font-bold text-slate-600 dark:text-slate-300">
+          <Minus size={12} /> {copy.spread} {formatRate(spread)}
+        </span>
       </div>
-      
-      <div className="mt-4 pt-4 border-t border-slate-50 dark:border-slate-800 flex justify-between text-[9px] text-slate-400 dark:text-slate-600 font-bold uppercase tracking-tighter">
-        <span>Актуально 24/7</span>
-        <span className="opacity-50">Live Sync</span>
-      </div>
-    </motion.section>
+    </section>
   );
 };

@@ -1,15 +1,26 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+interface VercelRequest {
+  method?: string;
+  query?: Record<string, string | string[] | undefined>;
+  url?: string;
+}
+
+interface VercelResponse {
+  setHeader(name: string, value: string): void;
+  status(code: number): {
+    json(body: unknown): void;
+  };
+}
 
 // Cache for currency data
 let cache: { [key: string]: { data: any; timestamp: number } } = {};
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes overall
 const MONO_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes for monobank
 
-async function fetchWithCache(key: string, url: string) {
+async function fetchWithCache(key: string, url: string, forceFresh = false) {
   const now = Date.now();
   const duration = key === "mono" ? MONO_CACHE_DURATION : CACHE_DURATION;
   
-  if (cache[key] && now - cache[key].timestamp < duration) {
+  if (!forceFresh && cache[key] && now - cache[key].timestamp < duration) {
     return cache[key].data;
   }
 
@@ -38,10 +49,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const freshParam = Array.isArray(req.query?.fresh) ? req.query?.fresh[0] : req.query?.fresh;
+    const forceFresh = freshParam === "1" || freshParam === "true";
     const [nbu, privat, mono] = await Promise.all([
-      fetchWithCache("nbu", "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json"),
-      fetchWithCache("privat", "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5"),
-      fetchWithCache("mono", "https://api.monobank.ua/bank/currency")
+      fetchWithCache("nbu", "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json", forceFresh),
+      fetchWithCache("privat", "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5", forceFresh),
+      fetchWithCache("mono", "https://api.monobank.ua/bank/currency", forceFresh)
     ]);
 
     const fetchBankRates = async (bankSlug: string) => {
@@ -79,24 +92,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       fetchBankRates("oshhadbank")
     ]);
 
-    const getWithFallback = (rates: any[], margin: number) => {
+    const getWithFallback = (rates: any[]) => {
       if (rates && rates.length > 0) return rates;
-      if (!nbu) return [];
-      return nbu.filter((r: any) => ["USD", "EUR"].includes(r.cc)).map((r: any) => ({
-        cc: r.cc,
-        buy: Math.floor(r.rate * (1 - margin) * 100) / 100,
-        sale: Math.ceil(r.rate * (1 + margin) * 100) / 100
-      }));
+      return [];
     };
 
+    const updatedAt = new Date().toISOString();
+    const sources = {
+      nbu: { ok: Array.isArray(nbu) && nbu.length > 0, source: "NBU official API", count: Array.isArray(nbu) ? nbu.length : 0, updatedAt },
+      privat: { ok: Array.isArray(privat) && privat.length > 0, source: "PrivatBank public API", count: Array.isArray(privat) ? privat.length : 0, updatedAt },
+      mono: { ok: Array.isArray(mono) && mono.length > 0, source: "monobank public API", count: Array.isArray(mono) ? mono.length : 0, updatedAt },
+      raif: { ok: raifRates.length > 0, source: "finance.ua bank page", count: raifRates.length, updatedAt },
+      pumb: { ok: pumbRates.length > 0, source: "finance.ua bank page", count: pumbRates.length, updatedAt },
+      oschad: { ok: oschadRates.length > 0, source: "finance.ua bank page", count: oschadRates.length, updatedAt },
+    };
+
+    res.setHeader('Cache-Control', forceFresh ? 'no-store' : 's-maxage=900, stale-while-revalidate=1800');
     return res.status(200).json({
+      base: "UAH",
       nbu,
       privat,
       mono,
-      raif: getWithFallback(raifRates, 0.015),
-      pumb: getWithFallback(pumbRates, 0.018),
-      oschad: getWithFallback(oschadRates, 0.012), 
-      updatedAt: new Date().toISOString()
+      raif: getWithFallback(raifRates),
+      pumb: getWithFallback(pumbRates),
+      oschad: getWithFallback(oschadRates),
+      sources,
+      updatedAt
     });
   } catch (error) {
     return res.status(500).json({ error: "Failed to fetch rates" });

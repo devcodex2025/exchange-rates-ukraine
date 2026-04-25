@@ -1,260 +1,189 @@
-import React from 'react';
-import { motion, AnimatePresence } from "motion/react";
-import { 
-  TrendingUp, 
-  RefreshCw, 
-  Navigation,
-  Wallet,
-  Calendar,
-  ShieldCheck,
-  Zap,
-  Moon,
-  Sun,
-  Banknote
-} from "lucide-react";
-import { SmartCalculator } from "../components/SmartCalculator";
-import { FullFAQ } from "../components/FullFAQ";
+import React, { useMemo } from "react";
+import { ArrowRight, Bot, CheckCircle2, Globe2, RefreshCw, ShieldCheck, SunMoon } from "lucide-react";
 import { CurrencyCard } from "../components/CurrencyCard";
-import { AdPlaceholder } from "../components/AdPlaceholder";
-import { CURRENCY_MAP } from "../constants";
-
-interface Rate {
-  code: string;
-  buy?: number;
-  sale?: number;
-  rate?: number;
-  name?: string;
-}
-
-interface BankRates {
-  nbu: any[];
-  privat: any[];
-  mono: any[];
-  raif: any[];
-  oschad: any[];
-  pumb: any[];
-  updatedAt: string;
-}
+import { CurrencyConverter } from "../components/CurrencyConverter";
+import { FullFAQ } from "../components/FullFAQ";
+import { RatesTable } from "../components/RatesTable";
+import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
+import { formatDateTime, formatRate, getBestRates, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
 
 interface DashboardProps {
-  data: BankRates | null;
+  data: RawRatesResponse | null;
   loading: boolean;
   error: string | null;
   fetchData: () => void;
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ 
-  data, 
-  loading, 
-  error, 
-  fetchData, 
-  darkMode, 
-  setDarkMode 
+export const Dashboard: React.FC<DashboardProps> = ({
+  data,
+  loading,
+  error,
+  fetchData,
+  darkMode,
+  setDarkMode,
+  locale,
+  setLocale,
 }) => {
-  const sortRates = (rates: Rate[]) => {
-    const order = ["USD", "EUR", "PLN"];
-    const uniqueRates = rates.filter((rate, index, self) =>
-      rate && rate.code && index === self.findIndex((t) => t.code === rate.code)
-    );
-    return [...uniqueRates].sort((a, b) => {
-      const indexA = order.indexOf(a.code);
-      const indexB = order.indexOf(b.code);
-      if (indexA === -1) return 1;
-      if (indexB === -1) return -1;
-      return indexA - indexB;
-    });
-  };
+  const rates = useMemo(() => normalizeRates(data), [data]);
+  const sources = useMemo(() => getSourceSummary(data), [data]);
+  const updatedAt = data?.updatedAt || null;
+  const copy = UI_COPY[locale];
+  const isEnglish = locale === "en";
 
-  const getPrivatRates = () => {
-    if (!data?.privat) return [];
-    const rates = data.privat
-      .filter((r: any) => ["USD", "EUR"].includes(r.ccy))
-      .map((r: any) => ({
-        code: r.ccy,
-        buy: parseFloat(r.buy),
-        sale: parseFloat(r.sale)
-      }));
-    return sortRates(rates);
-  };
-
-  const getNbuRates = () => {
-    if (!data?.nbu) return [];
-    const rates = data.nbu
-      .filter((r: any) => ["USD", "EUR", "PLN"].includes(r.cc))
-      .map((r: any) => ({
-        code: r.cc,
-        rate: r.rate
-      }));
-    return sortRates(rates);
-  };
-
-  const getMonoRates = () => {
-    if (!data?.mono) return [];
-    const rates = data.mono
-      .filter((r: any) => r.currencyCodeB === 980 && [840, 978].includes(r.currencyCodeA))
-      .map((r: any) => ({
-        code: CURRENCY_MAP[r.currencyCodeA],
-        buy: r.rateBuy,
-        sale: r.rateSell
-      }));
-    return sortRates(rates);
-  };
-
-  const getGenericRates = (key: 'raif' | 'oschad' | 'pumb') => {
-    if (!data?.[key]) return [];
-    const rates = data[key].map((r: any) => ({
-      code: r.cc,
-      buy: r.buy,
-      sale: r.sale
-    }));
-    return sortRates(rates);
-  };
-
-  const today = new Date().toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+  const heroRates = CURRENCY_CODES.slice(0, 3).map((code) => {
+    const { bestBuy, bestSell } = getBestRates(rates, code);
+    const nbu = rates.find((rate) => rate.code === code && rate.bankId === "nbu")?.nbu ?? null;
+    return { code, bestBuy, bestSell, nbu };
+  });
 
   return (
     <>
-      <header className="flex flex-col gap-8 mb-2">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <Zap className="text-amber-500 fill-amber-500" size={18} />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Система оновлення активована</span>
-            </div>
-            <h1 className="text-3xl font-black tracking-tightest text-indigo-700 dark:text-indigo-400 uppercase">
-              Курс Долара та Євро в Банках України <span className="text-slate-400 dark:text-slate-600 font-medium text-xl ml-2 tracking-widest uppercase">Сьогодні</span>
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">Актуальний курс валют в Україні та обмін валют у реальному часі на {today}</p>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:block text-right border-r pr-6 border-slate-200 dark:border-slate-800">
-              <span className="block text-[10px] uppercase font-bold text-slate-400 dark:text-slate-600 tracking-widest mb-1">Офіційний НБУ</span>
-              <span className="font-mono font-black text-slate-800 dark:text-slate-200 text-lg">
-                $ {data?.nbu?.find(r => r.cc === "USD")?.rate?.toFixed(2) || "—"} / € {data?.nbu?.find(r => r.cc === "EUR")?.rate?.toFixed(2) || "—"}
-              </span>
-            </div>
-            
-            <button 
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95 text-indigo-600 dark:text-indigo-400"
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
-            <button 
-              onClick={fetchData}
-              disabled={loading}
-              className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-50 text-indigo-600 dark:text-indigo-400"
-            >
-              <RefreshCw size={20} className={`${loading ? "animate-spin" : ""}`} />
-            </button>
-          </div>
+      <header className="relative -mx-4 -mt-4 overflow-hidden bg-white text-slate-950 dark:bg-slate-950 dark:text-white sm:-mx-6 lg:-mx-8">
+        <div className="absolute inset-0 hidden opacity-45 dark:block">
+          <video aria-hidden="true" autoPlay className="hidden h-full w-full object-cover md:block" loop muted playsInline preload="metadata">
+            <source src="/hero-fintech.webm" type="video/webm" />
+          </video>
+          <img className="h-full w-full object-cover md:hidden" src="/hero-mobile.webp" alt="" loading="eager" />
         </div>
+        <div className="absolute inset-0 hidden bg-slate-950/45 dark:block" />
 
-        <SmartCalculator data={data} />
+        <div className="relative mx-auto flex min-h-[100dvh] max-w-7xl flex-col px-4 py-3 sm:px-6 lg:px-8">
+          <nav className="border-b border-slate-200/80 py-3 dark:border-white/10">
+            <div className="flex items-center justify-between gap-3">
+              <a className="text-lg font-black tracking-tight" href="/">
+                UAH.today
+              </a>
+              <div className="flex items-center gap-2">
+                <button
+                  className="inline-flex h-10 items-center gap-1 rounded-md border border-slate-200 px-3 text-sm font-black transition active:scale-[0.98] dark:border-white/15"
+                  onClick={() => setLocale(isEnglish ? "uk" : "en")}
+                  type="button"
+                >
+                  <Globe2 size={15} /> {isEnglish ? "UK" : "EN"}
+                </button>
+                <button
+                  aria-label={isEnglish ? "Toggle theme" : "Перемкнути тему"}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 transition active:scale-[0.98] dark:border-white/15"
+                  onClick={() => setDarkMode(!darkMode)}
+                  type="button"
+                >
+                  <SunMoon size={16} />
+                </button>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#rates-table">
+                {copy.navRates}
+              </a>
+              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#converter">
+                {copy.navConverter}
+              </a>
+              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#faq">
+                {copy.faq}
+              </a>
+            </div>
+          </nav>
+
+          <section className="grid flex-1 gap-8 py-10 md:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div className="max-w-3xl self-center">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-200">
+                {copy.eyebrow}
+              </p>
+              <h1 className="text-4xl font-black leading-none tracking-tight md:text-6xl">
+                {copy.heroTitle}
+              </h1>
+              <p className="mt-5 max-w-[65ch] text-base leading-7 text-slate-600 dark:text-slate-200 md:text-lg">
+                {copy.heroSubtitle}
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a className="rounded-lg bg-cyan-500 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-400 active:scale-[0.98]" href="#rates-table">
+                  {copy.viewRates} <ArrowRight className="inline" size={16} />
+                </a>
+                <a className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-black transition hover:bg-slate-100 active:scale-[0.98] dark:border-white/25 dark:hover:bg-white/10" href="#converter">
+                  {copy.converter}
+                </a>
+              </div>
+
+              <div className="mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
+                {heroRates.map((item) => (
+                  <article className="border-t border-slate-200 pt-4 dark:border-white/15" key={item.code}>
+                    <p className="font-mono text-sm font-black text-cyan-700 dark:text-cyan-200">{item.code}/UAH</p>
+                    <p className="mt-2 font-mono text-3xl font-black">{formatRate(item.bestSell?.sell ?? item.nbu)}</p>
+                    <p className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-300">
+                      {copy.sell} {formatRate(item.bestSell?.sell)} · {copy.buy} {formatRate(item.bestBuy?.buy)}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <aside className="self-end rounded-xl border border-slate-200 bg-white p-5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-slate-950/55 dark:shadow-none dark:backdrop-blur">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">{copy.lastUpdate}</p>
+              <p className="mt-2 text-2xl font-black">{formatDateTime(updatedAt, isEnglish ? "en-US" : "uk-UA")}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-200">{copy.definitions}</p>
+              <button
+                className="mt-4 rounded-md bg-slate-950 px-3 py-2 text-sm font-black text-white transition active:scale-[0.98] disabled:opacity-60 dark:bg-white dark:text-slate-950"
+                disabled={loading}
+                onClick={fetchData}
+                type="button"
+              >
+                <RefreshCw className={loading ? "inline animate-spin" : "inline"} size={15} /> {copy.refresh}
+              </button>
+
+              <div className="mt-5 border-t border-slate-200 pt-4 dark:border-white/10">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">{copy.liveSources}</p>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {sources.map((source) => (
+                    <div className="flex items-center gap-2 text-xs font-bold" key={source.id}>
+                      <CheckCircle2 className={source.ok ? "text-cyan-600 dark:text-cyan-300" : "text-amber-500"} size={14} />
+                      <span>{source.shortName}</span>
+                      <span className="text-slate-400">{source.ok ? copy.available : copy.unavailable}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </section>
+        </div>
       </header>
 
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <CurrencyCard 
-          bank="ПриватБанк" 
-          rates={getPrivatRates()} 
-          icon={Navigation} 
-          accentColor="bg-emerald-600"
-          className="lg:col-span-2"
-          badge="Найкращий курс на сьогодні"
-          bankKey="privat"
-        />
-
-        <CurrencyCard 
-          bank="monobank" 
-          rates={getMonoRates()} 
-          icon={Wallet} 
-          accentColor="bg-slate-900 dark:bg-slate-950"
-          className="lg:col-span-1"
-          bankKey="mono"
-        />
-
-        <motion.section 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="lg:col-span-1 bg-indigo-700 dark:bg-indigo-900 text-white rounded-[2rem] p-6 shadow-xl relative overflow-hidden flex flex-col justify-between"
-        >
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp size={14} className="text-white/70" />
-              <p className="text-[10px] font-black opacity-70 uppercase tracking-widest">Тренд Тижня (USD)</p>
-            </div>
-            <h3 className="text-4xl font-black tracking-tighter">+0.12%</h3>
-            <p className="text-xs opacity-80 mt-1 font-medium italic">Курс зростає останній тиждень</p>
-          </div>
-          
-          <div className="absolute bottom-0 right-0 left-0 h-1/4 flex items-end opacity-20 px-4 gap-1">
-            {[30, 40, 50, 65, 75, 100].map((h, i) => (
-              <div key={i} className="flex-1 bg-white rounded-t-lg" style={{ height: `${h}%` }}></div>
-            ))}
-          </div>
-        </motion.section>
-
-        <CurrencyCard 
-          bank="Raiffeisen Bank" 
-          rates={getGenericRates('raif')} 
-          icon={ShieldCheck} 
-          accentColor="bg-yellow-500"
-          bankKey="raif"
-        />
-        
-        <CurrencyCard 
-          bank="Ощадбанк" 
-          rates={getGenericRates('oschad')} 
-          icon={Banknote} 
-          accentColor="bg-green-700"
-          bankKey="oschad"
-        />
-
-        <CurrencyCard 
-          bank="ПУМБ" 
-          rates={getGenericRates('pumb')} 
-          icon={Navigation} 
-          accentColor="bg-red-600"
-          bankKey="pumb"
-        />
-
-        <CurrencyCard 
-          bank="Офіційний НБУ" 
-          rates={getNbuRates()} 
-          icon={Banknote} 
-          accentColor="bg-indigo-600"
-          bankKey="nbu"
-        />
-
-        <AdPlaceholder 
-          label="Google AdSense Sidebar" 
-          className="lg:col-span-1 !bg-indigo-50/30 dark:!bg-indigo-900/10 !border-indigo-100 dark:!border-indigo-900/30"
-        />
-      </main>
-
-      <FullFAQ />
-
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-4">
-        <div className="bg-white/50 dark:bg-slate-900/30 p-6 rounded-3xl border border-slate-100 dark:border-slate-800">
-          <h4 className="text-lg font-black tracking-tight text-slate-800 dark:text-slate-200 mb-2 uppercase">Надійність Даних</h4>
-          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-bold">
-            Ми отримуємо актуальний курс долара сьогодні безпосередньо з банківських API. Оновлення кожні 15 хвилин для вашої зручності.
-          </p>
+      {error ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-bold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+          {error}
         </div>
-        <div className="bg-white/50 dark:bg-slate-900/30 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-1">
-            <Calendar size={14} className="text-indigo-400 dark:text-indigo-500" />
-            <span className="text-[10px] font-black uppercase text-indigo-400 dark:text-indigo-500 tracking-widest">Оновлено</span>
-          </div>
-          <p className="text-[10px] text-slate-400 dark:text-slate-600 font-bold uppercase leading-4">
-            Курс Доллара США • Курс Євро • ПриватБанк • Монобанк • Ощадбанк • ПУМБ • Райффайзен • НБУ • Обмін Валют Україна
-          </p>
-        </div>
+      ) : null}
+
+      <section aria-label={isEnglish ? "Key exchange rate cards" : "Ключові картки курсів валют"} className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {CURRENCY_CODES.map((code) => (
+          <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
+        ))}
       </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1fr_320px]">
+        <div className="flex flex-col gap-5">
+          <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} />
+          <CurrencyConverter rates={rates} locale={locale} />
+        </div>
+        <aside className="hidden flex-col gap-5 xl:flex">
+          <section className="rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <ShieldCheck className="text-cyan-600" size={24} />
+            <h2 className="mt-3 text-lg font-black text-slate-950 dark:text-white">{copy.trustTitle}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{copy.trustBody}</p>
+          </section>
+          <section className="rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <Bot className="text-cyan-600" size={24} />
+            <h2 className="mt-3 text-lg font-black text-slate-950 dark:text-white">{copy.aiTitle}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{copy.aiBody}</p>
+          </section>
+        </aside>
+      </section>
+
+      <FullFAQ locale={locale} />
     </>
   );
 };

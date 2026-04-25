@@ -6,6 +6,10 @@
       "dest": "/api/rates.ts"
     },
     {
+      "src": "/rates.json",
+      "dest": "/api/rates.ts"
+    },
+    {
       "handle": "filesystem"
     },
     {
