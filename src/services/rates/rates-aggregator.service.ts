@@ -1,10 +1,10 @@
-import { globalCache } from "../cache/cache.service";
-import { NbuService, NormalizedNbuRate } from "./nbu.service";
-import { PrivatBankService, NormalizedBankRate } from "./privatbank.service";
-import { MonobankService } from "./monobank.service";
-import { RaiffeisenService } from "./raiffeisen.service";
-import { OschadbankService } from "./oschadbank.service";
-import { PumbService } from "./pumb.service";
+import { globalCache } from "../cache/cache.service.js";
+import { NbuService, NormalizedNbuRate } from "./nbu.service.js";
+import { PrivatBankService, NormalizedBankRate } from "./privatbank.service.js";
+import { MonobankService } from "./monobank.service.js";
+import { RaiffeisenService } from "./raiffeisen.service.js";
+import { OschadbankService } from "./oschadbank.service.js";
+import { PumbService } from "./pumb.service.js";
 
 export interface SourceMeta {
   sourceName: string;

@@ -1,4 +1,4 @@
-import type { AggregatedRatesResponse } from "../src/services/rates/rates-aggregator.service";
+import type { AggregatedRatesResponse } from "../src/services/rates/rates-aggregator.service.js";
 
 interface VercelRequest {
   method?: string;
@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // Loaded lazily so an import level failure returns a readable error instead
     // of taking the whole serverless invocation down.
-    const { RatesAggregatorService } = await import("../src/services/rates/rates-aggregator.service");
+    const { RatesAggregatorService } = await import("../src/services/rates/rates-aggregator.service.js");
 
     const data: AggregatedRatesResponse = await RatesAggregatorService.getAggregatedRates(forceFresh);
 

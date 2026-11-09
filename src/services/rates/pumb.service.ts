@@ -1,5 +1,5 @@
-import { validateBankRatePair } from "../../lib/rates/validation";
-import { NormalizedBankRate } from "./privatbank.service";
+import { validateBankRatePair } from "../../lib/rates/validation.js";
+import { NormalizedBankRate } from "./privatbank.service.js";
 
 export class PumbService {
   private static URL = "https://finance.ua/ua/currency/banks/pumb";

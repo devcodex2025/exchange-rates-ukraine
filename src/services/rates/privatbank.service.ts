@@ -1,4 +1,4 @@
-import { validateBankRatePair } from "../../lib/rates/validation";
+import { validateBankRatePair } from "../../lib/rates/validation.js";
 
 export interface PrivatRawItem {
   ccy: string;
