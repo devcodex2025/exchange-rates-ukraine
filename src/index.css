@@ -623,3 +623,16 @@ p, li, td {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* Recharts axis labels and grid follow the theme */
+.chart-tile .recharts-text {
+  fill: #667585;
+}
+
+.dark .chart-tile .recharts-text {
+  fill: #adb7be;
+}
+
+.dark .chart-tile .recharts-cartesian-grid line {
+  stroke: rgba(173, 183, 190, 0.16);
+}

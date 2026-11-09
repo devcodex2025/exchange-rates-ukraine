@@ -68,7 +68,7 @@ export const UsdHistoryChart: React.FC<UsdHistoryChartProps> = ({ locale }) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-80">
+        <div className="chart-tile h-80">
           {chartData.length > 1 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ left: -18, right: 12, top: 12, bottom: 0 }}>
@@ -81,7 +81,18 @@ export const UsdHistoryChart: React.FC<UsdHistoryChartProps> = ({ locale }) => {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.25)" vertical={false} />
                 <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
                 <YAxis domain={["dataMin - 0.2", "dataMax + 0.2"]} tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
-                <Tooltip formatter={(value) => [`${Number(value).toFixed(4)} UAH`, "USD"]} />
+                <Tooltip
+                  formatter={(value) => [`${Number(value).toFixed(4)} UAH`, "USD"]}
+                  contentStyle={{
+                    backgroundColor: "var(--surface-card)",
+                    border: "1px solid var(--border-subtle)",
+                    borderRadius: "12px",
+                    fontSize: 12,
+                    boxShadow: "none",
+                  }}
+                  itemStyle={{ color: "var(--text-main)", fontSize: 12 }}
+                  labelStyle={{ color: "var(--text-muted)", fontSize: 11, marginBottom: 4 }}
+                />
                 <Area type="monotone" dataKey="rate" stroke="#10b981" strokeWidth={2.4} fill="url(#usdGradient)" />
               </AreaChart>
             </ResponsiveContainer>
