@@ -8,6 +8,7 @@ interface CookieConsentProps {
 
 export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
   const [visible, setVisible] = useState(false);
+  const elementRef = React.useRef<HTMLElement>(null);
   const copy = UI_COPY[locale];
 
   useEffect(() => {
@@ -18,22 +19,32 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
     }
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem("uah_cookie_consent", "all");
-    setVisible(false);
+  // Modal open / close: flush the closed state, then add .is-open so the
+  // scale transition has a start frame.
+  React.useLayoutEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+    void element.offsetWidth;
+    element.classList.add("is-open");
+  }, [visible]);
+
+  const dismiss = (value: "all" | "essential") => {
+    localStorage.setItem("uah_cookie_consent", value);
+    elementRef.current?.classList.remove("is-open");
+    elementRef.current?.classList.add("is-closing");
+    window.setTimeout(() => setVisible(false), 180);
   };
 
-  const handleDecline = () => {
-    localStorage.setItem("uah_cookie_consent", "essential");
-    setVisible(false);
-  };
+  const handleAccept = () => dismiss("all");
+  const handleDecline = () => dismiss("essential");
 
   if (!visible) return null;
 
   return (
     <aside
+      ref={elementRef}
       aria-label={copy.cookieConsentTitle}
-      className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 sm:bottom-6 sm:left-6 sm:p-5"
+      className="t-modal fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 sm:bottom-6 sm:left-6 sm:p-5"
     >
       <div className="flex items-start gap-3">
         <div className="rounded-xl bg-cyan-600/10 p-2 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">

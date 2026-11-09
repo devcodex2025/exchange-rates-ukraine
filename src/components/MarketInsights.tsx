@@ -17,7 +17,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
   const insights = getMarketInsights(rates, selectedCurrency);
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="market-insights">
+    <Card className="t-reveal rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="market-insights">
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">

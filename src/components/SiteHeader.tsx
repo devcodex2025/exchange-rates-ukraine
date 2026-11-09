@@ -105,8 +105,10 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
             onClick={() => setDarkMode(!darkMode)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727]"
           >
-            {darkMode ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
+            <span className="t-icon-swap" data-state={darkMode ? "b" : "a"} aria-hidden="true">
+              <Sun className="t-icon" data-icon="b" size={16} />
+              <Moon className="t-icon" data-icon="a" size={16} />
+            </span>          </button>
 
           <button
             type="button"

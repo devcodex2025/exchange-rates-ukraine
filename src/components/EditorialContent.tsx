@@ -12,7 +12,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   if (topic === "usd") {
     return (
-      <section className="my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
+      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-slate-800">
           <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
             <BookOpen size={20} />
@@ -77,7 +77,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   if (topic === "eur") {
     return (
-      <section className="my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
+      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-slate-800">
           <div className="rounded-xl bg-blue-600/10 p-2.5 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
             <BookOpen size={20} />
@@ -120,7 +120,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   // General default content
   return (
-    <section className="my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
+    <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
       <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-slate-800">
         <div className="rounded-xl bg-slate-950/10 p-2.5 text-slate-900 dark:bg-white/10 dark:text-white">
           <BookOpen size={20} />

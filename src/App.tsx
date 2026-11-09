@@ -263,6 +263,15 @@ const SeoManager: React.FC<{ locale: Locale; setLocale: (locale: Locale) => void
   return null;
 };
 
+const RouteTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { pathname } = useLocation();
+  return (
+    <div key={pathname} className="page-enter flex flex-col gap-8 sm:gap-12">
+      {children}
+    </div>
+  );
+};
+
 export default function App() {
   const [data, setData] = useState<RawRatesResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -300,7 +309,12 @@ export default function App() {
       if (!response.ok) throw new Error(locale === "en" ? "Failed to load exchange rates." : "Не вдалося завантажити курси валют.");
       setData(await response.json());
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      console.error("Rates request failed:", err);
+      setError(
+        locale === "en"
+          ? "Could not load exchange rates. Check your connection and try again."
+          : "Не вдалося завантажити курси валют. Перевірте з'єднання та спробуйте ще раз.",
+      );
     } finally {
       setLoading(false);
     }
@@ -331,7 +345,8 @@ export default function App() {
 
         {/* Main Content Area */}
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-6 sm:gap-12 sm:px-6 lg:px-8">
-          <Routes>
+          <RouteTransition>
+            <Routes>
             {dashboardPaths.map((path) => (
               <React.Fragment key={path}>
                 <Route
@@ -373,7 +388,8 @@ export default function App() {
               path="*"
               element={<NotFound locale={locale} />}
             />
-          </Routes>
+            </Routes>
+          </RouteTransition>
 
           {/* Full Footer with SEO Sitemap & Legal Links */}
           <footer className="mt-16 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-[#272727] dark:text-slate-400">
@@ -411,8 +427,8 @@ export default function App() {
                   <li><Link to="/konverter-valyut" className="transition hover:text-cyan-700">{copy.converter}</Link></li>
                   <li><Link to="/kurs-dolara-privatbank" className="transition hover:text-cyan-700">Курс у ПриватБанку</Link></li>
                   <li><Link to="/kurs-dolara-monobank" className="transition hover:text-cyan-700">Курс у monobank</Link></li>
-                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 transition hover:text-cyan-700">API /rates <ArrowUpRight size={12} /></a></li>
-                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 transition hover:text-cyan-700">llms.txt <ArrowUpRight size={12} /></a></li>
+                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-cyan-700">API /rates <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
+                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-cyan-700">llms.txt <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                 </ul>
               </div>
 

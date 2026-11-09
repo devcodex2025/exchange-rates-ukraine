@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowDown, ArrowUp, Minus, TrendingUp } from "lucide-react";
 import { BANKS, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
 import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
+import { SubtleNumber } from "./ui/subtle-number";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
@@ -46,7 +47,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               <ArrowUp size={11} /> {copy.buy}
             </dt>
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
-              {formatRate(bestBuy?.buy)}
+              <SubtleNumber value={bestBuy?.buy} />
             </dd>
             <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
               {bestBuy?.bankName || copy.noData}
@@ -58,7 +59,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               <ArrowDown size={11} /> {copy.sell}
             </dt>
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
-              {formatRate(bestSell?.sell)}
+              <SubtleNumber value={bestSell?.sell} />
             </dd>
             <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
               {bestSell?.bankName || copy.noData}
@@ -69,7 +70,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
 
       <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#272727]">
         <span className="font-mono text-xs font-medium text-slate-500 dark:text-slate-400">
-          {copy.nbu} {formatRate(nbu)}
+          {copy.nbu} <SubtleNumber value={nbu} />
         </span>
         {bestSell || bestBuy ? (
           <Badge variant="outline" className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">

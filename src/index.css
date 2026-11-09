@@ -122,6 +122,364 @@ body {
   }
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Motion system adapted from transitions.dev
+   Tokens first, then one namespaced block per transition.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+
+  --blur-small: 2px;
+  --blur-medium: 3px;
+
+  --tabs-dur: var(--duration-fast);
+  --tabs-ease: var(--ease-smooth-out);
+  --tabs-pill-bg: #ffffff;
+
+  --icon-swap-dur: var(--duration-fast);
+  --icon-swap-ease: var(--ease-in-out);
+  --icon-swap-blur: var(--blur-small);
+  --icon-swap-start-scale: 0.25;
+
+  --acc-expand: var(--duration-fast);
+  --acc-collapse: var(--duration-fast);
+  --acc-chevron: var(--duration-fast);
+  --acc-ease: var(--ease-smooth-out);
+
+  --subtle-dur: 455ms;
+  --subtle-distance: 0.14em;
+  --subtle-blur: 0.042em;
+  --subtle-ease: var(--ease-smooth-out);
+
+  --reveal-dur: var(--duration-slow);
+  --reveal-ease: var(--ease-in-out);
+  --reveal-blur: var(--blur-small);
+
+  --toast-open: var(--duration-medium);
+  --toast-close: var(--duration-medium);
+  --toast-ease: var(--ease-smooth-out);
+  --toast-distance: 16px;
+  --toast-scale: 0.97;
+  --toast-blur: 2px;
+
+  --modal-open-dur: var(--duration-fast);
+  --modal-close-dur: var(--duration-quick);
+  --modal-ease: var(--ease-smooth-out);
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.97;
+
+  --tt-in-dur: var(--duration-quick);
+  --tt-out-dur: var(--duration-quick);
+  --tt-in-ease: var(--ease-out);
+  --tt-out-ease: var(--ease-out);
+  --tt-delay: 120ms;
+  --tt-bg: #0f172a;
+  --tt-fg: #ffffff;
+
+  --shake-distance: 6px;
+  --shake-overshoot: 3px;
+  --shake-ease: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.dark {
+  --tabs-pill-bg: #272727;
+  --tt-bg: #f8fafc;
+  --tt-fg: #0f172a;
+}
+
+/* Tabs sliding: the pill's transform + width are written by JS. */
+.tabs-pill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, width;
+  border-radius: 6px;
+  background: var(--tabs-pill-bg);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+  transform: translateX(0);
+  transition:
+    transform var(--tabs-dur) var(--tabs-ease),
+    width var(--tabs-dur) var(--tabs-ease);
+}
+
+/* Icon swap: two icons stacked in one grid cell. */
+.t-icon-swap {
+  position: relative;
+  display: inline-grid;
+}
+.t-icon-swap .t-icon {
+  grid-area: 1 / 1;
+  transition:
+    opacity var(--icon-swap-dur) var(--icon-swap-ease),
+    filter var(--icon-swap-dur) var(--icon-swap-ease),
+    transform var(--icon-swap-dur) var(--icon-swap-ease);
+}
+.t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+.t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
+  opacity: 0;
+  filter: blur(var(--icon-swap-blur));
+  transform: scale(var(--icon-swap-start-scale));
+}
+
+/* Accordion: grid-rows height with a chevron flip. */
+.t-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--acc-expand) var(--acc-ease);
+}
+.t-acc-panel-inner {
+  overflow: hidden;
+  opacity: 0;
+  filter: blur(2px);
+  transition:
+    opacity var(--acc-collapse) var(--acc-ease),
+    filter var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel-inner {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity var(--acc-expand) var(--acc-ease),
+    filter var(--acc-expand) var(--acc-ease);
+}
+.t-acc-chevron {
+  display: inline-flex;
+  transform: scaleY(1);
+  transform-origin: center;
+  transition: transform var(--acc-chevron) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-chevron {
+  transform: scaleY(-1);
+}
+
+/* Number subtle change: changed digits cross-fade in place. */
+.t-subtle-number {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+.t-subtle-slot {
+  position: relative;
+  display: inline-block;
+}
+.t-subtle-new {
+  display: inline-block;
+}
+.t-subtle-old {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  pointer-events: none;
+}
+.t-subtle-number.is-animating .t-subtle-new {
+  animation: t-subtle-in var(--subtle-dur) var(--subtle-ease) both;
+}
+.t-subtle-number.is-animating .t-subtle-old {
+  animation: t-subtle-out var(--subtle-dur) var(--subtle-ease) both;
+}
+@keyframes t-subtle-in {
+  from {
+    transform: translateY(calc(var(--subtle-distance) * var(--subtle-dir, 1)));
+    opacity: 0;
+    filter: blur(var(--subtle-blur));
+  }
+}
+@keyframes t-subtle-out {
+  to {
+    transform: translateY(calc(var(--subtle-distance) * var(--subtle-dir, 1) * -1));
+    opacity: 0;
+    filter: blur(var(--subtle-blur));
+  }
+}
+
+/* Skeleton reveal: content crossfades and unblurs into place. */
+.skel-content-enter {
+  animation: skel-content-in var(--reveal-dur) var(--reveal-ease) both;
+}
+@keyframes skel-content-in {
+  from {
+    opacity: 0;
+    filter: blur(var(--reveal-blur));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Error state shake: per-segment overshoot, no layout shift. */
+.is-shaking {
+  animation: t-shake calc(var(--duration-micro) * 2 + var(--duration-micro) * 2) linear;
+}
+@keyframes t-shake {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: var(--shake-ease);
+  }
+  28.57% {
+    transform: translateX(var(--shake-distance));
+    animation-timing-function: var(--shake-ease);
+  }
+  57.14% {
+    transform: translateX(calc(var(--shake-distance) * -1));
+    animation-timing-function: var(--shake-ease);
+  }
+  78.57% {
+    transform: translateX(var(--shake-overshoot));
+    animation-timing-function: var(--shake-ease);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Toast open / close. */
+.t-toast {
+  opacity: 0;
+  transform: translateY(var(--toast-distance)) scale(var(--toast-scale));
+  filter: blur(var(--toast-blur));
+  transition:
+    opacity var(--toast-close) var(--toast-ease),
+    transform var(--toast-close) var(--toast-ease),
+    filter var(--toast-close) var(--toast-ease);
+}
+.t-toast.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition:
+    opacity var(--toast-open) var(--toast-ease),
+    transform var(--toast-open) var(--toast-ease),
+    filter var(--toast-open) var(--toast-ease);
+}
+
+/* Modal open / close. */
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity var(--modal-open-dur) var(--modal-ease);
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+/* Tooltip open / close: delayed in, instant out. */
+.t-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 50;
+  width: max-content;
+  max-width: 16rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--tt-bg);
+  color: var(--tt-fg);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+  opacity: 0;
+  scale: 0.98;
+  translate: 0 4px;
+  pointer-events: none;
+  transition:
+    opacity var(--tt-out-dur) var(--tt-out-ease),
+    scale var(--tt-out-dur) var(--tt-out-ease),
+    translate var(--tt-out-dur) var(--tt-out-ease);
+}
+.t-tip-group:hover .t-tip,
+.t-tip-group:focus-within .t-tip {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--tt-in-dur) var(--tt-in-ease) var(--tt-delay),
+    scale var(--tt-in-dur) var(--tt-in-ease) var(--tt-delay),
+    translate var(--tt-in-dur) var(--tt-in-ease) var(--tt-delay);
+}
+
+/* Learn more hover: the chevron shifts out and back in. */
+.learn-more .learn-more-icon {
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+}
+.learn-more:hover .learn-more-icon,
+.learn-more:focus-visible .learn-more-icon {
+  transform: translateX(4px);
+}
+
+/* Texts reveal on scroll. */
+.t-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(var(--blur-medium));
+  transition:
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease),
+    filter var(--reveal-dur) var(--reveal-ease);
+}
+.t-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Route change: quiet page slide per the page transition recipe. */
+.page-enter {
+  animation: page-enter var(--duration-fast) var(--ease-smooth-out) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+    filter: blur(var(--blur-small));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
 /* Copy rules per B1 */
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;

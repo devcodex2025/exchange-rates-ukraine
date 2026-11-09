@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useMemo, useState } from "react";
+import React, { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ArrowRight, Bot, CheckCircle2, RefreshCw, ShieldCheck, AlertCircle, ArrowUpRight } from "lucide-react";
 import { CurrencyCard } from "../components/CurrencyCard";
@@ -10,6 +10,8 @@ import { MarketInsights } from "../components/MarketInsights";
 import { EditorialContent } from "../components/EditorialContent";
 import { TaglineReveal } from "../components/TaglineReveal";
 import { RatesSkeleton } from "../components/RatesSkeleton";
+import { Toast } from "../components/ui/toast";
+import { useScrollReveal } from "../lib/useScrollReveal";
 import { AdSlot } from "../components/AdSlot";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatDateTime, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
@@ -51,6 +53,27 @@ export const Dashboard: React.FC<DashboardProps> = ({
   }, [pathname]);
 
   const [activeTab, setActiveTab] = useState(initialTab);
+  useScrollReveal();
+
+  // Toast open / close: confirm a manual refresh once the new data lands.
+  const [toastOpen, setToastOpen] = useState(false);
+  const wasLoading = useRef(loading);
+  const hasLoadedOnce = useRef(false);
+
+  useEffect(() => {
+    const was = wasLoading.current;
+    wasLoading.current = loading;
+
+    if (!was || loading) return;
+
+    if (hasLoadedOnce.current && !error) {
+      setToastOpen(true);
+      const timer = window.setTimeout(() => setToastOpen(false), 2600);
+      return () => window.clearTimeout(timer);
+    }
+
+    hasLoadedOnce.current = true;
+  }, [loading, error]);
 
   const topic = useMemo(() => {
     if (pathname.includes("dolara") || pathname.includes("usd")) return "usd";
@@ -161,14 +184,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
             {sources.map((source) => (
               <li
                 key={source.id}
-                className="inline-flex items-center gap-1.5"
-                title={`${source.source}: ${source.count} ${isEnglish ? "rates" : "курсів"}`}
+                className="t-tip-group relative inline-flex items-center gap-1.5"
               >
                 <span
                   aria-hidden="true"
                   className={`h-1.5 w-1.5 rounded-full ${source.ok ? "bg-emerald-500" : "bg-slate-300 dark:bg-[#313131]"}`}
                 />
                 <span>{source.name}</span>
+                <span className="t-tip" role="tooltip">
+                  {source.source}: {source.count} {isEnglish ? "rates" : "курсів"}
+                </span>
               </li>
             ))}
           </ul>
@@ -178,7 +203,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {error ? (
         <div
           role="alert"
-          className="flex flex-wrap items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-semibold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+          className="is-shaking flex flex-wrap items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-semibold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
         >
           <AlertCircle size={16} />
           <span className="flex-1">{error}</span>
@@ -202,7 +227,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <BestRateFinder rates={rates} locale={locale} />
 
           {/* 2. Key Currency Cards */}
-          <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="skel-content-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {CURRENCY_CODES.map((code) => (
               <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
             ))}
@@ -223,7 +248,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <MarketInsights rates={rates} locale={locale} />
 
       {/* 5. Bank Comparison Table & Historical Chart */}
-      <section className="grid min-w-0 gap-6 xl:grid-cols-[1fr_340px]">
+      <section className="t-reveal grid min-w-0 gap-6 xl:grid-cols-[1fr_340px]">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="min-w-0">
           <TabsList className="bg-slate-100 p-1 dark:bg-[#181818] dark:border dark:border-[#272727]">
             <TabsTrigger value="banks">{isEnglish ? "Banks" : "Банки"}</TabsTrigger>
@@ -331,6 +356,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       {/* 7. Full FAQ */}
       <FullFAQ locale={locale} />
+
+      <Toast open={toastOpen} message={isEnglish ? "Rates updated" : "Курси оновлено"} />
     </>
   );
 };

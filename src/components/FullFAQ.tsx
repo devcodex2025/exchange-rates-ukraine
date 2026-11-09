@@ -12,7 +12,7 @@ export const FullFAQ: React.FC<FullFAQProps> = ({ locale }) => {
   const copy = UI_COPY[locale];
 
   return (
-    <section id="faq" className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <section id="faq" className="t-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center gap-3">
         <div className="rounded-lg bg-cyan-50 p-2 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300">
           <HelpCircle size={20} />
@@ -28,21 +28,37 @@ export const FullFAQ: React.FC<FullFAQProps> = ({ locale }) => {
       </div>
 
       <div className="mt-5 divide-y divide-slate-100 dark:divide-slate-800">
-        {faq.map((item, index) => (
-          <article key={item.question}>
-            <button
-              className="flex w-full items-center justify-between gap-4 py-4 text-left"
-              onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-              type="button"
-            >
-              <h3 className="font-bold text-slate-800 dark:text-slate-100">{item.question}</h3>
-              <ChevronDown className={openIndex === index ? "rotate-180 transition" : "transition"} size={18} />
-            </button>
-            {openIndex === index ? (
-              <p className="pb-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.answer}</p>
-            ) : null}
-          </article>
-        ))}
+        {faq.map((item, index) => {
+          const open = openIndex === index;
+          return (
+            <article key={item.question} className="t-acc" data-open={open ? "true" : "false"}>
+              <button
+                className="flex w-full items-center justify-between gap-4 py-4 text-left"
+                onClick={() => setOpenIndex(open ? -1 : index)}
+                type="button"
+                aria-expanded={open}
+                aria-controls={`faq-panel-${index}`}
+                id={`faq-trigger-${index}`}
+              >
+                <h3 className="font-bold text-slate-800 dark:text-slate-100">{item.question}</h3>
+                <span className="t-acc-chevron text-slate-500 dark:text-slate-400" aria-hidden="true">
+                  <ChevronDown size={18} />
+                </span>
+              </button>
+              <div
+                className="t-acc-panel"
+                id={`faq-panel-${index}`}
+                role="region"
+                aria-labelledby={`faq-trigger-${index}`}
+                aria-hidden={!open}
+              >
+                <div className="t-acc-panel-inner">
+                  <p className="pb-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.answer}</p>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

@@ -34,7 +34,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
   };
 
   return (
-    <section id="converter" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-7">
+    <section id="converter" className="t-reveal rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-7">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">

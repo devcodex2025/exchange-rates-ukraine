@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowDownLeft, ArrowUpRight, Sparkles, Landmark } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
+import { SubtleNumber } from "./ui/subtle-number";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Badge } from "./ui/badge";
 
@@ -20,7 +21,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
   const nbuRate = rates.find((r) => r.code === selectedCurrency && r.bankId === "nbu")?.buy ?? null;
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="best-rates">
+    <Card className="skel-content-enter rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="best-rates">
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
@@ -85,7 +86,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
 
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
-                  {formatRate(bestSell?.sell)}
+                  <SubtleNumber value={bestSell?.sell} />
                 </span>
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
@@ -136,7 +137,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
 
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
-                  {formatRate(bestBuy?.buy)}
+                  <SubtleNumber value={bestBuy?.buy} />
                 </span>
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
