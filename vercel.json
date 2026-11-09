@@ -2,10 +2,6 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/rates",
-      "dest": "/api/rates.ts"
-    },
-    {
       "src": "/rates.json",
       "dest": "/api/rates.ts"
     },

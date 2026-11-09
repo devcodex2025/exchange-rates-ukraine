@@ -1,4 +1,4 @@
-import { RatesAggregatorService } from "../src/services/rates/rates-aggregator.service";
+import type { AggregatedRatesResponse } from "../src/services/rates/rates-aggregator.service";
 
 interface VercelRequest {
   method?: string;
@@ -13,16 +13,23 @@ interface VercelResponse {
   };
 }
 
+// The aggregator queries six providers; keep enough headroom for a cold start.
+export const config = { maxDuration: 60 };
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const freshParam = Array.isArray(req.query?.fresh) ? req.query?.fresh[0] : req.query?.fresh;
-    const forceFresh = freshParam === "1" || freshParam === "true";
+  const freshParam = Array.isArray(req.query?.fresh) ? req.query?.fresh[0] : req.query?.fresh;
+  const forceFresh = freshParam === "1" || freshParam === "true";
 
-    const data = await RatesAggregatorService.getAggregatedRates(forceFresh);
+  try {
+    // Loaded lazily so an import level failure returns a readable error instead
+    // of taking the whole serverless invocation down.
+    const { RatesAggregatorService } = await import("../src/services/rates/rates-aggregator.service");
+
+    const data: AggregatedRatesResponse = await RatesAggregatorService.getAggregatedRates(forceFresh);
 
     res.setHeader(
       "Cache-Control",
@@ -30,7 +37,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
     return res.status(200).json(data);
   } catch (error) {
-    console.error("API error:", error);
-    return res.status(500).json({ error: "Failed to fetch exchange rates" });
+    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+    console.error("API error:", detail);
+
+    const wantsDebug = req.query?.debug === "1";
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(503).json(
+      wantsDebug
+        ? { error: "Failed to fetch exchange rates", detail }
+        : { error: "Failed to fetch exchange rates" },
+    );
   }
 }

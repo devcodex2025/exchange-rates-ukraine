@@ -148,9 +148,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </section>
 
       {error ? (
-        <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-semibold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+        <div
+          role="alert"
+          className="flex flex-wrap items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-semibold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+        >
           <AlertCircle size={16} />
-          <span>{error}</span>
+          <span className="flex-1">{error}</span>
+          <button
+            type="button"
+            onClick={fetchData}
+            disabled={loading}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 px-3 py-1.5 caption-3 text-amber-900 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-amber-100 active:scale-[0.98] disabled:opacity-50 dark:border-amber-800 dark:text-amber-100 dark:hover:bg-amber-900/40"
+          >
+            <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
+            <span>{isEnglish ? "Try again" : "Спробувати ще раз"}</span>
+          </button>
         </div>
       ) : null}
 

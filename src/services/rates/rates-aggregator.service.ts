@@ -31,105 +31,62 @@ export interface AggregatedRatesResponse {
 const CACHE_TTL_DEFAULT = 15 * 60 * 1000; // 15 mins
 const CACHE_TTL_MONO = 30 * 60 * 1000;    // 30 mins
 
+// Serverless functions are time limited, so fetch every provider with a hard
+// per request budget and run them concurrently instead of one after another.
+const SOURCE_TIMEOUT_MS = 6000;
+
+const withTimeout = async <T>(fetcher: (signal: AbortSignal) => Promise<T>): Promise<T> => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), SOURCE_TIMEOUT_MS);
+  try {
+    return await fetcher(controller.signal);
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
 export class RatesAggregatorService {
   static async getAggregatedRates(forceFresh = false): Promise<AggregatedRatesResponse> {
     const updatedAt = new Date().toISOString();
 
-    // 1. NBU
-    const nbuResult = await globalCache.getOrFetch<NormalizedNbuRate[]>(
-      "nbu_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 7000);
-        try {
-          return await NbuService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_DEFAULT,
-      forceFresh,
-    );
-
-    // 2. PrivatBank
-    const privatResult = await globalCache.getOrFetch<NormalizedBankRate[]>(
-      "privat_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 7000);
-        try {
-          return await PrivatBankService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_DEFAULT,
-      forceFresh,
-    );
-
-    // 3. Monobank
-    const monoResult = await globalCache.getOrFetch<NormalizedBankRate[]>(
-      "mono_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 7000);
-        try {
-          return await MonobankService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_MONO,
-      forceFresh,
-    );
-
-    // 4. Raiffeisen
-    const raifResult = await globalCache.getOrFetch<NormalizedBankRate[]>(
-      "raif_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 5000);
-        try {
-          return await RaiffeisenService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_DEFAULT,
-      forceFresh,
-    );
-
-    // 5. Oschadbank
-    const oschadResult = await globalCache.getOrFetch<NormalizedBankRate[]>(
-      "oschad_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 5000);
-        try {
-          return await OschadbankService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_DEFAULT,
-      forceFresh,
-    );
-
-    // 6. PUMB
-    const pumbResult = await globalCache.getOrFetch<NormalizedBankRate[]>(
-      "pumb_rates",
-      async () => {
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 5000);
-        try {
-          return await PumbService.fetchRates(controller.signal);
-        } finally {
-          clearTimeout(t);
-        }
-      },
-      CACHE_TTL_DEFAULT,
-      forceFresh,
-    );
+    const [nbuResult, privatResult, monoResult, raifResult, oschadResult, pumbResult] = await Promise.all([
+      globalCache.getOrFetch<NormalizedNbuRate[]>(
+        "nbu_rates",
+        () => withTimeout((signal) => NbuService.fetchRates(signal)),
+        CACHE_TTL_DEFAULT,
+        forceFresh,
+      ),
+      globalCache.getOrFetch<NormalizedBankRate[]>(
+        "privat_rates",
+        () => withTimeout((signal) => PrivatBankService.fetchRates(signal)),
+        CACHE_TTL_DEFAULT,
+        forceFresh,
+      ),
+      globalCache.getOrFetch<NormalizedBankRate[]>(
+        "mono_rates",
+        () => withTimeout((signal) => MonobankService.fetchRates(signal)),
+        CACHE_TTL_MONO,
+        forceFresh,
+      ),
+      globalCache.getOrFetch<NormalizedBankRate[]>(
+        "raif_rates",
+        () => withTimeout((signal) => RaiffeisenService.fetchRates(signal)),
+        CACHE_TTL_DEFAULT,
+        forceFresh,
+      ),
+      globalCache.getOrFetch<NormalizedBankRate[]>(
+        "oschad_rates",
+        () => withTimeout((signal) => OschadbankService.fetchRates(signal)),
+        CACHE_TTL_DEFAULT,
+        forceFresh,
+      ),
+      globalCache.getOrFetch<NormalizedBankRate[]>(
+        "pumb_rates",
+        () => withTimeout((signal) => PumbService.fetchRates(signal)),
+        CACHE_TTL_DEFAULT,
+        forceFresh,
+      ),
+    ]);
 
     const makeMeta = (
       name: string,
