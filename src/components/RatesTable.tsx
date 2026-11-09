@@ -111,15 +111,15 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
                   <TableCell className="text-right font-mono text-xs text-slate-500">{formatRate(rate.nbu)}</TableCell>
                   <TableCell>
                     {rate.bankId === bestBuy?.bankId ? (
-                      <Badge variant="outline" className="border-emerald-500/40 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                      <Badge variant="outline" className="border-emerald-500/40 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                         {copy.bestBuy}
                       </Badge>
                     ) : rate.bankId === bestSell?.bankId ? (
-                      <Badge variant="outline" className="border-cyan-500/40 text-[11px] font-semibold text-cyan-600 dark:text-cyan-400">
+                      <Badge variant="outline" className="border-cyan-500/40 text-xs font-semibold text-cyan-700 dark:text-cyan-400">
                         {copy.bestSell}
                       </Badge>
                     ) : (
-                      <span className="font-mono text-[11px] text-slate-400">
+                      <span className="font-mono text-xs text-slate-400">
                         {formatDateTime(rate.updatedAt || updatedAt, isEnglish ? "en-US" : "uk-UA")}
                       </span>
                     )}

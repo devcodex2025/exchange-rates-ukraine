@@ -14,7 +14,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
     return (
       <section className="my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-8">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-slate-800">
-          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400">
+          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
             <BookOpen size={20} />
           </div>
           <div>
@@ -138,7 +138,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
       <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300 md:grid-cols-3">
         <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-950">
           <div className="flex items-center gap-2 font-black text-slate-900 dark:text-white">
-            <CheckCircle size={18} className="text-emerald-600 dark:text-emerald-400" />
+            <CheckCircle size={18} className="text-emerald-700 dark:text-emerald-400" />
             <span>{isEnglish ? "NBU vs Commercial" : "НБУ проти банків"}</span>
           </div>
           <p className="mt-2 text-xs leading-6">
@@ -150,7 +150,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
         <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-950">
           <div className="flex items-center gap-2 font-black text-slate-900 dark:text-white">
-            <CheckCircle size={18} className="text-cyan-600 dark:text-cyan-400" />
+            <CheckCircle size={18} className="text-cyan-700 dark:text-cyan-400" />
             <span>{isEnglish ? "Why Spreads Differ" : "Чому спред різний"}</span>
           </div>
           <p className="mt-2 text-xs leading-6">

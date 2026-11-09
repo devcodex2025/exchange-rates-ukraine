@@ -61,7 +61,7 @@ export const TaglineReveal: React.FC<TaglineRevealProps> = ({ locale }) => {
       aria-label="Core Value Tagline"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+        <p className="text-xs font-semibold uppercase tracking-widest text-cyan-700 dark:text-cyan-400">
           {isEnglish ? "Our Promise" : "Наш головний принцип"}
         </p>
 

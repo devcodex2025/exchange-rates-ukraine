@@ -70,7 +70,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
             </button>
           ))}
           <button
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-600 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-700 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300"
             onClick={() => {
               setFrom(to);
               setTo(from);
@@ -158,7 +158,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
       {/* Result Card */}
       <div className="mt-6 flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-6 dark:border-[#272727] dark:bg-[#1F1F1F] sm:flex-row sm:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
+          <p className="text-xs font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
             {isEnglish ? "Estimated Total" : "Розрахунковий результат"}
           </p>
           <p className="mt-1 font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">

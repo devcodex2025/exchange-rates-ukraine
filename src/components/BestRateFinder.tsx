@@ -75,7 +75,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <div>
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  <ArrowDownLeft className="text-emerald-600 dark:text-emerald-400" size={16} />
+                  <ArrowDownLeft className="text-emerald-700 dark:text-emerald-400" size={16} />
                   {copy.bestToBuyTitle} ({selectedCurrency})
                 </span>
                 <Badge variant="outline" className="border-emerald-500/30 text-emerald-700 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/30">
@@ -126,7 +126,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <div>
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  <ArrowUpRight className="text-cyan-600 dark:text-cyan-400" size={16} />
+                  <ArrowUpRight className="text-cyan-700 dark:text-cyan-400" size={16} />
                   {copy.bestToSellTitle} ({selectedCurrency})
                 </span>
                 <Badge variant="outline" className="border-cyan-500/30 text-cyan-700 dark:text-cyan-400 bg-cyan-50/50 dark:bg-cyan-950/30">
@@ -183,7 +183,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             </span>
             <a
               href="#converter"
-              className="font-medium text-cyan-600 hover:underline dark:text-cyan-400"
+              className="font-medium text-cyan-700 hover:underline dark:text-cyan-400"
             >
               {copy.converter} &rarr;
             </a>

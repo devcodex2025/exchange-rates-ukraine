@@ -29,7 +29,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
         <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300">
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <FileText size={18} className="text-cyan-600" />
+              <FileText size={18} className="text-cyan-700" />
               {isEnglish ? "1. Agreement to Terms" : "1. Прийняття умов"}
             </h2>
             <p className="mt-2">
@@ -53,7 +53,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
 
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <ShieldCheck size={18} className="text-cyan-600" />
+              <ShieldCheck size={18} className="text-cyan-700" />
               {isEnglish ? "3. Intellectual Property and Open Data" : "3. Інтелектуальна власність та відкриті дані"}
             </h2>
             <p className="mt-2">
@@ -65,7 +65,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
 
           <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Mail size={18} className="text-cyan-600" />
+              <Mail size={18} className="text-cyan-700" />
               {isEnglish ? "4. Questions & Feedback" : "4. Зворотний зв'язок"}
             </h2>
             <p className="mt-2">

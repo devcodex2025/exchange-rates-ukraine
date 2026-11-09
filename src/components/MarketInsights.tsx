@@ -129,7 +129,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
         {/* Informational callout */}
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-700 dark:border-[#272727] dark:bg-[#1F1F1F] dark:text-slate-300">
           <div className="flex items-start gap-2.5">
-            <Info size={16} className="mt-0.5 shrink-0 text-cyan-600 dark:text-cyan-400" />
+            <Info size={16} className="mt-0.5 shrink-0 text-cyan-700 dark:text-cyan-400" />
             <div>
               <strong className="font-semibold text-slate-900 dark:text-white">
                 {isEnglish ? "How to interpret market spread:" : "Як рахується вигода від спреду:"}

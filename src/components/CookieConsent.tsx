@@ -36,7 +36,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
       className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 sm:bottom-6 sm:left-6 sm:p-5"
     >
       <div className="flex items-start gap-3">
-        <div className="rounded-xl bg-cyan-600/10 p-2 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400">
+        <div className="rounded-xl bg-cyan-600/10 p-2 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
           <Cookie size={22} />
         </div>
         <div className="flex-1">
@@ -47,7 +47,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
             {copy.cookieConsentText}{" "}
             <a
               href={locale === "en" ? "/en/privacy-policy" : "/privacy-policy"}
-              className="font-bold underline hover:text-cyan-600"
+              className="font-bold underline hover:text-cyan-700"
             >
               {copy.privacyLink}
             </a>

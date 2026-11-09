@@ -13,7 +13,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
     <main className="mx-auto max-w-4xl py-8">
       <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-slate-800">
-          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400">
+          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
             <Info size={24} />
           </div>
           <div>
@@ -59,7 +59,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
 
           <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
-              <Sparkles className="text-emerald-600 dark:text-emerald-400" size={20} />
+              <Sparkles className="text-emerald-700 dark:text-emerald-400" size={20} />
               <h3 className="mt-2 font-black text-slate-900 dark:text-white">
                 {isEnglish ? "Best Rate Finder" : "Кращий курс"}
               </h3>
@@ -71,7 +71,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
-              <ShieldCheck className="text-cyan-600 dark:text-cyan-400" size={20} />
+              <ShieldCheck className="text-cyan-700 dark:text-cyan-400" size={20} />
               <h3 className="mt-2 font-black text-slate-900 dark:text-white">
                 {isEnglish ? "Verified Sources" : "Офіційні джерела"}
               </h3>

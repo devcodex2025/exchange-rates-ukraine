@@ -18,7 +18,7 @@ export const NotFound: React.FC<NotFoundProps> = ({ locale = "uk" }) => {
       <div className="relative select-none">
         <span
           aria-hidden="true"
-          className="bg-gradient-to-b from-white to-[#9B9B9B] bg-clip-text text-[9rem] font-semibold leading-none tracking-tight text-transparent dark:from-white dark:to-[#9B9B9B]"
+          className="bg-gradient-to-b from-slate-900 to-slate-400 bg-clip-text text-8xl font-semibold leading-none tracking-tight text-transparent dark:from-white dark:to-[#9B9B9B] sm:text-9xl"
           style={{ fontFamily: "Manrope, sans-serif" }}
         >
           404
@@ -66,16 +66,16 @@ export const NotFound: React.FC<NotFoundProps> = ({ locale = "uk" }) => {
 
       {/* Helpful links */}
       <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400 dark:text-slate-500">
-        <Link to={isEn ? "/en/usd-uah-rate" : "/kurs-dolara"} className="transition hover:text-cyan-600 dark:hover:text-cyan-400">
+        <Link to={isEn ? "/en/usd-uah-rate" : "/kurs-dolara"} className="transition hover:text-cyan-700 dark:hover:text-cyan-400">
           {isEn ? "USD Rate" : "Курс долара"}
         </Link>
-        <Link to={isEn ? "/en/eur-uah-rate" : "/kurs-evro"} className="transition hover:text-cyan-600 dark:hover:text-cyan-400">
+        <Link to={isEn ? "/en/eur-uah-rate" : "/kurs-evro"} className="transition hover:text-cyan-700 dark:hover:text-cyan-400">
           {isEn ? "EUR Rate" : "Курс євро"}
         </Link>
-        <Link to={isEn ? "/en/currency-converter" : "/konverter-valyut"} className="transition hover:text-cyan-600 dark:hover:text-cyan-400">
+        <Link to={isEn ? "/en/currency-converter" : "/konverter-valyut"} className="transition hover:text-cyan-700 dark:hover:text-cyan-400">
           {isEn ? "Converter" : "Конвертер"}
         </Link>
-        <Link to={isEn ? "/en/about" : "/pro-nas"} className="transition hover:text-cyan-600 dark:hover:text-cyan-400">
+        <Link to={isEn ? "/en/about" : "/pro-nas"} className="transition hover:text-cyan-700 dark:hover:text-cyan-400">
           {isEn ? "About" : "Про нас"}
         </Link>
       </nav>

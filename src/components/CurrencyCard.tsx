@@ -34,7 +34,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
           {bank?.logo ? (
             <img className="h-7 max-w-16 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
           ) : (
-            <TrendingUp className="text-cyan-600 dark:text-cyan-400" size={20} />
+            <TrendingUp className="text-cyan-700 dark:text-cyan-400" size={20} />
           )}
         </div>
       </CardHeader>
@@ -42,25 +42,25 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
       <CardContent className="pt-0">
         <dl className="grid grid-cols-2 gap-2.5">
           <div className="rounded-xl border border-emerald-500/10 bg-emerald-50/50 p-2.5 dark:border-emerald-500/20 dark:bg-emerald-950/20">
-            <dt className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+            <dt className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
               <ArrowUp size={11} /> {copy.buy}
             </dt>
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
               {formatRate(bestBuy?.buy)}
             </dd>
-            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
               {bestBuy?.bankName || copy.noData}
             </p>
           </div>
 
           <div className="rounded-xl border border-cyan-500/10 bg-cyan-50/50 p-2.5 dark:border-cyan-500/20 dark:bg-cyan-950/20">
-            <dt className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
+            <dt className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
               <ArrowDown size={11} /> {copy.sell}
             </dt>
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
               {formatRate(bestSell?.sell)}
             </dd>
-            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
               {bestSell?.bankName || copy.noData}
             </p>
           </div>
@@ -72,7 +72,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
           {copy.nbu} {formatRate(nbu)}
         </span>
         {bestSell || bestBuy ? (
-          <Badge variant="outline" className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+          <Badge variant="outline" className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
             {locale === "en" ? "Top rate" : "Топ курс"}
           </Badge>
         ) : (

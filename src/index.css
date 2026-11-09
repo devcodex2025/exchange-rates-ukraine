@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Tailwind v4 follows the OS by default. Bind dark: utilities to the .dark
+   class so the in page theme switch fully controls the palette. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Typography */
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -25,6 +29,7 @@
 }
 
 :root {
+  color-scheme: light;
   --surface-primary: #ffffff;
   --surface-secondary: #f8fafc;
   --surface-card: #ffffff;
@@ -34,6 +39,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --surface-primary: #000000;
   --surface-secondary: #131209;
   --surface-card: #181818;
@@ -48,6 +54,72 @@ body {
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Visible keyboard focus on every interactive element per B9 */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid #0e7490;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: #22d3ee;
+}
+
+::selection {
+  background-color: #cffafe;
+  color: #0f172a;
+}
+
+.dark ::selection {
+  background-color: #155e75;
+  color: #f8fafc;
+}
+
+/* Mobile menu entrance per B7 */
+@keyframes menu-panel-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-panel {
+  animation: menu-panel-in 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.menu-item {
+  animation: menu-item-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Skeleton loading per B9 */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.skeleton {
+  background-color: #e2e8f0;
+  animation: skeleton-pulse 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.dark .skeleton {
+  background-color: #272727;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Copy rules per B1 */

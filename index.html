@@ -3,7 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      // Apply the saved theme before first paint so the page does not flash.
+      try {
+        if (localStorage.getItem("uah_theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          document.querySelector('meta[name="theme-color"]').setAttribute("content", "#000000");
+        }
+      } catch (error) {
+        /* storage can be blocked; the white theme is the default */
+      }
+    </script>
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://exchange-rates-ukraine.vercel.app/" />

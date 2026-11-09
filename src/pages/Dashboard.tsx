@@ -9,6 +9,7 @@ import { BestRateFinder } from "../components/BestRateFinder";
 import { MarketInsights } from "../components/MarketInsights";
 import { EditorialContent } from "../components/EditorialContent";
 import { TaglineReveal } from "../components/TaglineReveal";
+import { RatesSkeleton } from "../components/RatesSkeleton";
 import { AdSlot } from "../components/AdSlot";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatDateTime, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
@@ -119,7 +120,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 type="button"
                 disabled={loading}
                 onClick={fetchData}
-                className="inline-flex items-center gap-1.5 font-semibold text-cyan-600 hover:underline active:scale-[0.98] disabled:opacity-50 dark:text-cyan-400"
+                className="inline-flex items-center gap-1.5 font-semibold text-cyan-700 hover:underline active:scale-[0.98] disabled:opacity-50 dark:text-cyan-400"
               >
                 <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
                 <span>{copy.refresh}</span>
@@ -147,6 +148,33 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </section>
 
+      {/* Data sources strip per B8 transparency */}
+      {!loading && rates.length > 0 ? (
+        <section
+          aria-label={isEnglish ? "Data sources" : "Джерела даних"}
+          className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-slate-400"
+        >
+          <span className="font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+            {isEnglish ? "Sources" : "Джерела"}
+          </span>
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            {sources.map((source) => (
+              <li
+                key={source.id}
+                className="inline-flex items-center gap-1.5"
+                title={`${source.source}: ${source.count} ${isEnglish ? "rates" : "курсів"}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-1.5 w-1.5 rounded-full ${source.ok ? "bg-emerald-500" : "bg-slate-300 dark:bg-[#313131]"}`}
+                />
+                <span>{source.name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {error ? (
         <div
           role="alert"
@@ -167,14 +195,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
       ) : null}
 
       {/* 1. Best Rate Finder */}
-      <BestRateFinder rates={rates} locale={locale} />
+      {loading && rates.length === 0 ? (
+        <RatesSkeleton label={isEnglish ? "Loading exchange rates" : "Завантаження курсів валют"} />
+      ) : (
+        <>
+          <BestRateFinder rates={rates} locale={locale} />
 
-      {/* 2. Key Currency Cards */}
-      <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {CURRENCY_CODES.map((code) => (
-          <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
-        ))}
-      </section>
+          {/* 2. Key Currency Cards */}
+          <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {CURRENCY_CODES.map((code) => (
+              <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
+            ))}
+          </section>
+        </>
+      )}
 
       {/* Mandatory Tagline Reveal Section per rule B11 */}
       <TaglineReveal locale={locale} />
@@ -248,7 +282,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <CardDescription>{isEnglish ? "The smart converter is placed above for quick calculations." : "Розумний конвертер доступний вище на сторінці для швидкого розрахунку."}</CardDescription>
               </CardHeader>
               <CardContent>
-                <a className="text-sm font-semibold text-cyan-600 hover:underline dark:text-cyan-400" href="#converter">
+                <a className="text-sm font-semibold text-cyan-700 hover:underline dark:text-cyan-400" href="#converter">
                   {copy.converter} &uarr;
                 </a>
               </CardContent>
@@ -279,7 +313,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </Card>
 
           <Card className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#272727] dark:bg-[#181818]">
-            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+            <div className="flex items-center gap-2 text-cyan-700 dark:text-cyan-400">
               <Bot size={20} />
               <CardTitle className="text-base font-semibold">{copy.aiTitle}</CardTitle>
             </div>

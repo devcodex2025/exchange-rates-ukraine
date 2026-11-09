@@ -17,7 +17,7 @@ export const Badge: React.FC<React.HTMLAttributes<HTMLSpanElement> & { variant?:
 }) => (
   <span
     className={cn(
-      "inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-black uppercase tracking-wide",
+      "inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-black uppercase tracking-wide",
       variants[variant],
       className,
     )}

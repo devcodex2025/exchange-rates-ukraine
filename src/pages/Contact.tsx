@@ -22,7 +22,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
     <main className="mx-auto max-w-4xl py-8">
       <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-slate-800">
-          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400">
+          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
             <Mail size={24} />
           </div>
           <div>
@@ -52,13 +52,13 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               <div className="mt-3 flex flex-col gap-2">
                 <a
                   href="mailto:support@uah.today"
-                  className="font-mono font-bold text-cyan-600 hover:underline dark:text-cyan-400"
+                  className="font-mono font-bold text-cyan-700 hover:underline dark:text-cyan-400"
                 >
                   support@uah.today
                 </a>
                 <a
                   href="mailto:editorial@uah.today"
-                  className="font-mono font-bold text-cyan-600 hover:underline dark:text-cyan-400"
+                  className="font-mono font-bold text-cyan-700 hover:underline dark:text-cyan-400"
                 >
                   editorial@uah.today
                 </a>
@@ -67,7 +67,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
               <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white">
-                <MapPin size={18} className="text-cyan-600" />
+                <MapPin size={18} className="text-cyan-700" />
                 <span>{isEnglish ? "Location" : "Місцезнаходження"}</span>
               </div>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -75,7 +75,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               </p>
 
               <div className="mt-3 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
-                <Clock size={18} className="text-cyan-600" />
+                <Clock size={18} className="text-cyan-700" />
                 <span>{isEnglish ? "Monitoring Hours" : "Графік моніторингу"}</span>
               </div>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
