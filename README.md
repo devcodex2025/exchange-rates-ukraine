@@ -252,10 +252,9 @@ UAH.today ships an **installable agent skill** — plain markdown, no keys, no a
 
 **Examples of what the agent can answer after installing:**
 
-- «Де найвигідніше продати 1000 доларів за гривню сьогодні? Покажи курси всіх банків і час оновлення.»
-- «Картковий чи готівковий курс: як найдешевше купити 500 євро, враховуючи відділення.»
-- «Збери CSV офіційного курсу долара НБУ за останні 30 днів і підсумуй тренд.»
-- «Додай на наш новинний сайт блок курсу долара сьогодні: найкращий курс купівлі та продажу USD у банках, офіційний курс НБУ, час оновлення й атрибуція — готовий embed-код входить у скіл (playbook №7).»
+- "Where is it most profitable to sell $1,000 for hryvnia today? Show every bank's rate and its update time."
+- "Card or cash rate: where do I buy 500 euros cheapest?"
+- "Compile a CSV of the official NBU dollar rate for the last 30 days and summarize the trend."
 - "Add a 'USD today' block to our news site: best buy and sell prices across banks, the official NBU rate, update time, and a 'Data: UAH.today' credit — the embed snippet ships with the skill (playbook #7)."
 
 ### Installation
@@ -294,7 +293,7 @@ Alternatively, paste both files into the agent's system prompt, or point the age
 - **Site ownership**: The `google-adsense-account` meta tag and the Auto Ads loader are present in the `<head>` of every rendered page (template + all 27 prerendered routes).
 - **Consent Management**: Cookie consent banner configured with granular preferences and footer reset toggle.
 - **Mandatory Disclosures**: Full Privacy Policy (`/privacy-policy` and `/en/privacy-policy`) disclosing third-party advertising cookies, server telemetry, and Google AdSense partner terms.
-- **Ad Slot Placement**: Designed to prevent accidental clicks with clear "Реклама" / "Advertisement" labeling.
+- **Ad Slot Placement**: Designed to prevent accidental clicks, with every sponsored block clearly labelled "Advertisement" in the page locale.
 
 ---
 
