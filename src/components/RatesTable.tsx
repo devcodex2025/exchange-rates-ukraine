@@ -37,7 +37,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
   }, [currency, query, rates, sortBy, sourceFilter]);
 
   return (
-    <Card id="rates-table" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#272727] dark:bg-[#181818]">
+    <Card id="rates-table" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#272727] dark:bg-[#181818]">
       <CardHeader className="border-b border-slate-200 p-5 dark:border-[#272727] sm:p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -81,7 +81,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
       </CardHeader>
 
       <CardContent className="p-0">
-        <div className="overflow-x-auto">
+        <div className="w-full overflow-x-auto">
           <Table className="min-w-[760px]">
             <caption className="sr-only">{copy.ratesTableTitle}</caption>
             <TableHeader className="sticky top-0 bg-slate-50 dark:bg-[#1F1F1F]">

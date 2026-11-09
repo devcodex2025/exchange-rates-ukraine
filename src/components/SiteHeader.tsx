@@ -132,10 +132,10 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
           <div
             aria-hidden="true"
             onClick={() => setMenuOpen(false)}
-            className="absolute inset-0 h-full w-full bg-white/95 backdrop-blur-xl dark:bg-[#000000]/95"
+            className="absolute inset-0 h-full w-full bg-white dark:bg-[#0A0A0A]"
           />
 
-          <div className="relative flex h-full flex-col px-6 py-4">
+          <div className="relative flex h-full flex-col overflow-y-auto px-6 py-4">
             <div className="flex h-14 items-center justify-between">
               <span className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
                 UAH<span className="text-cyan-700 dark:text-cyan-400">.today</span>

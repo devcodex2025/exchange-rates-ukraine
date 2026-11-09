@@ -223,8 +223,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <MarketInsights rates={rates} locale={locale} />
 
       {/* 5. Bank Comparison Table & Historical Chart */}
-      <section className="grid gap-6 xl:grid-cols-[1fr_340px]">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <section className="grid min-w-0 gap-6 xl:grid-cols-[1fr_340px]">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="min-w-0">
           <TabsList className="bg-slate-100 p-1 dark:bg-[#181818] dark:border dark:border-[#272727]">
             <TabsTrigger value="banks">{isEnglish ? "Banks" : "Банки"}</TabsTrigger>
             <TabsTrigger value="nbu">{copy.nbu}</TabsTrigger>
