@@ -88,7 +88,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
     <>
       {/* Hero Section per rules B5, B7 · Ridge inspired editorial layout */}
       <section id="main-content" className="relative overflow-hidden pt-4 sm:pt-6">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
+        <div aria-hidden="true" className="hero-glow absolute inset-x-0 top-0 h-full" />
+        <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
           <div className="hero-stagger max-w-[680px]">
             <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-[#ADB7BE]">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-500 animate-pulse" />

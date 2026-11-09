@@ -330,7 +330,7 @@ export default function App() {
   return (
     <Router>
       <SeoManager locale={locale} setLocale={setLocale} />
-      <div className="min-h-screen bg-white text-slate-900 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-[#121212] dark:text-slate-100">
+      <div className="min-h-screen bg-[var(--surface-primary)] text-slate-900 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-[#121212] dark:text-slate-100">
 
         {/* Skip to content — B10 Accessibility */}
         <a
@@ -391,8 +391,11 @@ export default function App() {
             </Routes>
           </RouteTransition>
 
-          {/* Full Footer with SEO Sitemap & Legal Links */}
-          <footer className="mt-16 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-[#2E2E2E] dark:text-[#ADB7BE]">
+          {/* Full Footer with SEO Sitemap & Legal Links · ui8 inspired gradient atmosphere */}
+          <footer className="footer-shell relative mt-16 overflow-hidden text-xs text-slate-500 dark:text-[#ADB7BE]">
+            <div aria-hidden="true" className="footer-hairline" />
+            <div aria-hidden="true" className="footer-glow absolute inset-x-0 top-0 h-full" />
+            <div className="relative flex flex-col gap-8 py-10">
             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
               <div>
                 <p className="text-base font-semibold text-slate-900 dark:text-white">UAH.today</p>
@@ -457,8 +460,9 @@ export default function App() {
               </div>
             </div>
 
-            <div className="border-t border-slate-200/60 pt-4 text-xs leading-5 text-slate-500 dark:border-[#2E2E2E]">
+            <div className="relative border-t border-slate-200/60 pt-4 text-xs leading-5 text-slate-500 dark:border-[#2E2E2E]">
               <p>{copy.footerNote}</p>
+            </div>
             </div>
           </footer>
         </div>

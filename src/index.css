@@ -636,3 +636,53 @@ p, li, td {
 .dark .chart-tile .recharts-cartesian-grid line {
   stroke: rgba(173, 183, 190, 0.16);
 }
+
+/* ui8 inspired gradient atmosphere: soft aurora glows + animated hairline.
+   Calm brand steel blue with a faint gold ember, stronger on dark charcoal. */
+.footer-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a9b8c4 18%, #f5c518 44%, #a9b8c4 70%, transparent);
+  background-size: 220% 100%;
+  animation: hairline-drift 9s linear infinite;
+}
+
+@keyframes hairline-drift {
+  from { background-position: 220% 0; }
+  to { background-position: -220% 0; }
+}
+
+.footer-glow {
+  background:
+    radial-gradient(55% 85% at 12% 115%, rgba(101, 128, 154, 0.13), transparent 70%),
+    radial-gradient(45% 70% at 86% 118%, rgba(245, 197, 24, 0.07), transparent 70%),
+    radial-gradient(95% 110% at 50% 145%, rgba(76, 102, 128, 0.1), transparent 76%);
+}
+
+.dark .footer-glow {
+  background:
+    radial-gradient(55% 85% at 12% 115%, rgba(101, 128, 154, 0.3), transparent 70%),
+    radial-gradient(45% 70% at 86% 118%, rgba(245, 197, 24, 0.1), transparent 70%),
+    radial-gradient(95% 110% at 50% 145%, rgba(76, 102, 128, 0.24), transparent 78%);
+}
+
+.hero-glow {
+  background:
+    radial-gradient(42% 55% at 78% 28%, rgba(101, 128, 154, 0.11), transparent 72%),
+    radial-gradient(30% 40% at 16% 12%, rgba(245, 197, 24, 0.05), transparent 70%);
+}
+
+.dark .hero-glow {
+  background:
+    radial-gradient(42% 55% at 78% 28%, rgba(101, 128, 154, 0.26), transparent 72%),
+    radial-gradient(30% 40% at 16% 12%, rgba(245, 197, 24, 0.08), transparent 70%);
+}
+
+.tagline-glow {
+  background: radial-gradient(68% 95% at 50% 48%, rgba(101, 128, 154, 0.09), transparent 72%);
+}
+
+.dark .tagline-glow {
+  background:
+    radial-gradient(68% 95% at 50% 48%, rgba(101, 128, 154, 0.2), transparent 72%),
+    radial-gradient(36% 46% at 82% 16%, rgba(245, 197, 24, 0.06), transparent 70%);
+}
