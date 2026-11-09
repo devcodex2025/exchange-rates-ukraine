@@ -12,6 +12,8 @@ Primary pages:
 - /en/currency-converter
 - /en/exchange-rates-ukraine
 - /en/best-exchange-rate-ukraine
+- /dodaty-bank (how to add a new bank source via Pull Request)
+- /en/add-bank (English version)
 
 Machine-readable data:
 - /api/rates

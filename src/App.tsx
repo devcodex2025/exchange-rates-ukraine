@@ -6,6 +6,7 @@ import { Contact } from "./pages/Contact";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { Terms } from "./pages/Terms";
 import { SkillsPage } from "./pages/SkillsPage";
+import { AddBankPage } from "./pages/AddBankPage";
 import { NotFound } from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
 import { SiteHeader } from "./components/SiteHeader";
@@ -63,6 +64,11 @@ export const routeMeta: Record<string, RouteMetaItem> = {
   "/kurs-dolara-monobank": {
     title: "Курс долара в monobank сьогодні: котирування купівлі та продажу | UAH.today",
     description: "Курс валют у monobank на сьогодні: безготівковий обмін USD, євро, злотий. Порівняння з курсами регулятора.",
+    locale: "uk",
+  },
+  "/dodaty-bank": {
+    title: "Як додати новий банк: інструкція для контриб'юторів | UAH.today",
+    description: "Покрокова інструкція як додати нове джерело курсів у UAH.today через Pull Request на GitHub: сервіс, агрегатор, константи, логотипи, перевірки.",
     locale: "uk",
   },
   "/skills": {
@@ -130,6 +136,11 @@ export const routeMeta: Record<string, RouteMetaItem> = {
   "/en/privacy-policy": {
     title: "Privacy Policy | UAH.today",
     description: "UAH.today privacy disclosures, server telemetry, cookie handling, and advertising partner compliance.",
+    locale: "en",
+  },
+  "/en/add-bank": {
+    title: "Add a New Bank: Contributor Guide | UAH.today",
+    description: "Step-by-step guide for adding a new rate source to UAH.today via a GitHub Pull Request: service, aggregator, constants, logos, checks.",
     locale: "en",
   },
   "/en/skills": {
@@ -386,6 +397,9 @@ export default function App() {
             <Route path="/skills" element={<SkillsPage locale="uk" />} />
             <Route path="/en/skills" element={<SkillsPage locale="en" />} />
 
+            <Route path="/dodaty-bank" element={<AddBankPage locale="uk" />} />
+            <Route path="/en/add-bank" element={<AddBankPage locale="en" />} />
+
             <Route path="/kontakty" element={<Contact locale="uk" />} />
             <Route path="/contact" element={<Contact locale="uk" />} />
             <Route path="/en/contact" element={<Contact locale="en" />} />
@@ -447,6 +461,7 @@ export default function App() {
                   <li><Link to="/kurs-dolara-monobank" className="transition hover:text-brand-700">Курс у monobank</Link></li>
                   <li><a href="/api/rates" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">API /rates <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                   <li><Link to={isEnglish ? "/en/skills" : "/skills"} className="transition hover:text-brand-700">{isEnglish ? "Skills for AI agents" : "Скіли для AI-агентів"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/add-bank" : "/dodaty-bank"} className="transition hover:text-brand-700">{isEnglish ? "Add your bank" : "Додати банк"}</Link></li>
                   <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">llms.txt <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                 </ul>
               </div>

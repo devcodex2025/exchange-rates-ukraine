@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Bot, Terminal, Table2, History, ShieldAlert, Blocks, Check, Copy } from "lucide-react";
+import React from "react";
+import { Bot, Terminal, Table2, History, ShieldAlert, Blocks } from "lucide-react";
 import { Locale } from "../constants";
+import { CodeBlock } from "../components/ui/code-block";
 
 interface SkillsPageProps {
   locale?: Locale;
@@ -27,35 +28,6 @@ const SAMPLE_JSON = `{
     "privat": { "status": "cached", "isStale": false, "errorMessage": null, "count": 5 }
   }
 }`;
-
-const CodeBlock: React.FC<{ code: string }> = ({ code }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(code).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      });
-    }
-  };
-
-  return (
-    <div className="group relative">
-      <pre className="overflow-x-auto rounded-xl bg-slate-950 p-4 text-[11px] leading-relaxed text-slate-100 dark:bg-black/40 dark:ring-1 dark:ring-[#2E2E2E]">
-        <code>{code}</code>
-      </pre>
-      <button
-        type="button"
-        onClick={handleCopy}
-        aria-label={copied ? "Copied" : "Copy code"}
-        className="absolute right-2 top-2 rounded-md bg-white/10 p-1.5 text-slate-300 opacity-0 transition group-hover:opacity-100 hover:bg-white/20 hover:text-white focus-visible:opacity-100 dark:bg-black/30"
-      >
-        {copied ? <Check size={13} /> : <Copy size={13} />}
-      </button>
-    </div>
-  );
-};
 
 const Capability: React.FC<{ icon: React.ReactNode; title: string; text: string }> = ({ icon, title, text }) => (
   <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">

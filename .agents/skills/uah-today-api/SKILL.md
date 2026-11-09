@@ -75,7 +75,7 @@ GET https://exchange-rates-ukraine.vercel.app/api/history?currency=USD&days=30
 Official NBU daily rates for the last `days` calendar days.
 
 - `currency` is one of `USD` `EUR` `PLN` `GBP` `CHF` (default `USD`); other values are NOT accepted — request fails.
-- `days` ∈ `7` `30` `90` (default `7`).
+- `days` is one of `7` `30` `90` (default `7`).
 - Cached 6 hours (`s-maxage=21600, stale-while-revalidate=43200`).
 
 ```jsonc
