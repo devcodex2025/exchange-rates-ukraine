@@ -91,7 +91,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               className="learn-more mt-1 flex items-center gap-3 rounded-xl border border-brand-600/20 bg-brand-600/5 p-4 text-sm font-semibold text-brand-700 transition hover:border-brand-600/40 dark:border-brand-400/20 dark:bg-brand-400/5 dark:text-brand-400"
             >
               <Megaphone size={18} className="shrink-0" />
-              <span>{isEnglish ? "Advertise on the site — apply via Telegram" : "Замовити рекламу на сайті — заявка у Telegram"}</span>
+              <span>{isEnglish ? "Advertise on the site — order form" : "Замовити рекламу на сайті — форма заявки"}</span>
               <ArrowUpRight size={14} className="learn-more-icon ml-auto shrink-0" />
             </Link>
           </div>

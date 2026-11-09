@@ -89,7 +89,7 @@ export const routeMeta: Record<string, RouteMetaItem> = {
   },
   "/reklama": {
     title: "Реклама на UAH.today: замовити розміщення, банери, брендування | UAH.today",
-    description: "Замовити рекламу на UAH.today — незалежному сервісі порівняння курсів валют у банках України. Банери, брендування конвертера, спонсорські блоки. Заявка у Telegram редакції.",
+    description: "Замовити рекламу на UAH.today — незалежному сервісі порівняння курсів валют у банках України. Банери, брендування конвертера, спонсорські блоки. Форма заявки з доставкою в редакцію.",
     locale: "uk",
   },
   "/privacy-policy": {
@@ -166,7 +166,7 @@ export const routeMeta: Record<string, RouteMetaItem> = {
   },
   "/en/advertising": {
     title: "Advertise on UAH.today: Banners, Converter Branding | UAH.today",
-    description: "Order advertising on UAH.today — Ukraine's independent currency comparison platform. Banner placements, converter branding, sponsored blocks. Apply via the Telegram chat.",
+    description: "Order advertising on UAH.today — Ukraine's independent currency comparison platform. Banner placements, converter branding, sponsored blocks. Submit the advertising request form.",
     locale: "en",
   },
   "/en/privacy-policy": {

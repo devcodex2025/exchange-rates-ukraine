@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowUpRight, BarChart3, CheckCircle2, Clock, Megaphone, Send, ShieldCheck, Users } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, BarChart3, CheckCircle2, Clock, Megaphone, Send, ShieldCheck, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Locale } from "../constants";
 
@@ -7,15 +7,14 @@ interface AdvertisePageProps {
   locale?: Locale;
 }
 
-// Editorial Telegram is the delivery channel: the form composes the request
-// locally, copies it to the clipboard and opens this chat. Nothing is sent to
-// a server endpoint and no personal email address reaches the client bundle.
-const TELEGRAM_URL = "https://t.me/lil_turtleee";
-
+// This page never shows the recipient's contact details: the composed request
+// goes to /api/contact, and the serverless layer relays it privately to the
+// editorial chat. Nothing about the destination is exposed in this bundle.
 const FIELD_CLASS =
   "h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#2E2E2E] dark:bg-[#202020]";
 const TEXTAREA_CLASS =
   "rounded-lg border border-slate-200 bg-white p-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#2E2E2E] dark:bg-[#202020]";
+const INVALID_CLASS = " border-red-400 dark:border-red-500/70";
 
 const BUDGET_OPTIONS = [
   { value: "lt5k", uk: "до 5 000 ₴", en: "under ₴5,000" },
@@ -27,61 +26,59 @@ const BUDGET_OPTIONS = [
 export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) => {
   const isEnglish = locale === "en";
 
-  const [fields, setFields] = useState({ name: "", company: "", budget: "", message: "" });
-  const [result, setResult] = useState<{ copied: boolean; opened: boolean; text: string } | null>(null);
+  const [fields, setFields] = useState({ name: "", company: "", contact: "", budget: "", message: "", website: "" });
+  const [consent, setConsent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string> | null>(null);
+  const [failure, setFailure] = useState<"validation" | "rate_limit" | "network" | "upstream" | null>(null);
 
   const setValue = (key: keyof typeof fields) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setFields((prev) => ({ ...prev, [key]: event.target.value }));
 
-  const composeMessage = () => {
-    const budget = BUDGET_OPTIONS.find((option) => option.value === fields.budget);
-    const budgetLabel = budget ? (isEnglish ? budget.en : budget.uk) : isEnglish ? "not decided yet" : "ще не визначив";
-    return [
-      isEnglish ? "Advertising request — UAH.today" : "Заявка на рекламу — UAH.today",
-      `${isEnglish ? "Name" : "Ім'я"}: ${fields.name}`,
-      `${isEnglish ? "Company" : "Компанія"}: ${fields.company || "—"}`,
-      `${isEnglish ? "Budget" : "Бюджет"}: ${budgetLabel}`,
-      "",
-      `${isEnglish ? "What to advertise" : "Що рекламувати"}: ${fields.message}`,
-    ].join("\n");
-  };
+  const errorClass = (key: string) => (fieldErrors?.[key] ? INVALID_CLASS : "");
 
-  const copyToClipboard = async (text: string): Promise<boolean> => {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch {
-      // Fallback for browsers that deny the async clipboard API.
-      try {
-        const helper = document.createElement("textarea");
-        helper.value = text;
-        helper.setAttribute("readonly", "");
-        helper.style.position = "fixed";
-        helper.style.left = "-9999px";
-        document.body.appendChild(helper);
-        helper.select();
-        const copied = document.execCommand("copy");
-        document.body.removeChild(helper);
-        return copied;
-      } catch {
-        return false;
-      }
+  const failureText = () => {
+    switch (failure) {
+      case "validation":
+        return isEnglish ? "Please check the highlighted fields and try again." : "Перевірте підсвічені поля і спробуйте ще раз.";
+      case "rate_limit":
+        return isEnglish ? "Too many requests. Please try again in about 10 minutes." : "Забагато спроб. Спробуйте приблизно за 10 хвилин.";
+      case "network":
+        return isEnglish ? "Could not reach the form endpoint. Check your connection and try again." : "Не вдалося звернутися до форми. Перевірте з'єднання і спробуйте ще раз.";
+      default:
+        return isEnglish ? "The form endpoint is temporarily unavailable. Please try again a bit later." : "Сервіс форми тимчасово недоступний. Спробуйте трохи пізніше.";
     }
   };
 
-  // window.open must run synchronously inside the submit gesture, otherwise
-  // popup blockers swallow it; the clipboard write can safely follow later.
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const text = composeMessage();
-    const opened = window.open(TELEGRAM_URL, "_blank");
-    if (opened) opened.opener = null;
-    copyToClipboard(text).then((copied) => setResult({ copied, opened: opened !== null, text }));
-  };
-
-  const reset = () => {
-    setFields({ name: "", company: "", budget: "", message: "" });
-    setResult(null);
+    setStatus("loading");
+    setFieldErrors(null);
+    setFailure(null);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...fields, consent, locale }),
+      });
+      const payload = (await response.json().catch(() => null)) as { ok?: boolean; error?: string; fields?: Record<string, string> } | null;
+      if (response.ok && payload?.ok) {
+        setStatus("success");
+        return;
+      }
+      if (response.status === 400) {
+        setFieldErrors(payload?.fields ?? {});
+        setFailure("validation");
+      } else if (response.status === 429) {
+        setFailure("rate_limit");
+      } else {
+        setFailure("upstream");
+      }
+      setStatus("error");
+    } catch {
+      setFailure("network");
+      setStatus("error");
+    }
   };
 
   const places = [
@@ -157,84 +154,70 @@ export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) =
             </div>
           </div>
 
-          {/* Request form → Telegram */}
+          {/* Order form */}
           <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-5 dark:border-[#2E2E2E] dark:bg-[#121212]/50">
-            {result ? (
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col items-center text-center">
-                  <CheckCircle2 size={40} className="text-emerald-500" />
-                  <h3 className="mt-3 text-lg font-semibold text-slate-950 dark:text-white">
-                    {isEnglish ? "Almost there — paste the request in Telegram" : "Майже готово — вставте заявку в Telegram"}
-                  </h3>
-                  <p className="mt-1 max-w-xs text-xs text-slate-500 dark:text-[#ADB7BE]">
-                    {result.opened && result.copied
-                      ? isEnglish
-                        ? "A new tab with the editorial Telegram chat just opened, and the request text is in your clipboard. Paste it (Ctrl+V) and send."
-                        : "Нова вкладка з чатом редакції у Telegram щойно відкрилась, текст заявки скопійовано. Вставте його в чат (Ctrl+V) і надішліть."
-                      : result.opened
-                        ? isEnglish
-                          ? "The Telegram chat opened in a new tab. Copy the request text below and paste it into the chat."
-                          : "Чат Telegram відкрився у новій вкладці. Скопіюйте текст заявки нижче та вставте його в чат."
-                        : result.copied
-                          ? isEnglish
-                            ? "The chat could not open automatically (pop-up blockers do that). The request text is copied — open the chat with the button below."
-                            : "Автоматично відкрити чат не вдалося (так роблять блокувальники поп-апів). Текст заявки скопійовано — відкрийте чат кнопкою нижче."
-                          : isEnglish
-                            ? "Below is the composed request text. Copy it manually and open the chat with the button below."
-                            : "Нижче — текст заявки. Скопіюйте його вручну та відкрийте чат кнопкою нижче."}
-                  </p>
-                </div>
-
-                {!result.copied && (
-                  <textarea
-                    readOnly
-                    rows={7}
-                    value={result.text}
-                    onFocus={(event) => event.currentTarget.select()}
-                    className={TEXTAREA_CLASS + " font-mono text-xs"}
-                  />
-                )}
-
-                <a
-                  href={TELEGRAM_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
-                >
-                  <Send size={14} />
-                  {isEnglish ? "Open the Telegram chat" : "Відкрити чат Telegram"}
-                </a>
-
+            {status === "success" ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <CheckCircle2 size={40} className="text-emerald-500" />
+                <h3 className="mt-3 text-lg font-semibold text-slate-950 dark:text-white">
+                  {isEnglish ? "Request sent" : "Заявку надіслано"}
+                </h3>
+                <p className="mt-1 max-w-xs text-xs text-slate-500 dark:text-[#ADB7BE]">
+                  {isEnglish
+                    ? "Thank you. Your advertising request has reached the editorial team — expect a reply at the contact you provided within one business day."
+                    : "Дякуємо. Заявка вже у редакції — відповідь надійде за контактом, який ви вказали, протягом робочого дня."}
+                </p>
                 <button
                   type="button"
-                  onClick={reset}
-                  className="learn-more inline-flex items-center justify-center gap-1 text-xs font-semibold text-brand-700 hover:underline dark:text-brand-400"
+                  onClick={() => {
+                    setFields({ name: "", company: "", contact: "", budget: "", message: "", website: "" });
+                    setConsent(false);
+                    setStatus("idle");
+                  }}
+                  className="learn-more mt-4 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:underline dark:text-brand-400"
                 >
                   {isEnglish ? "Fill in a new request" : "Заповнити нову заявку"}
                   <ArrowUpRight className="learn-more-icon" size={12} />
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <form onSubmit={handleSubmit} className="relative flex flex-col gap-4">
                 <h3 className="text-base font-semibold text-slate-950 dark:text-white">
                   {isEnglish ? "Request advertising placement" : "Замовити рекламу"}
                 </h3>
 
+                {status === "error" && (
+                  <div role="alert" className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
+                    <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+                    <span>{failureText()}</span>
+                  </div>
+                )}
+
+                {/* Honeypot: hidden from humans, filled by bots; server drops such submissions */}
+                <div aria-hidden="true" className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+                  <input type="text" name="website" tabIndex={-1} autoComplete="off" value={fields.website} onChange={setValue("website")} />
+                </div>
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                     <span>{isEnglish ? "Your name *" : "Ваше ім'я *"}</span>
-                    <input required type="text" value={fields.name} onChange={setValue("name")} className={FIELD_CLASS} />
+                    <input required type="text" value={fields.name} onChange={setValue("name")} className={FIELD_CLASS + errorClass("name")} />
                   </label>
 
                   <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                     <span>{isEnglish ? "Company / project" : "Компанія / проєкт"}</span>
-                    <input type="text" value={fields.company} onChange={setValue("company")} className={FIELD_CLASS} />
+                    <input type="text" value={fields.company} onChange={setValue("company")} className={FIELD_CLASS + errorClass("company")} />
                   </label>
                 </div>
 
                 <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
+                  <span>{isEnglish ? "Telegram, Viber, phone or email for a reply *" : "Telegram, Viber, телефон або email для відповіді *"}</span>
+                  <input required type="text" value={fields.contact} onChange={setValue("contact")} className={FIELD_CLASS + errorClass("contact")} />
+                </label>
+
+                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                   <span>{isEnglish ? "Budget" : "Орієнтовний бюджет"}</span>
-                  <select value={fields.budget} onChange={setValue("budget")} className={FIELD_CLASS}>
+                  <select value={fields.budget} onChange={setValue("budget")} className={FIELD_CLASS + errorClass("budget")}>
                     <option value="">{isEnglish ? "Not decided yet" : "Ще не визначив"}</option>
                     {BUDGET_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -252,27 +235,35 @@ export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) =
                     rows={4}
                     value={fields.message}
                     onChange={setValue("message")}
-                    className={TEXTAREA_CLASS}
+                    className={TEXTAREA_CLASS + errorClass("message")}
                   />
                 </label>
 
-                <p className="text-[11px] leading-4 text-slate-400 dark:text-[#7b868d]">
-                  {isEnglish
-                    ? "Nothing is sent to the site server: the request text is composed in your browser, copied to the clipboard, and you paste it into the editorial Telegram chat @lil_turtleee. Further data handling follows the "
-                    : "Нічого не надсилається на сервер сайту: текст заявки формується у вашому браузері, копіюється в буфер обміну, і ви вставляєте його в чат Telegram редакції @lil_turtleee. Подальшу обробку даних описує "}
-                  <Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="font-semibold text-brand-700 hover:underline dark:text-brand-400">
-                    {isEnglish ? "Privacy Policy" : "Політика конфіденційності"}
-                  </Link>
-                  .
-                </p>
+                <label className="flex items-start gap-2.5 text-xs font-normal text-slate-600 dark:text-[#ADB7BE]">
+                  <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} className="mt-0.5 h-4 w-4 accent-brand-700 dark:accent-brand-400" />
+                  <span>
+                    {isEnglish ? "I agree that my name, contacts and message will be processed to answer this request, per the " : "Погоджуюсь на обробку імені, контактів і повідомлення для відповіді на заявку, згідно з "}
+                    <Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="font-semibold text-brand-700 hover:underline dark:text-brand-400">
+                      {isEnglish ? "Privacy Policy" : "Політикою конфіденційності"}
+                    </Link>
+                    . *
+                  </span>
+                </label>
 
                 <button
                   type="submit"
-                  className="mt-1 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+                  disabled={status === "loading"}
+                  className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white transition hover:bg-slate-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
                 >
                   <Send size={14} />
-                  {isEnglish ? "Continue in Telegram" : "Продовжити в Telegram"}
+                  {status === "loading" ? (isEnglish ? "Sending…" : "Надсилаємо…") : isEnglish ? "Send request" : "Надіслати заявку"}
                 </button>
+
+                <p className="text-[11px] leading-4 text-slate-400 dark:text-[#7b868d]">
+                  {isEnglish
+                    ? "The request is delivered to the editorial team over the server — recipients and delivery details are never shown on the page or in the browser bundle."
+                    : "Заявка доставляється редакції через сервер — адреси та деталі доставки не публікуються на сторінці й у браузерному бандлі."}
+                </p>
               </form>
             )}
           </div>
