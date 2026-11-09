@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ArrowDownUp, Search } from "lucide-react";
 import { CURRENCY_CODES, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
-import { bankLogos, formatDateTime, formatRate, getBestRates, NormalizedRate } from "../lib/rates";
+import { bankLogos, formatDateTime, getBestRates, NormalizedRate } from "../lib/rates";
+import { PopNumber } from "./ui/pop-number";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
@@ -107,9 +108,9 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
                     </span>
                   </TableCell>
                   <TableCell className="font-mono text-xs font-semibold">{rate.code}/UAH</TableCell>
-                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums">{formatRate(rate.buy)}</TableCell>
-                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums">{formatRate(rate.sell)}</TableCell>
-                  <TableCell className="text-right font-mono text-xs tabular-nums text-slate-500">{formatRate(rate.nbu)}</TableCell>
+                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums"><PopNumber value={rate.buy} /></TableCell>
+                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums"><PopNumber value={rate.sell} /></TableCell>
+                  <TableCell className="text-right font-mono text-xs tabular-nums text-slate-500"><PopNumber value={rate.nbu} /></TableCell>
                   <TableCell>
                     {rate.bankId === bestBuy?.bankId ? (
                       <Badge variant="outline" className="gap-1.5 border-emerald-500/40 text-xs font-semibold text-emerald-700 dark:text-emerald-400">

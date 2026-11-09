@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Activity, Info } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
-import { formatRate, getMarketInsights, NormalizedRate } from "../lib/rates";
+import { getMarketInsights, NormalizedRate } from "../lib/rates";
+import { PopNumber } from "./ui/pop-number";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 
 interface MarketInsightsProps {
@@ -67,7 +68,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
             </span>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="font-mono text-2xl font-semibold text-slate-950 dark:text-white">
-                {formatRate(insights.nbuRate)}
+                <PopNumber value={insights.nbuRate} />
               </span>
               <span className="font-mono text-xs text-slate-400">UAH</span>
             </div>
@@ -98,9 +99,9 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
               {isEnglish ? "Bank buy range" : "Діапазон купівлі банків"}
             </span>
             <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
-              <span>{formatRate(insights.worstBuyRate)}</span>
+              <span><PopNumber value={insights.worstBuyRate} /></span>
               <span className="font-normal text-slate-400">...</span>
-              <span>{formatRate(insights.bestBuyRate)}</span>
+              <span><PopNumber value={insights.bestBuyRate} /></span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
               {isEnglish
@@ -115,9 +116,9 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
               {isEnglish ? "Bank sell range" : "Діапазон продажу банків"}
             </span>
             <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
-              <span>{formatRate(insights.bestSellRate)}</span>
+              <span><PopNumber value={insights.bestSellRate} /></span>
               <span className="font-normal text-slate-400">...</span>
-              <span>{formatRate(insights.worstSellRate)}</span>
+              <span><PopNumber value={insights.worstSellRate} /></span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
               {isEnglish

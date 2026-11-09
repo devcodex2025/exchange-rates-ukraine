@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowDown, ArrowUp, Minus, TrendingUp } from "lucide-react";
 import { BANKS, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
 import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
-import { SubtleNumber } from "./ui/subtle-number";
+import { PopNumber } from "./ui/pop-number";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
@@ -52,7 +52,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               <ArrowUp size={11} /> {copy.buy}
             </dt>
             <dd className="mt-1 font-mono text-lg font-semibold tabular-nums text-slate-950 dark:text-white">
-              <SubtleNumber value={bestBuy?.buy} />
+              <PopNumber value={bestBuy?.buy} />
             </dd>
             <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]">
               {bestBuy?.bankName || copy.noData}
@@ -64,7 +64,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               <ArrowDown size={11} /> {copy.sell}
             </dt>
             <dd className="mt-1 font-mono text-lg font-semibold tabular-nums text-slate-950 dark:text-white">
-              <SubtleNumber value={bestSell?.sell} />
+              <PopNumber value={bestSell?.sell} />
             </dd>
             <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]">
               {bestSell?.bankName || copy.noData}
@@ -75,7 +75,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
 
       <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#2E2E2E]">
         <span className="font-mono text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
-          {copy.nbu} <SubtleNumber value={nbu} />
+          {copy.nbu} <PopNumber value={nbu} />
         </span>
         {bestSell || bestBuy ? (
           <Badge variant="outline" className="gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400">

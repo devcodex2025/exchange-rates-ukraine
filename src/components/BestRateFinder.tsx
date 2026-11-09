@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ArrowDownLeft, ArrowUpRight, Sparkles, Landmark } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
-import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
-import { SubtleNumber } from "./ui/subtle-number";
+import { getBestRates, NormalizedRate } from "../lib/rates";
+import { PopNumber } from "./ui/pop-number";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Badge } from "./ui/badge";
 
@@ -87,7 +87,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
 
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
-                  <SubtleNumber value={bestSell?.sell} />
+                  <PopNumber value={bestSell?.sell} />
                 </span>
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
@@ -138,7 +138,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
 
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
-                  <SubtleNumber value={bestBuy?.buy} />
+                  <PopNumber value={bestBuy?.buy} />
                 </span>
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
@@ -180,7 +180,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <span>
               {isEnglish ? "Official NBU reference:" : "Офіційний курс НБУ:"}{" "}
               <strong className="font-mono font-semibold text-slate-700 dark:text-slate-200">
-                {formatRate(nbuRate)} UAH
+                <PopNumber value={nbuRate} /> UAH
               </strong>
             </span>
             <a
