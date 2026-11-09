@@ -720,13 +720,13 @@ p, li, td {
 
 .footer-glow::before {
   inset: -25% -40%;
-  background: radial-gradient(45% 60% at 50% 105%, rgba(101, 128, 154, 0.14), transparent 68%);
+  background: radial-gradient(45% 60% at 50% 105%, rgba(101, 128, 154, 0.18), transparent 68%);
   animation: footer-sheen 24s ease-in-out infinite alternate;
 }
 
 .footer-glow::after {
   inset: -20% -30%;
-  background: radial-gradient(28% 38% at 72% 115%, rgba(245, 197, 24, 0.09), transparent 70%);
+  background: radial-gradient(28% 38% at 72% 115%, rgba(245, 197, 24, 0.11), transparent 70%);
   animation: footer-ember 30s ease-in-out infinite alternate;
 }
 
@@ -777,6 +777,32 @@ p, li, td {
   }
 }
 
+/* Living light over the hero and the tagline, light theme included: the
+   same steel sheen / gold ember pair as the footer, tuned per theme.
+   Keyframes and staggered durations are shared with the footer so the
+   page's light de-phases organically. */
+.hero-glow::before,
+.hero-glow::after,
+.tagline-glow::before,
+.tagline-glow::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero-glow::before {
+  inset: -30% -40%;
+  background: radial-gradient(42% 55% at 30% 24%, rgba(101, 128, 154, 0.1), transparent 68%);
+  animation: footer-sheen 26s ease-in-out infinite alternate;
+}
+
+.hero-glow::after {
+  inset: -26% -34%;
+  background: radial-gradient(26% 36% at 76% 30%, rgba(245, 197, 24, 0.06), transparent 70%);
+  animation: footer-ember 32s ease-in-out infinite alternate;
+}
+
 .hero-glow {
   background:
     radial-gradient(42% 55% at 78% 28%, rgba(101, 128, 154, 0.11), transparent 72%),
@@ -787,6 +813,34 @@ p, li, td {
   background:
     radial-gradient(42% 55% at 78% 28%, rgba(101, 128, 154, 0.26), transparent 72%),
     radial-gradient(30% 40% at 16% 12%, rgba(245, 197, 24, 0.08), transparent 70%);
+}
+
+.tagline-glow::before {
+  inset: -34% -40%;
+  background: radial-gradient(44% 52% at 34% 28%, rgba(101, 128, 154, 0.08), transparent 68%);
+  animation: footer-sheen 28s ease-in-out infinite alternate;
+}
+
+.tagline-glow::after {
+  inset: -28% -32%;
+  background: radial-gradient(24% 34% at 70% 26%, rgba(245, 197, 24, 0.05), transparent 70%);
+  animation: footer-ember 36s ease-in-out infinite alternate;
+}
+
+.dark .hero-glow::before {
+  background: radial-gradient(42% 55% at 30% 24%, rgba(101, 128, 154, 0.22), transparent 68%);
+}
+
+.dark .hero-glow::after {
+  background: radial-gradient(26% 36% at 76% 30%, rgba(245, 197, 24, 0.1), transparent 70%);
+}
+
+.dark .tagline-glow::before {
+  background: radial-gradient(44% 52% at 34% 28%, rgba(101, 128, 154, 0.2), transparent 68%);
+}
+
+.dark .tagline-glow::after {
+  background: radial-gradient(24% 34% at 70% 26%, rgba(245, 197, 24, 0.09), transparent 70%);
 }
 
 .tagline-glow {
