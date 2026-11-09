@@ -7,6 +7,12 @@ import { BankLogo } from "./ui/bank-logo";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
+// Full bank names ("Oschadbank", "Raiffeisen Bank") overflow the buy/sell cells
+// of the 230px-wide cards in the lg 5-col grid; shortNames are cell-safe.
+const SHORT_BY_BANK_ID: Record<string, string> = Object.fromEntries(
+  BANKS.map((bank) => [bank.id, bank.shortName] as [string, string]),
+);
+
 interface CurrencyCardProps {
   code: string;
   rates: NormalizedRate[];
@@ -24,29 +30,29 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
 
   return (
     <Card className="rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_-6px_rgba(15,23,42,0.12)] active:scale-[0.99] dark:border-[#2E2E2E] dark:bg-[#202020]">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-2.5">
+      <CardHeader className="px-4 pb-2.5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
             <span
               aria-hidden="true"
               className="grid h-9 w-9 place-items-center rounded-[10px] border border-slate-200/80 bg-slate-50 font-mono text-sm font-semibold text-slate-700 dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-slate-200"
             >
               {currency?.symbol || code}
             </span>
-            <div>
+            <div className="min-w-0">
               <CardTitle className="title-3 text-slate-950 dark:text-white">{code}</CardTitle>
               <p className="text-xs text-slate-500 dark:text-[#ADB7BE]">{currency?.[locale] || code}</p>
             </div>
           </div>
           {bank?.logo ? (
-            <BankLogo src={bank.logo} alt={bank.name} className="h-7 max-w-16 object-contain" />
+            <BankLogo src={bank.logo} alt={bank.name} className="h-6 max-w-14 shrink-0 object-contain sm:h-7 sm:max-w-16" />
           ) : (
             <TrendingUp className="text-brand-600 dark:text-brand-300" size={18} />
           )}
         </div>
       </CardHeader>
 
-      <CardContent className="pt-0">
+      <CardContent className="px-4 pt-0">
         <dl className="grid grid-cols-2 overflow-hidden rounded-xl border border-slate-200/80 dark:border-[#2E2E2E]">
           <div className="col-span-1 border-r border-slate-200/80 bg-slate-50/70 p-3 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]/60">
             <dt className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
@@ -55,8 +61,11 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
             <dd className="mt-1 font-mono text-lg font-semibold tabular-nums text-slate-950 dark:text-white">
               <PopNumber value={bestBuy?.buy} />
             </dd>
-            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]">
-              {bestBuy?.bankName || copy.noData}
+            <p
+              className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]"
+              title={bestBuy?.bankName ?? undefined}
+            >
+              {(bestBuy && (SHORT_BY_BANK_ID[bestBuy.bankId] ?? bestBuy.bankName)) || copy.noData}
             </p>
           </div>
 
@@ -67,15 +76,18 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
             <dd className="mt-1 font-mono text-lg font-semibold tabular-nums text-slate-950 dark:text-white">
               <PopNumber value={bestSell?.sell} />
             </dd>
-            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]">
-              {bestSell?.bankName || copy.noData}
+            <p
+              className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-[#ADB7BE]"
+              title={bestSell?.bankName ?? undefined}
+            >
+              {(bestSell && (SHORT_BY_BANK_ID[bestSell.bankId] ?? bestSell.bankName)) || copy.noData}
             </p>
           </div>
         </dl>
       </CardContent>
 
-      <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#2E2E2E]">
-        <span className="font-mono text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
+      <CardFooter className="flex-wrap justify-between gap-x-2 gap-y-1 border-t border-slate-100 px-4 pb-3 pt-2.5 text-xs dark:border-[#2E2E2E]">
+        <span className="min-w-0 truncate font-mono text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
           {copy.nbu} <PopNumber value={nbu} />
         </span>
         {bestSell || bestBuy ? (
