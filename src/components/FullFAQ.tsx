@@ -8,17 +8,19 @@ interface FullFAQProps {
 
 export const FullFAQ: React.FC<FullFAQProps> = ({ locale }) => {
   const [openIndex, setOpenIndex] = useState(0);
+  const isEnglish = locale === "en";
   const faq = locale === "en" ? FAQ_EN : FAQ_UK;
   const copy = UI_COPY[locale];
 
   return (
-    <section id="faq" className="t-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
+    <section id="faq" className="t-reveal rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] dark:border-[#313131] dark:bg-[#1F1F1F] sm:p-7">
       <div className="flex items-center gap-3">
-        <div className="rounded-lg bg-brand-50 p-2 text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-[10px] border border-slate-200/80 bg-slate-50 text-brand-600 dark:border-[#313131] dark:bg-[#272727] dark:text-brand-300">
           <HelpCircle size={20} />
         </div>
         <div>
-          <h2 className="text-xl font-black text-slate-950 dark:text-white">
+          <p className="eyebrow">{isEnglish ? "Answers" : "Питання та відповіді"}</p>
+          <h2 className="mt-1 text-xl font-semibold text-slate-950 dark:text-white">
             {copy.faqTitle}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-300">

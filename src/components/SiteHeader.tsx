@@ -84,7 +84,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
         <div className="flex items-center gap-2">
           <Link
             to={isEnglish ? "/" : "/en"}
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
           >
             <Globe2 size={14} />
             <span>{isEnglish ? "UA" : "EN"}</span>
@@ -103,7 +103,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
             }
             aria-pressed={darkMode}
             onClick={() => setDarkMode(!darkMode)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
           >
             <span className="t-icon-swap" data-state={darkMode ? "b" : "a"} aria-hidden="true">
               <Sun className="t-icon" data-icon="b" size={16} />
@@ -116,7 +116,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131] md:hidden"
           >
             <Menu size={18} />
           </button>
@@ -146,7 +146,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
                 type="button"
                 aria-label={isEnglish ? "Close menu" : "Закрити меню"}
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300"
               >
                 <X size={18} />
               </button>

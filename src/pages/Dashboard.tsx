@@ -13,7 +13,7 @@ import { RatesSkeleton } from "../components/RatesSkeleton";
 import { Toast } from "../components/ui/toast";
 import { useScrollReveal } from "../lib/useScrollReveal";
 import { AdSlot } from "../components/AdSlot";
-import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
+import { CURRENCY_CODES, BANKS, Locale, UI_COPY } from "../constants";
 import { formatDateTime, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
 import { Badge } from "../components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
@@ -86,17 +86,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <>
-      {/* Hero Section per rules B5, B7 and Praveen Kumar style */}
-      <section id="main-content" className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] sm:p-10 lg:p-12">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      {/* Hero Section per rules B5, B7 · Ridge inspired editorial layout */}
+      <section id="main-content" className="relative overflow-hidden pt-4 sm:pt-6">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
           <div className="hero-stagger max-w-[680px]">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-500/20 bg-brand-50/60 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/30 dark:bg-brand-950/40 dark:text-brand-400">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-500 animate-pulse" />
               {copy.eyebrow}
             </span>
 
             {/* Heading text gradient per B5 */}
-            <h1 className="hero-gradient-text mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl sm:leading-tight">
+            <h1 className="hero-gradient-text mt-5 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl sm:leading-tight sm:tracking-tighter">
               {isEnglish ? (
                 <>
                   Find the Best Exchange Rate <br className="hidden sm:inline" />
@@ -110,7 +110,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               )}
             </h1>
 
-            <p className="mt-4 max-w-[640px] text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
+            <p className="mt-5 max-w-[640px] text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
               {copy.heroSubtitle}
             </p>
 
@@ -131,8 +131,38 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </a>
             </div>
 
+            {/* Editorial stats row, Ridge style: real numbers from the data layer */}
+            <dl className="mt-10 flex items-stretch overflow-hidden border-y border-slate-200/80 dark:border-[#313131]">
+              <div className="flex-1 py-4 pr-4">
+                <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
+                  {BANKS.length}
+                </dd>
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                  {isEnglish ? "banks & the NBU tracked" : "банків та НБУ на моніторингу"}
+                </dt>
+              </div>
+              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#313131]" />
+              <div className="flex-1 px-4 py-4">
+                <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
+                  {CURRENCY_CODES.length}
+                </dd>
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                  {isEnglish ? "currencies compared" : "валюти у порівнянні"}
+                </dt>
+              </div>
+              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#313131]" />
+              <div className="flex-1 py-4 pl-4">
+                <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
+                  {isEnglish ? "24/7" : "24/7"}
+                </dd>
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                  {isEnglish ? "rates kept up to date" : "курси завжди актуальні"}
+                </dt>
+              </div>
+            </dl>
+
             {/* Quick telemetry footer */}
-            <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-5 text-xs text-slate-500 dark:border-[#313131] dark:text-slate-300">
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-300">
               <div className="flex items-center gap-2">
                 <span>{copy.lastUpdate}:</span>
                 <strong className="font-mono font-semibold text-slate-800 dark:text-slate-200">
@@ -143,7 +173,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 type="button"
                 disabled={loading}
                 onClick={fetchData}
-                className="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline active:scale-[0.98] disabled:opacity-50 dark:text-brand-400"
+                className="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline active:scale-[0.98] disabled:opacity-50 dark:text-brand-300"
               >
                 <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
                 <span>{copy.refresh}</span>
@@ -151,9 +181,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
           </div>
 
-          {/* 3D Fintech Art Canvas */}
+          {/* Hero art in a calm framed tile */}
           <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-2xl dark:border-[#313131]">
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 shadow-[0_24px_48px_-24px_rgba(15,23,42,0.25)] dark:border-[#313131]">
               <img
                 src="/illustrations/hero-3d-fintech.jpg"
                 srcSet="/illustrations/hero-3d-fintech-832.jpg 832w, /illustrations/hero-3d-fintech.jpg 1664w"

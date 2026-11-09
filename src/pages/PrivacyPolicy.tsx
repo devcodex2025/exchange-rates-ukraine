@@ -17,7 +17,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
             <Shield size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Privacy Policy" : "Політика конфіденційності"}
             </h1>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -29,7 +29,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
         <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300">
           {/* Section 1: Intro */}
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Eye size={18} className="text-brand-700" />
               {isEnglish ? "1. General Information & Scope" : "1. Загальні положення та сфера дії"}
             </h2>
@@ -42,7 +42,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
           {/* Section 2: Server Logs */}
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <ShieldCheck size={18} className="text-brand-700" />
               {isEnglish ? "2. Server Logs and Technical Information" : "2. Серверні логи та технічні дані"}
             </h2>
@@ -55,7 +55,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
           {/* Section 3: Cookies & Storage */}
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Cookie size={18} className="text-brand-700" />
               {isEnglish ? "3. Cookies and Local Browser Storage" : "3. Файли cookie та локальне сховище"}
             </h2>
@@ -68,7 +68,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
           {/* Section 4: Google AdSense and Third-Party Advertising */}
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Lock size={18} className="text-brand-700" />
               {isEnglish ? "4. Google AdSense & Third-Party Advertising Vendors" : "4. Google AdSense та реклама сторонніх постачальників"}
             </h2>
@@ -86,7 +86,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
           {/* Section 5: User Rights */}
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Shield size={18} className="text-brand-700" />
               {isEnglish ? "5. Your Rights as a Data Subject" : "5. Права користувачів"}
             </h2>
@@ -99,7 +99,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
           {/* Section 6: Contacts */}
           <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Mail size={18} className="text-brand-700" />
               {isEnglish ? "6. Privacy Inquiries and Contact" : "6. Контактна інформація з питань конфіденційності"}
             </h2>

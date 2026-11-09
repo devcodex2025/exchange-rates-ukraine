@@ -51,7 +51,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
           <Cookie size={22} />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-black text-slate-950 dark:text-white">
+          <h3 className="text-sm font-semibold text-slate-950 dark:text-white">
             {copy.cookieConsentTitle}
           </h3>
           <p className="mt-1 text-xs leading-5 text-slate-600 dark:text-slate-300">
@@ -68,7 +68,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
             <button
               type="button"
               onClick={handleAccept}
-              className="rounded-lg bg-slate-950 px-3.5 py-1.5 text-xs font-black text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+              className="rounded-lg bg-slate-950 px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
             >
               {copy.cookieAccept}
             </button>

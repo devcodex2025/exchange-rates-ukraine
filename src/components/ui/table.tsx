@@ -18,9 +18,9 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({ 
 );
 
 export const TableHead: React.FC<React.ThHTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (
-  <th className={cn("h-11 px-4 text-left align-middle text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-300", className)} {...props} />
+  <th className={cn("h-11 px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400", className)} {...props} />
 );
 
 export const TableCell: React.FC<React.TdHTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (
-  <td className={cn("px-4 py-4 align-middle", className)} {...props} />
+  <td className={cn("px-4 py-3.5 align-middle", className)} {...props} />
 );

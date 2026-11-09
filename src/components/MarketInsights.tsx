@@ -21,11 +21,12 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-blue-50 text-blue-600 dark:border-[#313131] dark:bg-[#272727] dark:text-blue-400">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-brand-50 text-brand-600 dark:border-[#313131] dark:bg-[#272727] dark:text-brand-300">
               <BarChart3 size={20} />
             </div>
             <div>
-              <CardTitle className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+              <p className="eyebrow">{isEnglish ? "Market pulse" : "Пульс ринку"}</p>
+              <CardTitle className="mt-1 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.insightsTitle}
               </CardTitle>
               <CardDescription className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -43,7 +44,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
                   role="tab"
                   aria-selected={active}
                   onClick={() => setSelectedCurrency(code)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
                       : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#313131] dark:text-slate-300 dark:hover:bg-[#313131]"

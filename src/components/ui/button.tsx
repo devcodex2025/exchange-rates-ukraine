@@ -15,7 +15,7 @@ export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { 
   ...props
 }) => (
   <button
-    className={cn("inline-flex h-11 items-center justify-center gap-2 rounded-lg px-4 text-sm font-black transition active:scale-[0.98] disabled:opacity-60", variants[variant], className)}
+    className={cn("inline-flex h-11 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-60", variants[variant], className)}
     {...props}
   />
 );

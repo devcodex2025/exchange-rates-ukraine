@@ -18,7 +18,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
             <BookOpen size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-slate-950 dark:text-white sm:text-2xl">
+            <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
               {isEnglish ? "Complete Guide: How to Exchange USD in Ukraine" : "Повний гід: Як вигідно обміняти долар в Україні"}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -79,11 +79,11 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
     return (
       <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#313131] dark:bg-[#1F1F1F] md:p-8">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#313131]">
-          <div className="rounded-xl bg-blue-600/10 p-2.5 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+          <div className="rounded-xl bg-blue-600/10 p-2.5 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
             <BookOpen size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-slate-950 dark:text-white sm:text-2xl">
+            <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
               {isEnglish ? "EUR to UAH Exchange Guide" : "Особливості курсу євро до гривні в Україні"}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -126,7 +126,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
           <BookOpen size={20} />
         </div>
         <div>
-          <h2 className="text-xl font-black text-slate-950 dark:text-white sm:text-2xl">
+          <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
             {isEnglish ? "Currency Market Knowledge & FAQ" : "Як працює валютний ринок України: База знань"}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -137,7 +137,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
       <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300 md:grid-cols-3">
         <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-          <div className="flex items-center gap-2 font-black text-slate-900 dark:text-white">
+          <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
             <CheckCircle size={18} className="text-emerald-700 dark:text-emerald-400" />
             <span>{isEnglish ? "NBU vs Commercial" : "НБУ проти банків"}</span>
           </div>
@@ -149,7 +149,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
         </div>
 
         <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-          <div className="flex items-center gap-2 font-black text-slate-900 dark:text-white">
+          <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
             <CheckCircle size={18} className="text-brand-700 dark:text-brand-400" />
             <span>{isEnglish ? "Why Spreads Differ" : "Чому спред різний"}</span>
           </div>
@@ -161,8 +161,8 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
         </div>
 
         <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-          <div className="flex items-center gap-2 font-black text-slate-900 dark:text-white">
-            <CheckCircle size={18} className="text-blue-600 dark:text-blue-400" />
+          <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
+            <CheckCircle size={18} className="text-brand-600 dark:text-brand-300" />
             <span>{isEnglish ? "Data Transparency" : "Прозорість даних"}</span>
           </div>
           <p className="mt-2 text-xs leading-6">

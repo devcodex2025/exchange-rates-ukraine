@@ -49,7 +49,8 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+            <p className="eyebrow">{isEnglish ? "Calculator" : "Калькулятор"}</p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
               {isEnglish ? "Smart Currency Converter" : "Розумний конвертер валют"}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -61,7 +62,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
         <div className="flex flex-wrap gap-1.5">
           {quickAmounts.map((value) => (
             <button
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
+              className="rounded-full border border-slate-200 bg-transparent px-3.5 py-1.5 font-mono text-xs font-semibold text-slate-700 transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-transparent dark:text-slate-300 dark:hover:bg-[#272727]"
               key={value}
               onClick={() => setAmount(value)}
               type="button"
@@ -70,7 +71,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
             </button>
           ))}
           <button
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-brand-500 hover:text-brand-700 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300"
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-transparent px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-brand-400 hover:text-brand-600 active:scale-[0.98] dark:border-[#313131] dark:bg-transparent dark:text-slate-300 dark:hover:border-brand-500 dark:hover:text-brand-300"
             onClick={() => {
               setFrom(to);
               setTo(from);
@@ -88,7 +89,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
             {isEnglish ? "Amount" : "Сума"}
           </span>
           <input
-            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 font-mono text-lg font-semibold text-slate-900 outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+            className="h-12 rounded-xl border border-slate-200 bg-white px-4 font-mono text-lg font-semibold tabular-nums text-slate-900 outline-none transition focus:border-brand-400 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
             min="0"
             type="number"
             value={amount}
@@ -103,7 +104,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
           </span>
           <select
             aria-label={isEnglish ? "From currency" : "Валюта з якої конвертуємо"}
-            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none outline-none transition focus:border-brand-400 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
             value={from}
             onChange={(event) => updateFrom(event.target.value)}
           >
@@ -122,7 +123,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
           </span>
           <select
             aria-label={isEnglish ? "To currency" : "Валюта у яку конвертуємо"}
-            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none outline-none transition focus:border-brand-400 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
             value={to}
             onChange={(event) => updateTo(event.target.value)}
           >
@@ -141,7 +142,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
           </span>
           <select
             aria-label={isEnglish ? "Bank" : "Банк"}
-            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+            className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-3 font-semibold text-slate-900 outline-none outline-none transition focus:border-brand-400 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
             value={bank}
             onChange={(event) => setBank(event.target.value)}
           >
@@ -161,7 +162,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-400">
             {isEnglish ? "Estimated Total" : "Розрахунковий результат"}
           </p>
-          <p className="mt-1 font-mono text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
+          <p className="mt-1 font-mono text-3xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-4xl">
             {conversion.result === null
               ? "—"
               : conversion.result.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 })}{" "}

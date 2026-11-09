@@ -41,7 +41,8 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
       <CardHeader className="border-b border-slate-200 p-5 dark:border-[#313131] sm:p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <CardTitle className="text-xl font-semibold tracking-tight">{title || copy.ratesTableTitle}</CardTitle>
+            <p className="eyebrow">{isEnglish ? "Rate board" : "Котирування"}</p>
+            <CardTitle className="mt-1 text-xl font-semibold tracking-tight">{title || copy.ratesTableTitle}</CardTitle>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
               {copy.ratesTableSubtitle}
             </p>
@@ -49,16 +50,16 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
 
           <div className="grid gap-2.5 sm:grid-cols-3">
             <label className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
               <input
-                className="h-9 w-full rounded-lg border border-slate-200 bg-slate-50 pl-8 pr-3 text-xs font-medium outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+                className="h-10 w-full rounded-full border border-slate-200 bg-transparent pl-9 pr-4 text-xs font-medium outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#313131] dark:bg-transparent dark:text-white dark:focus:bg-[#272727]"
                 placeholder={copy.searchBank}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
             </label>
             <select
-              className="h-9 rounded-lg border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#272727] dark:text-white"
+              className="h-10 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#313131] dark:bg-transparent dark:text-white dark:focus:bg-[#272727]"
               value={currency}
               onChange={(event) => setCurrency(event.target.value)}
             >
@@ -69,7 +70,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
               ))}
             </select>
             <button
-              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-semibold transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:hover:bg-[#313131]"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-transparent dark:text-slate-200 dark:hover:bg-[#272727]"
               onClick={() => setSortBy(sortBy === "buy" ? "sell" : sortBy === "sell" ? "updated" : "buy")}
               type="button"
             >
@@ -84,7 +85,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
         <div className="w-full overflow-x-auto">
           <Table className="min-w-[760px]">
             <caption className="sr-only">{copy.ratesTableTitle}</caption>
-            <TableHeader className="sticky top-0 bg-slate-50 dark:bg-[#272727]">
+            <TableHeader className="sticky top-0 bg-white/95 backdrop-blur-sm dark:bg-[#1F1F1F]/95">
               <TableRow className="border-b border-slate-200 dark:border-[#313131]">
                 <TableHead>{copy.tableBank}</TableHead>
                 <TableHead>{copy.tableCurrency}</TableHead>
@@ -106,16 +107,18 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
                     </span>
                   </TableCell>
                   <TableCell className="font-mono text-xs font-semibold">{rate.code}/UAH</TableCell>
-                  <TableCell className="text-right font-mono text-sm font-semibold">{formatRate(rate.buy)}</TableCell>
-                  <TableCell className="text-right font-mono text-sm font-semibold">{formatRate(rate.sell)}</TableCell>
-                  <TableCell className="text-right font-mono text-xs text-slate-500">{formatRate(rate.nbu)}</TableCell>
+                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums">{formatRate(rate.buy)}</TableCell>
+                  <TableCell className="text-right font-mono text-sm font-semibold tabular-nums">{formatRate(rate.sell)}</TableCell>
+                  <TableCell className="text-right font-mono text-xs tabular-nums text-slate-500">{formatRate(rate.nbu)}</TableCell>
                   <TableCell>
                     {rate.bankId === bestBuy?.bankId ? (
-                      <Badge variant="outline" className="border-emerald-500/40 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                      <Badge variant="outline" className="gap-1.5 border-emerald-500/40 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                         {copy.bestBuy}
                       </Badge>
                     ) : rate.bankId === bestSell?.bankId ? (
-                      <Badge variant="outline" className="border-brand-500/40 text-xs font-semibold text-brand-700 dark:text-brand-400">
+                      <Badge variant="outline" className="gap-1.5 border-brand-500/40 text-xs font-semibold text-brand-600 dark:text-brand-300">
+                        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand-500" />
                         {copy.bestSell}
                       </Badge>
                     ) : (

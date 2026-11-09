@@ -37,7 +37,8 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
               />
             </div>
             <div>
-              <CardTitle className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+              <p className="eyebrow">{isEnglish ? "Best on the market" : "Найкращий курс"}</p>
+              <CardTitle className="mt-1 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.bestRateFinderTitle}
               </CardTitle>
               <CardDescription className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -55,7 +56,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                   role="tab"
                   aria-selected={active}
                   onClick={() => setSelectedCurrency(code)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
                       : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#313131] dark:text-slate-300 dark:hover:bg-[#313131]"

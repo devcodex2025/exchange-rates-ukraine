@@ -44,8 +44,11 @@ export const Toast: React.FC<ToastProps> = ({ open, message }) => {
         ref={elementRef}
         role="status"
         aria-live="polite"
-        className="t-toast rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-lg dark:border-[#313131] dark:bg-[#272727] dark:text-slate-100"
+        className="t-toast inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white py-2 pl-2 pr-4 text-sm font-semibold text-slate-800 shadow-[0_8px_24px_-8px_rgba(15,23,42,0.2)] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-100"
       >
+        <span aria-hidden="true" className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
         {message}
       </div>
     </div>

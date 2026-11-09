@@ -86,7 +86,7 @@ export const TabsTrigger: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
       role="tab"
       aria-selected={active ? "true" : "false"}
       className={cn(
-        "relative z-[1] shrink-0 rounded-md px-3 py-2 text-sm font-black transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "relative z-[1] shrink-0 rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         active
           ? "text-slate-950 dark:text-white"
           : "text-slate-500 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white",

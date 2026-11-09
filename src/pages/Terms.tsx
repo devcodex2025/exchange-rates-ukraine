@@ -17,7 +17,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
             <Scale size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Terms of Use" : "Умови використання"}
             </h1>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -28,7 +28,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
 
         <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300">
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <FileText size={18} className="text-brand-700" />
               {isEnglish ? "1. Agreement to Terms" : "1. Прийняття умов"}
             </h2>
@@ -40,7 +40,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
           </section>
 
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <AlertTriangle size={18} className="text-amber-500" />
               {isEnglish ? "2. Informational Disclaimer" : "2. Інформаційний характер даних"}
             </h2>
@@ -52,7 +52,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
           </section>
 
           <section>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <ShieldCheck size={18} className="text-brand-700" />
               {isEnglish ? "3. Intellectual Property and Open Data" : "3. Інтелектуальна власність та відкриті дані"}
             </h2>
@@ -64,7 +64,7 @@ export const Terms: React.FC<TermsProps> = ({ locale = "uk" }) => {
           </section>
 
           <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
+            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Mail size={18} className="text-brand-700" />
               {isEnglish ? "4. Questions & Feedback" : "4. Зворотний зв'язок"}
             </h2>

@@ -26,7 +26,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
             <Mail size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Contact & Editorial Office" : "Контакти та редакція UAH.today"}
             </h1>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -41,7 +41,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
           {/* Contact Details */}
           <div className="flex flex-col gap-6 text-sm text-slate-600 dark:text-slate-300">
             <div>
-              <h2 className="text-base font-black text-slate-950 dark:text-white">
+              <h2 className="text-base font-semibold text-slate-950 dark:text-white">
                 {isEnglish ? "Direct Inquiries" : "Електронна пошта"}
               </h2>
               <p className="mt-1 text-slate-500 dark:text-slate-300">
@@ -91,7 +91,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <CheckCircle2 size={40} className="text-emerald-500" />
-                <h3 className="mt-3 text-lg font-black text-slate-950 dark:text-white">
+                <h3 className="mt-3 text-lg font-semibold text-slate-950 dark:text-white">
                   {isEnglish ? "Message Sent" : "Повідомлення надіслано"}
                 </h3>
                 <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
@@ -102,7 +102,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h3 className="text-base font-black text-slate-950 dark:text-white">
+                <h3 className="text-base font-semibold text-slate-950 dark:text-white">
                   {isEnglish ? "Send a Message" : "Надіслати звернення"}
                 </h3>
 
@@ -141,7 +141,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
 
                 <button
                   type="submit"
-                  className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-black text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+                  className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white transition hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
                 >
                   <Send size={14} />
                   {isEnglish ? "Send Message" : "Надіслати"}

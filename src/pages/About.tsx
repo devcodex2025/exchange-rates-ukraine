@@ -17,7 +17,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
             <Info size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "About UAH.today" : "Про платформу UAH.today"}
             </h1>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
@@ -30,7 +30,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
 
         <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300">
           <section>
-            <h2 className="text-lg font-black text-slate-950 dark:text-white">
+            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">
               {isEnglish ? "Our Purpose & Unique Value" : "Наша мета та цінність для користувача"}
             </h2>
             <p className="mt-2">
@@ -60,7 +60,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
           <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
               <Sparkles className="text-emerald-700 dark:text-emerald-400" size={20} />
-              <h3 className="mt-2 font-black text-slate-900 dark:text-white">
+              <h3 className="mt-2 font-semibold text-slate-900 dark:text-white">
                 {isEnglish ? "Best Rate Finder" : "Кращий курс"}
               </h3>
               <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
@@ -72,7 +72,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
               <ShieldCheck className="text-brand-700 dark:text-brand-400" size={20} />
-              <h3 className="mt-2 font-black text-slate-900 dark:text-white">
+              <h3 className="mt-2 font-semibold text-slate-900 dark:text-white">
                 {isEnglish ? "Verified Sources" : "Офіційні джерела"}
               </h3>
               <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
@@ -83,8 +83,8 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
-              <RefreshCw className="text-blue-600 dark:text-blue-400" size={20} />
-              <h3 className="mt-2 font-black text-slate-900 dark:text-white">
+              <RefreshCw className="text-brand-600 dark:text-brand-300" size={20} />
+              <h3 className="mt-2 font-semibold text-slate-900 dark:text-white">
                 {isEnglish ? "No Fabricated Data" : "Без штучних замін"}
               </h3>
               <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
@@ -96,7 +96,7 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-slate-950 dark:text-white">
+            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">
               {isEnglish ? "Editorial & Data Integrity Principles" : "Принципи редакційної політики та достовірності"}
             </h2>
             <p className="mt-2">
