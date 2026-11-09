@@ -40,12 +40,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
     console.error("API error:", detail);
 
-    const wantsDebug = req.query?.debug === "1";
     res.setHeader("Cache-Control", "no-store");
-    return res.status(503).json(
-      wantsDebug
-        ? { error: "Failed to fetch exchange rates", detail }
-        : { error: "Failed to fetch exchange rates" },
-    );
+    return res.status(503).json({
+      error: "Failed to fetch exchange rates",
+      // Keep module paths and stack details out of production responses.
+      ...(process.env.VERCEL_ENV === "production" ? {} : { detail }),
+    });
   }
 }
