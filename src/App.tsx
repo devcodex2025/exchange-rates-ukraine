@@ -119,6 +119,31 @@ export const routeMeta: Record<string, RouteMetaItem> = {
     description: "Live Euro to Ukrainian Hryvnia rates. Compare bank spreads, buy/sell quotes, and official NBU reference rates.",
     locale: "en",
   },
+  "/en/pln-uah-rate": {
+    title: "PLN to UAH Rate Today: Polish Zloty in Ukrainian Banks | UAH.today",
+    description: "Live Polish zloty exchange rates in Ukrainian banks and the official NBU reference rate. Compare PLN buy and sell quotes, spreads, and the converter.",
+    locale: "en",
+  },
+  "/en/gbp-uah-rate": {
+    title: "GBP to UAH Rate Today: British Pound in Ukrainian Banks | UAH.today",
+    description: "Current British pound exchange rates in Ukrainian banks with the official NBU benchmark. Compare GBP buy and sell quotes before exchanging.",
+    locale: "en",
+  },
+  "/en/nbu-reference-rate": {
+    title: "Official NBU Rate Today: USD, EUR, GBP, PLN Reference | UAH.today",
+    description: "Official National Bank of Ukraine reference rates for USD, EUR, PLN, GBP and CHF with history, archive and comparison to commercial banks.",
+    locale: "en",
+  },
+  "/en/usd-privatbank": {
+    title: "USD Rate at PrivatBank Today: Buy, Sell & Card Rates | UAH.today",
+    description: "Current US dollar rate at PrivatBank (Privat24): branch and card conversion quotes plus comparison with NBU and other Ukrainian banks.",
+    locale: "en",
+  },
+  "/en/usd-monobank": {
+    title: "USD Rate in monobank Today: Card Exchange Quotes | UAH.today",
+    description: "monobank card exchange rates for the US dollar today: online buy and sell quotes, rateCross fallback and comparison with NBU and cash rates.",
+    locale: "en",
+  },
   "/en/currency-converter": {
     title: "Currency Converter Ukraine: Live UAH USD EUR Calculator | UAH.today",
     description: "Instant currency calculator using the strongest live retail rates across Ukrainian banks. Convert UAH, USD, EUR, and PLN.",
@@ -179,6 +204,11 @@ const dashboardPaths = [
   "/en",
   "/en/usd-uah-rate",
   "/en/eur-uah-rate",
+  "/en/pln-uah-rate",
+  "/en/gbp-uah-rate",
+  "/en/nbu-reference-rate",
+  "/en/usd-privatbank",
+  "/en/usd-monobank",
   "/en/currency-converter",
   "/en/exchange-rates-ukraine",
 ];
@@ -458,11 +488,11 @@ export default function App() {
                   {isEnglish ? "Currencies" : "Курси валют"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to="/kurs-dolara" className="transition hover:text-brand-700">Курс долара (USD)</Link></li>
-                  <li><Link to="/kurs-evro" className="transition hover:text-brand-700">Курс євро (EUR)</Link></li>
-                  <li><Link to="/kurs-zlotogo" className="transition hover:text-brand-700">Курс злотого (PLN)</Link></li>
-                  <li><Link to="/kurs-funta" className="transition hover:text-brand-700">Курс фунта (GBP)</Link></li>
-                  <li><Link to="/kurs-nbu" className="transition hover:text-brand-700">Офіційний курс НБУ</Link></li>
+                  <li><Link to={isEnglish ? "/en/usd-uah-rate" : "/kurs-dolara"} className="transition hover:text-brand-700">{isEnglish ? "USD rate (US Dollar)" : "Курс долара (USD)"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/eur-uah-rate" : "/kurs-evro"} className="transition hover:text-brand-700">{isEnglish ? "EUR rate (Euro)" : "Курс євро (EUR)"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/pln-uah-rate" : "/kurs-zlotogo"} className="transition hover:text-brand-700">{isEnglish ? "PLN rate (Polish Zloty)" : "Курс злотого (PLN)"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/gbp-uah-rate" : "/kurs-funta"} className="transition hover:text-brand-700">{isEnglish ? "GBP rate (British Pound)" : "Курс фунта (GBP)"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/nbu-reference-rate" : "/kurs-nbu"} className="transition hover:text-brand-700">{isEnglish ? "Official NBU rate" : "Офіційний курс НБУ"}</Link></li>
                 </ul>
               </div>
 
@@ -472,8 +502,8 @@ export default function App() {
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
                   <li><Link to="/konverter-valyut" className="transition hover:text-brand-700">{copy.converter}</Link></li>
-                  <li><Link to="/kurs-dolara-privatbank" className="transition hover:text-brand-700">Курс у ПриватБанку</Link></li>
-                  <li><Link to="/kurs-dolara-monobank" className="transition hover:text-brand-700">Курс у monobank</Link></li>
+                  <li><Link to={isEnglish ? "/en/usd-privatbank" : "/kurs-dolara-privatbank"} className="transition hover:text-brand-700">{isEnglish ? "Rate at PrivatBank" : "Курс у ПриватБанку"}</Link></li>
+                  <li><Link to={isEnglish ? "/en/usd-monobank" : "/kurs-dolara-monobank"} className="transition hover:text-brand-700">{isEnglish ? "Rate in monobank" : "Курс у monobank"}</Link></li>
                   <li><a href="/api/rates" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">API /rates <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                   <li><Link to={isEnglish ? "/en/skills" : "/skills"} className="transition hover:text-brand-700">{isEnglish ? "Skills for AI agents" : "Скіли для AI-агентів"}</Link></li>
                   <li><Link to={isEnglish ? "/en/add-bank" : "/dodaty-bank"} className="transition hover:text-brand-700">{isEnglish ? "Add your bank" : "Додати банк"}</Link></li>

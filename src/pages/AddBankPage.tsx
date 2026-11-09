@@ -7,7 +7,8 @@ interface AddBankPageProps {
   locale?: Locale;
 }
 
-const FORK_SNIPPET = `# 1. Форкніть https://github.com/devcodex2025/exchange-rates-ukraine
+const FORK_SNIPPET: Record<Locale, string> = {
+  uk: `# 1. Форкніть https://github.com/devcodex2025/exchange-rates-ukraine
 #    (кнопка Fork), потім на своєму комп'ютері:
 git clone https://github.com/<ваш-нік>/exchange-rates-ukraine
 cd exchange-rates-ukraine
@@ -20,7 +21,22 @@ git commit -m "feat(rates): add Sense Bank source"
 git push -u origin add-sense-bank
 
 # 3. Відкрийте Pull Request:
-#    https://github.com/devcodex2025/exchange-rates-ukraine/pulls`;
+#    https://github.com/devcodex2025/exchange-rates-ukraine/pulls`,
+  en: `# 1. Fork https://github.com/devcodex2025/exchange-rates-ukraine
+#    (the Fork button), then on your machine:
+git clone https://github.com/<your-username>/exchange-rates-ukraine
+cd exchange-rates-ukraine
+git checkout -b add-sense-bank
+
+# 2. After your edits, finish with:
+npm run lint && npm test && npm run build
+git add -A
+git commit -m "feat(rates): add Sense Bank source"
+git push -u origin add-sense-bank
+
+# 3. Open a Pull Request:
+#    https://github.com/devcodex2025/exchange-rates-ukraine/pulls`,
+};
 
 const SERVICE_API_SNIPPET = `// src/services/rates/sense.service.ts
 import { validateBankRatePair } from "../../lib/rates/validation.js";
@@ -28,7 +44,7 @@ import { NormalizedBankRate } from "./privatbank.service.js";
 
 export class SenseService {
   static async fetchRates(signal?: AbortSignal): Promise<NormalizedBankRate[]> {
-    const res = await fetch("https://<ендпоінт-банку>", { signal });
+    const res = await fetch("https://<bank-endpoint>", { signal });
     if (!res.ok) throw new Error("API returned status " + res.status);
 
     const rows = await res.json();
@@ -47,7 +63,8 @@ export class SenseService {
   }
 }`;
 
-const SERVICE_MINFIN_SNIPPET = `// Стільки коду потрібно, якщо банк має сторінку на minfin.com.ua:
+const SERVICE_MINFIN_SNIPPET: Record<Locale, string> = {
+  uk: `// Стільки коду потрібно, якщо банк має сторінку на minfin.com.ua:
 // src/services/rates/sense.service.ts
 import { NormalizedBankRate } from "./privatbank.service.js";
 import { MinfinBankService } from "./minfin.service.js";
@@ -61,20 +78,45 @@ export class SenseService {
       return [];
     }
   }
-}`;
+}`,
+  en: `// This much code is needed when the bank has a minfin.com.ua page:
+// src/services/rates/sense.service.ts
+import { NormalizedBankRate } from "./privatbank.service.js";
+import { MinfinBankService } from "./minfin.service.js";
+
+export class SenseService {
+  static async fetchRates(signal?: AbortSignal): Promise<NormalizedBankRate[]> {
+    try {
+      return await MinfinBankService.fetchRates("<minfin-slug>", signal);
+    } catch (error) {
+      console.warn("Sense fetch warning:", error instanceof Error ? error.message : error);
+      return [];
+    }
+  }
+}`,
+};
 
 const BANKS_SNIPPET = `// src/constants.ts -> BANKS
 { id: "sense", name: "Sense Bank", shortName: "Sense",
   logo: "/logos/sense.svg", source: "Public API" },`;
 
-const NORMALIZE_SNIPPET = `// src/lib/rates/normalize.ts
+const NORMALIZE_SNIPPET: Record<Locale, string> = {
+  uk: `// src/lib/rates/normalize.ts
 // 1) Додайте тип масиву до RawRatesResponse:
 sense?: Array<{ cc?: string; buy: number | string | null; sale: number | string | null }>;
 
 // 2) Після pumb.forEach додайте:
-data.sense?.forEach((rate) => pushRate("sense", rate.cc, rate.buy, rate.sale));`;
+data.sense?.forEach((rate) => pushRate("sense", rate.cc, rate.buy, rate.sale));`,
+  en: `// src/lib/rates/normalize.ts
+// 1) Add the array type to RawRatesResponse:
+sense?: Array<{ cc?: string; buy: number | string | null; sale: number | string | null }>;
 
-const AGGREGATOR_SNIPPET = `// src/services/rates/rates-aggregator.service.ts - 4 правки:
+// 2) After the pumb.forEach loop, add:
+data.sense?.forEach((rate) => pushRate("sense", rate.cc, rate.buy, rate.sale));`,
+};
+
+const AGGREGATOR_SNIPPET: Record<Locale, string> = {
+  uk: `// src/services/rates/rates-aggregator.service.ts - 4 правки:
 import { SenseService } from "./sense.service.js";                    // 1 імпорт
 
 const [nbu, privat, /* ... */, senseResult] = await Promise.all([     // 2 запит
@@ -91,10 +133,33 @@ sense: senseData.map((i) => ({ cc: i.currency, buy: i.buy, sale: i.sell })), // 
 
 source: { /* ...існуючі, */
   sense: makeMeta("Sense Bank Feed", senseResult),                    // 4 статуси
-}`;
+}`,
+  en: `// src/services/rates/rates-aggregator.service.ts - 4 edits:
+import { SenseService } from "./sense.service.js";                    // 1 import
 
-const LOGO_SNIPPET = `public/logos/sense.svg        # світла тема
-public/logos/dark/sense.svg  # темна тема, якщо у лого чорні елементи`;
+const [nbu, privat, /* ... */, senseResult] = await Promise.all([     // 2 request
+  // ...existing ones,
+  globalCache.getOrFetch(
+    "sense_rates",                                                    // cache key
+    () => withTimeout((signal) => SenseService.fetchRates(signal)),
+    CACHE_TTL_DEFAULT,
+    forceFresh,
+  ),
+]);
+
+sense: senseData.map((i) => ({ cc: i.currency, buy: i.buy, sale: i.sell })), // 3 output
+
+source: { /* ...existing ones, */
+  sense: makeMeta("Sense Bank Feed", senseResult),                    // 4 statuses
+}`,
+};
+
+const LOGO_SNIPPET: Record<Locale, string> = {
+  uk: `public/logos/sense.svg        # світла тема
+public/logos/dark/sense.svg  # темна тема, якщо у лого чорні елементи`,
+  en: `public/logos/sense.svg        # light theme
+public/logos/dark/sense.svg  # dark theme, if the logo has black elements`,
+};
 
 export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
   const isEnglish = locale === "en";
@@ -161,7 +226,7 @@ export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
               {isEnglish ? "1. Fork, branch, then open the PR" : "1. Форк, гілка — і в кінці PR"}
             </h2>
             <div className="mt-3">
-              <CodeBlock code={FORK_SNIPPET} />
+              <CodeBlock code={FORK_SNIPPET[locale]} />
             </div>
           </section>
 
@@ -183,7 +248,7 @@ export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
               {isEnglish ? "No API? Reuse the minfin parser:" : "Немає API? Повторно використайте minfin-парсер:"}
             </p>
             <div className="mt-2">
-              <CodeBlock code={SERVICE_MINFIN_SNIPPET} />
+              <CodeBlock code={SERVICE_MINFIN_SNIPPET[locale]} />
             </div>
           </section>
 
@@ -194,7 +259,7 @@ export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
               {isEnglish ? "3. Register it in the aggregator" : "3. Реєстрація в агрегаторі"}
             </h2>
             <div className="mt-3">
-              <CodeBlock code={AGGREGATOR_SNIPPET} />
+              <CodeBlock code={AGGREGATOR_SNIPPET[locale]} />
             </div>
           </section>
 
@@ -219,7 +284,7 @@ export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
               {isEnglish ? "5. Hook it into the normalizer" : "5. Хук у нормалізатор"}
             </h2>
             <div className="mt-3">
-              <CodeBlock code={NORMALIZE_SNIPPET} />
+              <CodeBlock code={NORMALIZE_SNIPPET[locale]} />
             </div>
           </section>
 
@@ -230,7 +295,7 @@ export const AddBankPage: React.FC<AddBankPageProps> = ({ locale = "uk" }) => {
               {isEnglish ? "6. Logos, light and dark" : "6. Логотипи: світла та темна теми"}
             </h2>
             <div className="mt-3">
-              <CodeBlock code={LOGO_SNIPPET} />
+              <CodeBlock code={LOGO_SNIPPET[locale]} />
             </div>
             <ul className="mt-3 space-y-1.5 text-xs leading-5">
               <li>

@@ -9,6 +9,11 @@ Primary pages:
 - /konverter-valyut
 - /en/usd-uah-rate
 - /en/eur-uah-rate
+- /en/pln-uah-rate
+- /en/gbp-uah-rate
+- /en/nbu-reference-rate
+- /en/usd-privatbank
+- /en/usd-monobank
 - /en/currency-converter
 - /en/exchange-rates-ukraine
 - /en/best-exchange-rate-ukraine

@@ -48,7 +48,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const isEnglish = locale === "en";
 
   const initialTab = useMemo(() => {
-    if (pathname.includes("kurs-nbu")) return "nbu";
+    if (pathname.includes("kurs-nbu") || pathname.includes("nbu-reference")) return "nbu";
     if (pathname.includes("converter") || pathname.includes("konverter")) return "converter";
     return "banks";
   }, [pathname]);

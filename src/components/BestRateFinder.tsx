@@ -110,7 +110,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
               {nbuRate && bestSell?.sell ? (
                 <span className="font-mono text-xs font-medium text-slate-500">
                   {bestSell.sell >= nbuRate ? "+" : ""}
-                  {(bestSell.sell - nbuRate).toFixed(2)} vs НБУ
+                  {(bestSell.sell - nbuRate).toFixed(2)} {isEnglish ? "vs NBU" : "vs НБУ"}
                 </span>
               ) : null}
             </div>
@@ -160,7 +160,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
               {nbuRate && bestBuy?.buy ? (
                 <span className="font-mono text-xs font-medium text-slate-500">
                   {bestBuy.buy >= nbuRate ? "+" : ""}
-                  {(bestBuy.buy - nbuRate).toFixed(2)} vs НБУ
+                  {(bestBuy.buy - nbuRate).toFixed(2)} {isEnglish ? "vs NBU" : "vs НБУ"}
                 </span>
               ) : null}
             </div>

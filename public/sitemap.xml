@@ -54,12 +54,28 @@
   <url>
     <loc>https://exchange-rates-ukraine.vercel.app/kurs-zlotogo</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-zlotogo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/pln-uah-rate"/>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/pln-uah-rate</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-zlotogo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/pln-uah-rate"/>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://exchange-rates-ukraine.vercel.app/kurs-funta</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-funta"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/gbp-uah-rate"/>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/gbp-uah-rate</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-funta"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/gbp-uah-rate"/>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
@@ -68,8 +84,16 @@
   <url>
     <loc>https://exchange-rates-ukraine.vercel.app/kurs-nbu</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-nbu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/nbu-reference-rate"/>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/nbu-reference-rate</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-nbu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/nbu-reference-rate"/>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Converter -->
@@ -92,14 +116,30 @@
   <url>
     <loc>https://exchange-rates-ukraine.vercel.app/kurs-dolara-privatbank</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-dolara-privatbank"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/usd-privatbank"/>
     <changefreq>hourly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/usd-privatbank</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-dolara-privatbank"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/usd-privatbank"/>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://exchange-rates-ukraine.vercel.app/kurs-dolara-monobank</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-dolara-monobank"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/usd-monobank"/>
     <changefreq>hourly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/usd-monobank</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/kurs-dolara-monobank"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/usd-monobank"/>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://exchange-rates-ukraine.vercel.app/en/exchange-rates-ukraine</loc>
