@@ -1,4 +1,4 @@
-import { submitContactForm } from "../src/services/contact-form.service.ts";
+import { submitContactForm } from "../src/services/contact-form.service";
 
 interface VercelRequest {
   method?: string;
