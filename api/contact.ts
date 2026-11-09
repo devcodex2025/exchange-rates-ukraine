@@ -49,7 +49,9 @@ const BUDGET_LABELS: Record<string, string> = {
 
 interface ContactResult {
   status: number;
-  body: { ok: true; activation?: boolean } | { ok: false; error: string; fields?: Record<string, string> };
+  body:
+    | { ok: true; activation?: boolean }
+    | { ok: false; error: string; fields?: Record<string, string>; diag?: Record<string, string> };
 }
 
 const buckets = new Map<string, { count: number; reset: number }>();
@@ -165,12 +167,30 @@ export async function submitContactForm(raw: unknown, ip: string, userAgent?: st
         data.error === undefined &&
         (successRaw === "true" || (successRaw.length > 0 && !["false", "0"].includes(successRaw)));
       if (delivered) return { status: 200, body: { ok: true } };
-      return { status: 502, body: { ok: false, error: "upstream" } };
+      return {
+        status: 502,
+        body: {
+          ok: false,
+          error: "upstream",
+          diag: {
+            upstreamStatus: response.ok ? "ok" : String(response.status) || "unknown",
+            upstreamMessage: messageText.slice(0, 140),
+          },
+        },
+      };
     } finally {
       clearTimeout(timer);
     }
-  } catch {
-    return { status: 502, body: { ok: false, error: "upstream" } };
+  } catch (error) {
+    // Temporary diagnostics: surface the fetch failure chain so production
+    // failures are distinguishable (DNS reset vs TLS vs abort); retained
+    // fields never include request payload details.
+    const err = error as { name?: string; message?: string; cause?: { code?: string; message?: string } };
+    const cause = err?.cause;
+    const diag: Record<string, string> = {
+      detail: [err?.name, err?.message, cause?.code, cause?.message].filter(Boolean).join(" | ").slice(0, 200),
+    };
+    return { status: 502, body: { ok: false, error: "upstream", diag } };
   }
 }
 
