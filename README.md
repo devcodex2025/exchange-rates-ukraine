@@ -54,7 +54,8 @@ The platform answers three vital questions for consumers and businesses:
 ```
 ├── api/                           # Vercel Serverless Functions
 │   ├── rates.ts                   # /api/rates endpoint with CDN caching
-│   └── history.ts                 # /api/history NBU historical archive endpoint
+│   ├── history.ts                 # /api/history NBU historical archive endpoint
+│   └── contact.ts                 # /api/contact advertising form proxy
 ├── src/
 │   ├── components/                # React UI Components
 │   │   ├── BestRateFinder.tsx     # Top buy/sell rate comparison widget
@@ -62,6 +63,7 @@ The platform answers three vital questions for consumers and businesses:
 │   │   ├── CurrencyConverter.tsx  # Smart bidirectional converter
 │   │   ├── MarketInsights.tsx     # Spreads, variance and NBU difference
 │   │   ├── RatesTable.tsx         # Sortable, searchable comparison table
+│   │   ├── UsdHistoryChart.tsx    # Candle history card (NBU daily rates)
 │   │   ├── EditorialContent.tsx   # Topic-specific SEO guides
 │   │   ├── CookieConsent.tsx      # GDPR & AdSense compliant consent banner
 │   │   ├── AdSlot.tsx             # Non-intrusive AdSense ready slot
@@ -74,11 +76,15 @@ The platform answers three vital questions for consumers and businesses:
 │   │   ├── Dashboard.tsx          # Main high-performance dashboard
 │   │   ├── About.tsx              # About Us & methodology
 │   │   ├── Contact.tsx            # Contact information & editorial form
+│   │   ├── SkillsPage.tsx         # Human-readable docs for the agent skill
+│   │   ├── AddBankPage.tsx        # Contributor guide (add a bank source)
+│   │   ├── AdvertisePage.tsx      # Advertising order form
 │   │   ├── PrivacyPolicy.tsx      # Detailed GDPR & AdSense policy
 │   │   └── Terms.tsx              # Terms of Use & legal disclaimer
 │   ├── services/
 │   │   ├── cache/
 │   │   │   └── cache.service.ts   # In-memory deduplicating cache
+│   │   ├── contact-form.service.ts # Form validation, rate limiting & inbox delivery
 │   │   └── rates/                 # Isolated bank provider clients
 │   │       ├── nbu.service.ts
 │   │       ├── privatbank.service.ts
@@ -89,6 +95,11 @@ The platform answers three vital questions for consumers and businesses:
 │   │       └── rates-aggregator.service.ts
 │   ├── constants.ts               # Localized copy, currencies & bank metadata
 │   └── index.css                  # Tailwind CSS styling
+├── .agents/
+│   └── skills/
+│       └── uah-today-api/         # Installable AI-agent skill (markdown)
+│           ├── SKILL.md           # API reference & data semantics
+│           └── playbooks.md       # Task recipes for coding agents
 ├── scripts/
 │   ├── check-i18n.mjs             # Automated localization leak test
 │   └── prerender.mjs              # SSG generator for 22 indexable routes
@@ -100,7 +111,7 @@ The platform answers three vital questions for consumers and businesses:
 
 ## 5. Technology Stack
 
-- **Frontend**: React 19, TypeScript 5.8, Tailwind CSS v4, Lucide Icons, Recharts
+- **Frontend**: React 19, TypeScript 5.8, Tailwind CSS v4, Lucide Icons
 - **Build & Bundle**: Vite 6, Static Prerendering (SSG)
 - **Backend / API**: Express 4, Node.js 22, Vercel Serverless Functions
 - **Testing**: Node Native Test Runner, TSX, Vitest compatible
@@ -163,7 +174,7 @@ The platform answers three vital questions for consumers and businesses:
 
 ## 8. Machine-Readable API & Open Data
 
-UAH.today provides open endpoints for search crawlers, research, and AI integrations:
+UAH.today provides open endpoints for search crawlers, research, and AI integrations (see [Section 9](#9-skills-for-ai-agents-installable) for the turn-key agent skill):
 
 ### 1. `GET /api/rates` (or `/rates.json`)
 Returns real-time aggregated rates across all supported banks.
@@ -201,7 +212,49 @@ Structured reference guide for Large Language Models and AI agents.
 
 ---
 
-## 9. Google AdSense & Policy Compliance
+## 9. Skills for AI Agents (Installable)
+
+UAH.today ships an **installable agent skill** — plain markdown, no keys, no auth — that teaches any coding agent (OpenCode, Claude Code, Cursor, Codex CLI, …) to use the open rates API correctly: exact response schemas, caching behavior, and the gotchas that silently corrupt rate answers.
+
+**Skill files** (both live in this repository at `.agents/skills/uah-today-api/` and are served raw from `main`):
+
+| File | Purpose |
+|---|---|
+| [`SKILL.md`](.agents/skills/uah-today-api/SKILL.md) | Complete API reference: `/api/rates` and `/api/history` schemas, rate semantics (`buy` vs `sell` vs NBU reference), monobank numeric currency-code map, `rateCross` fallback, per-source health states, cache TTLs |
+| [`playbooks.md`](.agents/skills/uah-today-api/playbooks.md) | Task recipes: best buy/sell scan per currency, spread vs NBU, direction-correct conversion math, history → CSV / trend summaries |
+
+**What the skill enforces** (the agent follows these rules from the markdown alone):
+
+- `buy` is used when selling FX for UAH; `sell` when buying FX — never swapped.
+- Missing bank quotes stay `null` — no fabrication, no substituting NBU values for bank rates.
+- monobank rows are *card* rates, matched by numeric ISO code (`840`=USD, `978`=EUR, `826`=GBP, `756`=CHF, `985`=PLN) and keyed on `currencyCodeB === 980`.
+- Stale/unavailable sources are retried once with `?fresh=1`, then reported with `sourceUpdatedAt` timestamps.
+
+**Examples of what the agent can answer after installing:**
+
+- «Де найвигідніше продати 1000 доларів за гривню сьогодні? Покажи курси всіх банків і час оновлення.»
+- «Картковий чи готівковий курс: як найдешевше купити 500 євро, враховуючи відділення.»
+- «Збери CSV офіційного курсу долара НБУ за останні 30 днів і підсумуй тренд.»
+
+### Installation
+
+```bash
+# shell function that lands the skill in any agent's skills directory
+install_skill() {
+  mkdir -p "$1/uah-today-api"
+  curl -fsSL https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/SKILL.md     -o "$1/uah-today-api/SKILL.md"
+  curl -fsSL https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/playbooks.md -o "$1/uah-today-api/playbooks.md"
+}
+
+install_skill .agents/skills   # OpenCode — project skill
+install_skill .claude/skills   # Claude Code — project skill
+```
+
+Alternatively, paste both files into the agent's system prompt, or point it at the human-readable docs on the site: [`/skills`](https://exchange-rates-ukraine.vercel.app/skills) (UA) and [`/en/skills`](https://exchange-rates-ukraine.vercel.app/en/skills) (EN).
+
+---
+
+## 10. Google AdSense & Policy Compliance
 
 - **ads.txt**: Pre-configured in `/public/ads.txt`.
 - **Consent Management**: Cookie consent banner configured with granular preferences and footer reset toggle.
@@ -210,12 +263,12 @@ Structured reference guide for Large Language Models and AI agents.
 
 ---
 
-## 10. Contributing
+## 11. Contributing
 
 Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
 
 ---
 
-## 11. License
+## 12. License
 
 This project is open-source and distributed under the [MIT License](LICENSE).
