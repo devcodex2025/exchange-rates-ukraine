@@ -37,7 +37,7 @@ export const NotFound: React.FC<NotFoundProps> = ({ locale = "uk" }) => {
         >
           {isEn ? "Page not found" : "Сторінку не знайдено"}
         </h1>
-        <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-300">
+        <p className="text-sm leading-relaxed text-slate-500 dark:text-[#ADB7BE]">
           {isEn
             ? "The page you requested does not exist or has been moved. Use the links below to get back on track."
             : "Сторінка, яку ви запитуєте, не існує або була переміщена. Скористайтесь посиланнями нижче."}
@@ -57,7 +57,7 @@ export const NotFound: React.FC<NotFoundProps> = ({ locale = "uk" }) => {
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
+          className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 active:scale-[0.98] dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-[#ADB7BE] dark:hover:bg-[#2E2E2E]"
         >
           <ArrowLeft size={15} />
           {isEn ? "Go Back" : "Назад"}
@@ -65,7 +65,7 @@ export const NotFound: React.FC<NotFoundProps> = ({ locale = "uk" }) => {
       </div>
 
       {/* Helpful links */}
-      <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400 dark:text-slate-300">
+      <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400 dark:text-[#ADB7BE]">
         <Link to={isEn ? "/en/usd-uah-rate" : "/kurs-dolara"} className="transition hover:text-brand-700 dark:hover:text-brand-400">
           {isEn ? "USD Rate" : "Курс долара"}
         </Link>

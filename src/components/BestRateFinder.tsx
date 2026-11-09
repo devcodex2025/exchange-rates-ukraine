@@ -21,11 +21,11 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
   const nbuRate = rates.find((r) => r.code === selectedCurrency && r.bankId === "nbu")?.buy ?? null;
 
   return (
-    <Card className="skel-content-enter rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] sm:p-4" id="best-rates">
+    <Card className="skel-content-enter rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020] sm:p-4" id="best-rates">
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#2E2E2E]">
               <img
                 src="/illustrations/best-rate-finder-3d.jpg"
                 alt={isEnglish ? "Magnifying glass over coins with a rising arrow" : "Лупа над монетами зі стрілкою вгору"}
@@ -41,7 +41,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
               <CardTitle className="mt-1 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.bestRateFinderTitle}
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+              <CardDescription className="text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
                 {copy.bestRateFinderSubtitle}
               </CardDescription>
             </div>
@@ -59,7 +59,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                   className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#313131] dark:text-slate-300 dark:hover:bg-[#313131]"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#2E2E2E] dark:text-[#ADB7BE] dark:hover:bg-[#2E2E2E]"
                   }`}
                 >
                   {code}
@@ -73,10 +73,10 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
       <CardContent className="pt-0">
         <div className="grid gap-4 md:grid-cols-2">
           {/* Best bank to BUY from */}
-          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#313131] dark:bg-[#272727]">
+          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
             <div>
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-[#ADB7BE]">
                   <ArrowDownLeft className="text-emerald-700 dark:text-emerald-400" size={16} />
                   {copy.bestToBuyTitle} ({selectedCurrency})
                 </span>
@@ -92,12 +92,12 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
 
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
                 {copy.whereToBuy}
               </p>
             </div>
 
-            <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#313131]">
+            <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#2E2E2E]">
               <div className="flex items-center gap-2">
                 {bestSell?.bankLogo ? (
                   <img
@@ -124,10 +124,10 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
           </div>
 
           {/* Best bank to SELL to */}
-          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#313131] dark:bg-[#272727]">
+          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
             <div>
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-[#ADB7BE]">
                   <ArrowUpRight className="text-brand-700 dark:text-brand-400" size={16} />
                   {copy.bestToSellTitle} ({selectedCurrency})
                 </span>
@@ -143,12 +143,12 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
 
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
                 {copy.whereToSell}
               </p>
             </div>
 
-            <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#313131]">
+            <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#2E2E2E]">
               <div className="flex items-center gap-2">
                 {bestBuy?.bankLogo ? (
                   <img
@@ -176,7 +176,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
         </div>
 
         {nbuRate ? (
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500 dark:text-slate-300">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
             <span>
               {isEnglish ? "Official NBU reference:" : "Офіційний курс НБУ:"}{" "}
               <strong className="font-mono font-semibold text-slate-700 dark:text-slate-200">

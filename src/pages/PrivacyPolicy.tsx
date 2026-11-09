@@ -11,8 +11,8 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
   return (
     <main className="mx-auto max-w-4xl py-8">
-      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] md:p-10">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#313131]">
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020] md:p-10">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#2E2E2E]">
           <div className="rounded-xl bg-slate-950 p-2.5 text-white dark:bg-white dark:text-slate-950">
             <Shield size={24} />
           </div>
@@ -20,13 +20,13 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
             <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Privacy Policy" : "Політика конфіденційності"}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
               {isEnglish ? "Last updated: November 9, 2026" : "Останнє оновлення: 9 листопада 2026 року"} · UAH.today
             </p>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300">
+        <div className="mt-6 flex flex-col gap-6 text-sm leading-7 text-slate-600 dark:text-[#ADB7BE]">
           {/* Section 1: Intro */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
@@ -98,7 +98,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           </section>
 
           {/* Section 6: Contacts */}
-          <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+          <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#121212]">
             <h2 className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white">
               <Mail size={18} className="text-brand-700" />
               {isEnglish ? "6. Privacy Inquiries and Contact" : "6. Контактна інформація з питань конфіденційності"}

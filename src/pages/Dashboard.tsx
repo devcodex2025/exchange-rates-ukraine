@@ -90,7 +90,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <section id="main-content" className="relative overflow-hidden pt-4 sm:pt-6">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
           <div className="hero-stagger max-w-[680px]">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-[#ADB7BE]">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-500 animate-pulse" />
               {copy.eyebrow}
             </span>
@@ -110,7 +110,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               )}
             </h1>
 
-            <p className="mt-5 max-w-[640px] text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
+            <p className="mt-5 max-w-[640px] text-base leading-relaxed text-slate-500 dark:text-[#ADB7BE] sm:text-lg">
               {copy.heroSubtitle}
             </p>
 
@@ -125,44 +125,44 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </a>
               <a
                 href="#converter"
-                className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-200 dark:hover:bg-[#313131]"
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-50 active:scale-[0.98] dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-slate-200 dark:hover:bg-[#2E2E2E]"
               >
                 {copy.converter}
               </a>
             </div>
 
             {/* Editorial stats row, Ridge style: real numbers from the data layer */}
-            <dl className="mt-10 flex items-stretch overflow-hidden border-y border-slate-200/80 dark:border-[#313131]">
+            <dl className="mt-10 flex items-stretch overflow-hidden border-y border-slate-200/80 dark:border-[#2E2E2E]">
               <div className="flex-1 py-4 pr-4">
                 <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
                   {BANKS.length}
                 </dd>
-                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
                   {isEnglish ? "banks & the NBU tracked" : "банків та НБУ на моніторингу"}
                 </dt>
               </div>
-              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#313131]" />
+              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#2E2E2E]" />
               <div className="flex-1 px-4 py-4">
                 <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
                   {CURRENCY_CODES.length}
                 </dd>
-                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
                   {isEnglish ? "currencies compared" : "валюти у порівнянні"}
                 </dt>
               </div>
-              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#313131]" />
+              <span aria-hidden="true" className="w-px bg-slate-200/80 dark:bg-[#2E2E2E]" />
               <div className="flex-1 py-4 pl-4">
                 <dd className="font-mono text-2xl font-semibold tabular-nums text-slate-950 dark:text-white sm:text-3xl">
                   {isEnglish ? "24/7" : "24/7"}
                 </dd>
-                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-300">
+                <dt className="mt-1 text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
                   {isEnglish ? "rates kept up to date" : "курси завжди актуальні"}
                 </dt>
               </div>
             </dl>
 
             {/* Quick telemetry footer */}
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-300">
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-[#ADB7BE]">
               <div className="flex items-center gap-2">
                 <span>{copy.lastUpdate}:</span>
                 <strong className="font-mono font-semibold text-slate-800 dark:text-slate-200">
@@ -183,7 +183,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Hero art in a calm framed tile */}
           <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 shadow-[0_24px_48px_-24px_rgba(15,23,42,0.25)] dark:border-[#313131]">
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 shadow-[0_24px_48px_-24px_rgba(15,23,42,0.25)] dark:border-[#2E2E2E]">
               <img
                 src="/illustrations/hero-3d-fintech.jpg"
                 srcSet="/illustrations/hero-3d-fintech-832.jpg 832w, /illustrations/hero-3d-fintech.jpg 1664w"
@@ -205,9 +205,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {!loading && rates.length > 0 ? (
         <section
           aria-label={isEnglish ? "Data sources" : "Джерела даних"}
-          className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-slate-300"
+          className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-[#ADB7BE]"
         >
-          <span className="font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+          <span className="font-semibold uppercase tracking-wider text-slate-700 dark:text-[#ADB7BE]">
             {isEnglish ? "Sources" : "Джерела"}
           </span>
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -218,7 +218,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               >
                 <span
                   aria-hidden="true"
-                  className={`h-1.5 w-1.5 rounded-full ${source.ok ? "bg-emerald-500" : "bg-slate-300 dark:bg-[#313131]"}`}
+                  className={`h-1.5 w-1.5 rounded-full ${source.ok ? "bg-emerald-500" : "bg-slate-300 dark:bg-[#2E2E2E]"}`}
                 />
                 <span>{source.name}</span>
                 <span className="t-tip" role="tooltip">
@@ -280,7 +280,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* 5. Bank Comparison Table & Historical Chart */}
       <section className="t-reveal grid min-w-0 gap-6 xl:grid-cols-[1fr_340px]">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="min-w-0">
-          <TabsList className="bg-slate-100 p-1 dark:bg-[#1F1F1F] dark:border dark:border-[#313131]">
+          <TabsList className="bg-slate-100 p-1 dark:bg-[#202020] dark:border dark:border-[#2E2E2E]">
             <TabsTrigger value="banks">{isEnglish ? "Banks" : "Банки"}</TabsTrigger>
             <TabsTrigger value="nbu">{copy.nbu}</TabsTrigger>
             <TabsTrigger value="exchange">{isEnglish ? "Exchange offices" : "Обмінники"}</TabsTrigger>
@@ -293,7 +293,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} sourceFilter="banks" />
               <Suspense
                 fallback={
-                  <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#313131] dark:bg-[#1F1F1F]">
+                  <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#2E2E2E] dark:bg-[#202020]">
                     <CardHeader>
                       <CardTitle>USD/UAH</CardTitle>
                       <CardDescription>{isEnglish ? "Loading chart..." : "Завантажуємо графік..."}</CardDescription>
@@ -311,7 +311,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="exchange">
-            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#313131] dark:bg-[#1F1F1F]">
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#2E2E2E] dark:bg-[#202020]">
               <CardHeader>
                 <CardTitle>{isEnglish ? "Exchange offices" : "Обмінники"}</CardTitle>
                 <CardDescription>{isEnglish ? "Verified exchange offices will be added after API integration." : "Сертифіковані пункти обміну будуть підключені після валідації API."}</CardDescription>
@@ -321,7 +321,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="crypto">
-            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#313131] dark:bg-[#1F1F1F]">
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#2E2E2E] dark:bg-[#202020]">
               <CardHeader>
                 <CardTitle>{isEnglish ? "Crypto (USDT/UAH)" : "Крипта (USDT/UAH)"}</CardTitle>
                 <CardDescription>{isEnglish ? "Crypto market quotes are shown once authorized providers are attached." : "Криптовалютні котирування будуть увімкнені після підключення ліцензованого провайдера."}</CardDescription>
@@ -331,7 +331,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="converter">
-            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#313131] dark:bg-[#1F1F1F]">
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#2E2E2E] dark:bg-[#202020]">
               <CardHeader>
                 <CardTitle>{copy.converter}</CardTitle>
                 <CardDescription>{isEnglish ? "The smart converter is placed above for quick calculations." : "Розумний конвертер доступний вище на сторінці для швидкого розрахунку."}</CardDescription>
@@ -347,9 +347,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         {/* Sidebar Info & Trust with 3D Shield Art */}
         <aside className="hidden flex-col gap-5 xl:flex">
-          <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
+          <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020]">
             <div className="flex items-center gap-3">
-              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
+              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#2E2E2E]">
                 <img
                   src="/illustrations/trust-shield-3d.jpg"
                   alt={isEnglish ? "Glass shield with a check mark" : "Скляний щит із позначкою перевірки"}
@@ -362,17 +362,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
               <CardTitle className="text-base font-semibold">{copy.trustTitle}</CardTitle>
             </div>
-            <p className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+            <p className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-[#ADB7BE]">
               {copy.trustBody}
             </p>
           </Card>
 
-          <Card className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
+          <Card className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020]">
             <div className="flex items-center gap-2 text-brand-700 dark:text-brand-400">
               <Bot size={20} />
               <CardTitle className="text-base font-semibold">{copy.aiTitle}</CardTitle>
             </div>
-            <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+            <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-[#ADB7BE]">
               {copy.aiBody}
             </p>
           </Card>

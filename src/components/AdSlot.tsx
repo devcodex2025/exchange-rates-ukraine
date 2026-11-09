@@ -15,10 +15,10 @@ export const AdSlot: React.FC<AdSlotProps> = ({ slotId = "banner-top", locale, c
     <aside
       aria-label={copy.adLabel}
       data-ad-slot={slotId}
-      className={`relative my-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4 text-center dark:border-[#313131] dark:bg-[#1F1F1F]/30 ${className}`}
+      className={`relative my-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4 text-center dark:border-[#2E2E2E] dark:bg-[#202020]/30 ${className}`}
     >
       <div className="flex flex-col items-center justify-center min-h-[90px]">
-        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-300">
+        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-[#ADB7BE]">
           {copy.adLabel}
         </span>
         <div className="mt-1 text-xs text-slate-400">

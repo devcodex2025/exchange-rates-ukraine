@@ -17,11 +17,11 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
   const insights = getMarketInsights(rates, selectedCurrency);
 
   return (
-    <Card className="t-reveal rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] sm:p-4" id="market-insights">
+    <Card className="t-reveal rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020] sm:p-4" id="market-insights">
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-brand-50 text-brand-600 dark:border-[#313131] dark:bg-[#272727] dark:text-brand-300">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-brand-50 text-brand-600 dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-brand-300">
               <BarChart3 size={20} />
             </div>
             <div>
@@ -29,7 +29,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
               <CardTitle className="mt-1 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.insightsTitle}
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+              <CardDescription className="text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
                 {copy.insightsSubtitle}
               </CardDescription>
             </div>
@@ -47,7 +47,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
                   className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#313131] dark:text-slate-300 dark:hover:bg-[#313131]"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#2E2E2E] dark:text-[#ADB7BE] dark:hover:bg-[#2E2E2E]"
                   }`}
                 >
                   {code}
@@ -61,8 +61,8 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
       <CardContent className="pt-0">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {/* Metric 1 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#272727]">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-300">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
+            <span className="text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
               {isEnglish ? "Official NBU rate" : "Офіційний курс НБУ"}
             </span>
             <div className="mt-2 flex items-baseline gap-2">
@@ -77,8 +77,8 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
           </div>
 
           {/* Metric 2 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#272727]">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-300">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
+            <span className="text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
               {isEnglish ? "Minimum market spread" : "Мінімальний спред"}
             </span>
             <div className="mt-2 flex items-baseline gap-2">
@@ -93,8 +93,8 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
           </div>
 
           {/* Metric 3 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#272727]">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-300">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
+            <span className="text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
               {isEnglish ? "Bank buy range" : "Діапазон купівлі банків"}
             </span>
             <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
@@ -110,8 +110,8 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
           </div>
 
           {/* Metric 4 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#272727]">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-300">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#2A2A2A]">
+            <span className="text-xs font-medium text-slate-500 dark:text-[#ADB7BE]">
               {isEnglish ? "Bank sell range" : "Діапазон продажу банків"}
             </span>
             <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
@@ -128,7 +128,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
         </div>
 
         {/* Informational callout */}
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-700 dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300">
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-700 dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-[#ADB7BE]">
           <div className="flex items-start gap-2.5">
             <Info size={16} className="mt-0.5 shrink-0 text-brand-700 dark:text-brand-400" />
             <div>

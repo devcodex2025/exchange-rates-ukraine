@@ -20,8 +20,8 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
 
   return (
     <main className="mx-auto max-w-4xl py-8">
-      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] md:p-10">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#313131]">
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020] md:p-10">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#2E2E2E]">
           <div className="rounded-xl bg-brand-600/10 p-2.5 text-brand-700 dark:bg-brand-500/10 dark:text-brand-400">
             <Mail size={24} />
           </div>
@@ -29,7 +29,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
             <h1 className="text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Contact & Editorial Office" : "Контакти та редакція UAH.today"}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
               {isEnglish
                 ? "Reach out for technical questions, data verification, or editorial proposals"
                 : "Зв'язок із командою з технічних питань, уточнення даних або співпраці"}
@@ -39,12 +39,12 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
 
         <div className="mt-8 grid gap-8 md:grid-cols-2">
           {/* Contact Details */}
-          <div className="flex flex-col gap-6 text-sm text-slate-600 dark:text-slate-300">
+          <div className="flex flex-col gap-6 text-sm text-slate-600 dark:text-[#ADB7BE]">
             <div>
               <h2 className="text-base font-semibold text-slate-950 dark:text-white">
                 {isEnglish ? "Direct Inquiries" : "Електронна пошта"}
               </h2>
-              <p className="mt-1 text-slate-500 dark:text-slate-300">
+              <p className="mt-1 text-slate-500 dark:text-[#ADB7BE]">
                 {isEnglish
                   ? "We respond to user inquiries and bank API updates within 24 hours."
                   : "Ми розглядаємо запити користувачів та звернення представників банків протягом робочого дня."}
@@ -65,12 +65,12 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#2E2E2E] dark:bg-[#121212]">
               <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white">
                 <MapPin size={18} className="text-brand-700" />
                 <span>{isEnglish ? "Location" : "Місцезнаходження"}</span>
               </div>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
                 Kyiv, Ukraine (Digital Editorial Office)
               </p>
 
@@ -78,7 +78,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
                 <Clock size={18} className="text-brand-700" />
                 <span>{isEnglish ? "Monitoring Hours" : "Графік моніторингу"}</span>
               </div>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
                 {isEnglish
                   ? "Automatic 24/7 rate sync. Editorial team available Monday–Friday, 09:00–18:00 (Kyiv time)."
                   : "Автоматична синхронізація курсів 24/7. Редакційна підтримка: Пн–Пт, 09:00–18:00."}
@@ -87,14 +87,14 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
           </div>
 
           {/* Feedback Form */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-5 dark:border-[#313131] dark:bg-[#0A0A0A]/50">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-5 dark:border-[#2E2E2E] dark:bg-[#121212]/50">
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <CheckCircle2 size={40} className="text-emerald-500" />
                 <h3 className="mt-3 text-lg font-semibold text-slate-950 dark:text-white">
                   {isEnglish ? "Message Sent" : "Повідомлення надіслано"}
                 </h3>
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
+                <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
                   {isEnglish
                     ? "Thank you for contacting us. We will get back to you shortly."
                     : "Дякуємо за звернення. Ми зв'яжемося з вами найближчим часом."}
@@ -106,36 +106,36 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
                   {isEnglish ? "Send a Message" : "Надіслати звернення"}
                 </h3>
 
-                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                   <span>{isEnglish ? "Name" : "Ваше ім'я"}</span>
                   <input
                     required
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
+                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#2E2E2E] dark:bg-[#202020]"
                   />
                 </label>
 
-                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                   <span>Email</span>
                   <input
                     required
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
+                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#2E2E2E] dark:bg-[#202020]"
                   />
                 </label>
 
-                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                   <span>{isEnglish ? "Message / Feedback" : "Повідомлення / Відгук"}</span>
                   <textarea
                     required
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white p-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
+                    className="rounded-lg border border-slate-200 bg-white p-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#2E2E2E] dark:bg-[#202020]"
                   />
                 </label>
 

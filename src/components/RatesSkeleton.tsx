@@ -12,7 +12,7 @@ export const RatesSkeleton: React.FC<RatesSkeletonProps> = ({ label }) => (
   <div role="status" aria-live="polite" className="flex flex-col gap-8">
     <span className="sr-only">{label}</span>
 
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020]">
       <div className="flex items-center gap-3">
         <div className="skeleton h-12 w-12 rounded-xl" />
         <div className="flex-1 space-y-2">
@@ -28,7 +28,7 @@ export const RatesSkeleton: React.FC<RatesSkeletonProps> = ({ label }) => (
 
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {[0, 1, 2, 3, 4].map((item) => (
-        <div key={item} className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-[#313131] dark:bg-[#1F1F1F]">
+        <div key={item} className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-[#2E2E2E] dark:bg-[#202020]">
           <div className="flex items-center justify-between">
             <div className="skeleton h-5 w-16 rounded" />
             <div className="skeleton h-6 w-10 rounded" />

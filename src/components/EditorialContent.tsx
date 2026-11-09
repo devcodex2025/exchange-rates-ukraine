@@ -12,8 +12,8 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   if (topic === "usd") {
     return (
-      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#313131] dark:bg-[#1F1F1F] md:p-8">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#313131]">
+      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#2E2E2E] dark:bg-[#202020] md:p-8">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#2E2E2E]">
           <div className="rounded-xl bg-brand-600/10 p-2.5 text-brand-700 dark:bg-brand-500/10 dark:text-brand-400">
             <BookOpen size={20} />
           </div>
@@ -21,13 +21,13 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
             <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
               {isEnglish ? "Complete Guide: How to Exchange USD in Ukraine" : "Повний гід: Як вигідно обміняти долар в Україні"}
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+            <p className="text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
               {isEnglish ? "Key factors, banking spreads and safety recommendations" : "Ключові фактори формування курсу, банківський спред та поради безпеки"}
             </p>
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-[#ADB7BE] md:grid-cols-2">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               {isEnglish ? "1. What shapes the cash USD rate?" : "1. Що формує готівковий курс долара?"}
@@ -63,7 +63,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
                 <Lightbulb size={18} />
                 <span>{isEnglish ? "Pro tip" : "Порада від UAH.today"}</span>
               </div>
-              <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
+              <p className="mt-1 text-xs text-slate-600 dark:text-[#ADB7BE]">
                 {isEnglish
                   ? "Use the 'Best Rate Finder' above before visiting a branch. Online banking applications often offer 0.10-0.20 UAH better rates than physical counters."
                   : "Перевіряйте блок «Кращий курс» перед візитом до відділення. У мобільних застосунках банків (monobank, Приват24) безготівковий курс часто вигідніший за курс у касі."}
@@ -77,8 +77,8 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   if (topic === "eur") {
     return (
-      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#313131] dark:bg-[#1F1F1F] md:p-8">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#313131]">
+      <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#2E2E2E] dark:bg-[#202020] md:p-8">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#2E2E2E]">
           <div className="rounded-xl bg-blue-600/10 p-2.5 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
             <BookOpen size={20} />
           </div>
@@ -86,13 +86,13 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
             <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
               {isEnglish ? "EUR to UAH Exchange Guide" : "Особливості курсу євро до гривні в Україні"}
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+            <p className="text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
               {isEnglish ? "EUR/USD cross-rate impacts, NBU policies, and European travel prep" : "Вплив крос-курсу EUR/USD, політика НБУ та поради мандрівникам"}
             </p>
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-[#ADB7BE] md:grid-cols-2">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               {isEnglish ? "How is EUR/UAH calculated?" : "Як розраховується курс EUR/UAH?"}
@@ -120,8 +120,8 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
 
   // General default content
   return (
-    <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#313131] dark:bg-[#1F1F1F] md:p-8">
-      <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#313131]">
+    <section className="t-reveal my-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-[#2E2E2E] dark:bg-[#202020] md:p-8">
+      <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-[#2E2E2E]">
         <div className="rounded-xl bg-slate-950/10 p-2.5 text-slate-900 dark:bg-white/10 dark:text-white">
           <BookOpen size={20} />
         </div>
@@ -129,14 +129,14 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
           <h2 className="text-xl font-semibold text-slate-950 dark:text-white sm:text-2xl">
             {isEnglish ? "Currency Market Knowledge & FAQ" : "Як працює валютний ринок України: База знань"}
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+          <p className="text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
             {isEnglish ? "Understand how banks set rates and how you can save on exchange" : "Чому курси в банках різні та як заощаджувати на обміні"}
           </p>
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-slate-300 md:grid-cols-3">
-        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+      <div className="mt-6 grid gap-6 text-sm leading-7 text-slate-600 dark:text-[#ADB7BE] md:grid-cols-3">
+        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#2E2E2E] dark:bg-[#121212]">
           <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
             <CheckCircle size={18} className="text-emerald-700 dark:text-emerald-400" />
             <span>{isEnglish ? "NBU vs Commercial" : "НБУ проти банків"}</span>
@@ -148,7 +148,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#2E2E2E] dark:bg-[#121212]">
           <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
             <CheckCircle size={18} className="text-brand-700 dark:text-brand-400" />
             <span>{isEnglish ? "Why Spreads Differ" : "Чому спред різний"}</span>
@@ -160,7 +160,7 @@ export const EditorialContent: React.FC<EditorialContentProps> = ({ topic = "gen
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+        <div className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 dark:border-[#2E2E2E] dark:bg-[#121212]">
           <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
             <CheckCircle size={18} className="text-brand-600 dark:text-brand-300" />
             <span>{isEnglish ? "Data Transparency" : "Прозорість даних"}</span>

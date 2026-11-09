@@ -37,13 +37,13 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
   }, [currency, query, rates, sortBy, sourceFilter]);
 
   return (
-    <Card id="rates-table" className="t-reveal min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
-      <CardHeader className="border-b border-slate-200 p-5 dark:border-[#313131] sm:p-6">
+    <Card id="rates-table" className="t-reveal min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020]">
+      <CardHeader className="border-b border-slate-200 p-5 dark:border-[#2E2E2E] sm:p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">{isEnglish ? "Rate board" : "Котирування"}</p>
             <CardTitle className="mt-1 text-xl font-semibold tracking-tight">{title || copy.ratesTableTitle}</CardTitle>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE] sm:text-sm">
               {copy.ratesTableSubtitle}
             </p>
           </div>
@@ -52,14 +52,14 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
             <label className="relative">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
               <input
-                className="h-10 w-full rounded-full border border-slate-200 bg-transparent pl-9 pr-4 text-xs font-medium outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#313131] dark:bg-transparent dark:text-white dark:focus:bg-[#272727]"
+                className="h-10 w-full rounded-full border border-slate-200 bg-transparent pl-9 pr-4 text-xs font-medium outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#2E2E2E] dark:bg-transparent dark:text-white dark:focus:bg-[#2A2A2A]"
                 placeholder={copy.searchBank}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
             </label>
             <select
-              className="h-10 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#313131] dark:bg-transparent dark:text-white dark:focus:bg-[#272727]"
+              className="h-10 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold outline-none transition focus:border-brand-400 focus:bg-white dark:border-[#2E2E2E] dark:bg-transparent dark:text-white dark:focus:bg-[#2A2A2A]"
               value={currency}
               onChange={(event) => setCurrency(event.target.value)}
             >
@@ -70,7 +70,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
               ))}
             </select>
             <button
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-transparent dark:text-slate-200 dark:hover:bg-[#272727]"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-transparent px-4 text-xs font-semibold transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#2E2E2E] dark:bg-transparent dark:text-slate-200 dark:hover:bg-[#2A2A2A]"
               onClick={() => setSortBy(sortBy === "buy" ? "sell" : sortBy === "sell" ? "updated" : "buy")}
               type="button"
             >
@@ -85,8 +85,8 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
         <div className="w-full overflow-x-auto">
           <Table className="min-w-[760px]">
             <caption className="sr-only">{copy.ratesTableTitle}</caption>
-            <TableHeader className="sticky top-0 bg-white/95 backdrop-blur-sm dark:bg-[#1F1F1F]/95">
-              <TableRow className="border-b border-slate-200 dark:border-[#313131]">
+            <TableHeader className="sticky top-0 bg-white/95 backdrop-blur-sm dark:bg-[#202020]/95">
+              <TableRow className="border-b border-slate-200 dark:border-[#2E2E2E]">
                 <TableHead>{copy.tableBank}</TableHead>
                 <TableHead>{copy.tableCurrency}</TableHead>
                 <TableHead className="text-right">{copy.buy}</TableHead>
@@ -97,7 +97,7 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
             </TableHeader>
             <TableBody>
               {rows.map((rate) => (
-                <TableRow key={`${rate.bankId}-${rate.code}`} className="border-b border-slate-100 transition-colors hover:bg-slate-50/70 dark:border-[#313131] dark:hover:bg-[#272727]/60">
+                <TableRow key={`${rate.bankId}-${rate.code}`} className="border-b border-slate-100 transition-colors hover:bg-slate-50/70 dark:border-[#2E2E2E] dark:hover:bg-[#2A2A2A]/60">
                   <TableCell className="font-semibold text-slate-900 dark:text-slate-100">
                     <span className="flex items-center gap-3">
                       {bankLogos.get(rate.bankId) ? (
