@@ -3,7 +3,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import { RatesAggregatorService } from "./src/services/rates/rates-aggregator.service";
-import contactHandler from "./api/contact";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,11 +82,8 @@ app.get("/api/rates", async (req, res) => {
   }
 });
 
-// Advertising form: the dev route delegates to the same handler Vercel runs,
-// so local behavior matches production.
-app.post("/api/contact", express.json({ limit: "16kb" }), (req, res) => {
-  void contactHandler(req as never, res as never);
-});
+// Advertising form route removed — the page is taken offline until a
+// datacenter-friendly delivery channel is in place.
 
 // Robots
 app.get("/robots.txt", (req, res) => {
