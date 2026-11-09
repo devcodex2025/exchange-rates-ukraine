@@ -29,6 +29,7 @@ const RATE_WINDOW_MS = 10 * 60 * 1000;
 const RATE_MAX_PER_WINDOW = 5;
 
 const BUDGET_VALUES = new Set(["", "lt5k", "5-20k", "20-50k", "gt50k"]);
+const CHANNEL_VALUES = new Set(["telegram", "viber", "phone", "email"]);
 const MAX_SHORT_FIELD_LENGTH = 200;
 const MAX_MESSAGE_LENGTH = 2000;
 
@@ -38,6 +39,13 @@ const BUDGET_LABELS: Record<string, string> = {
   "5-20k": "5 000 – 20 000 ₴",
   "20-50k": "20 000 – 50 000 ₴",
   gt50k: "понад 50 000 ₴",
+};
+
+const CHANNEL_LABELS: Record<string, string> = {
+  telegram: "Telegram",
+  viber: "Viber",
+  phone: "Телефон",
+  email: "Email",
 };
 
 interface ContactResult {
@@ -77,6 +85,7 @@ export async function submitContactForm(raw: unknown, ip: string): Promise<Conta
   const name = text(source.name, MAX_SHORT_FIELD_LENGTH);
   const company = text(source.company, MAX_SHORT_FIELD_LENGTH);
   const contact = text(source.contact, MAX_SHORT_FIELD_LENGTH);
+  const channel = text(source.channel, 10).toLowerCase();
   const budget = text(source.budget, 10);
   const message = typeof source.message === "string" ? source.message.trim().slice(0, MAX_MESSAGE_LENGTH) : "";
   const consent = consentGiven(source.consent);
@@ -90,6 +99,10 @@ export async function submitContactForm(raw: unknown, ip: string): Promise<Conta
   const fields: Record<string, string> = {};
   if (name.length < 2) fields.name = "min";
   if (contact.length < 4) fields.contact = "min";
+  if (!CHANNEL_VALUES.has(channel)) fields.channel = "invalid";
+  // Light plausibility checks so the editorial reply reaches a real channel.
+  if (channel === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) fields.contact = "email";
+  if (channel === "phone" && contact.replace(/\D/g, "").length < 7) fields.contact = "digits";
   if (message.length < 10) fields.message = "min";
   if (budget && !BUDGET_VALUES.has(budget)) fields.budget = "invalid";
   if (!consent) fields.consent = "required";
@@ -114,7 +127,7 @@ export async function submitContactForm(raw: unknown, ip: string): Promise<Conta
     `Мова: ${locale === "en" ? "EN (/en/advertising)" : "UK (/reklama)"}`,
     `Ім'я: ${name}`,
     `Компанія / проєкт: ${company || "—"}`,
-    `Контакт для відповіді: ${contact}`,
+    `Контакт для відповіді: ${CHANNEL_LABELS[channel] ?? channel} — ${contact}`,
     `Бюджет: ${BUDGET_LABELS[budget] ?? budget}`,
     "",
     "Що рекламувати:",

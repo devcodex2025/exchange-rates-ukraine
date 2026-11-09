@@ -23,10 +23,19 @@ const BUDGET_OPTIONS = [
   { value: "gt50k", uk: "понад 50 000 ₴", en: "over ₴50,000" },
 ];
 
+// Reply-channel select keeps the delivery target unambiguous for the editorial
+// team; the value side picks up a matching placeholder per channel.
+const CHANNEL_PLACEHOLDERS: Record<string, { uk: string; en: string }> = {
+  telegram: { uk: "@username у Telegram", en: "@username in Telegram" },
+  viber: { uk: "+380… або @username у Viber", en: "+380… or @username in Viber" },
+  phone: { uk: "+380…", en: "+380…" },
+  email: { uk: "you@example.com", en: "you@example.com" },
+};
+
 export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) => {
   const isEnglish = locale === "en";
 
-  const [fields, setFields] = useState({ name: "", company: "", contact: "", budget: "", message: "", website: "" });
+  const [fields, setFields] = useState({ name: "", company: "", contact: "", channel: "telegram", budget: "", message: "", website: "" });
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string> | null>(null);
@@ -170,7 +179,7 @@ export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) =
                 <button
                   type="button"
                   onClick={() => {
-                    setFields({ name: "", company: "", contact: "", budget: "", message: "", website: "" });
+                    setFields({ name: "", company: "", contact: "", channel: "telegram", budget: "", message: "", website: "" });
                     setConsent(false);
                     setStatus("idle");
                   }}
@@ -210,10 +219,31 @@ export const AdvertisePage: React.FC<AdvertisePageProps> = ({ locale = "uk" }) =
                   </label>
                 </div>
 
-                <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
-                  <span>{isEnglish ? "Telegram, Viber, phone or email for a reply *" : "Telegram, Viber, телефон або email для відповіді *"}</span>
-                  <input required type="text" value={fields.contact} onChange={setValue("contact")} className={FIELD_CLASS + errorClass("contact")} />
-                </label>
+                <div className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
+                  <span>{isEnglish ? "Where should we send the reply? *" : "Куди надіслати відповідь? *"}</span>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <select
+                      value={fields.channel}
+                      onChange={setValue("channel")}
+                      aria-label={isEnglish ? "Reply channel" : "Спосіб зв'язку"}
+                      className={FIELD_CLASS + errorClass("channel") + " shrink-0 sm:w-40"}
+                    >
+                      <option value="telegram">Telegram</option>
+                      <option value="viber">Viber</option>
+                      <option value="phone">{isEnglish ? "Phone" : "Телефон"}</option>
+                      <option value="email">Email</option>
+                    </select>
+                    <input
+                      required
+                      type="text"
+                      value={fields.contact}
+                      onChange={setValue("contact")}
+                      placeholder={CHANNEL_PLACEHOLDERS[fields.channel]?.[isEnglish ? "en" : "uk"] ?? ""}
+                      aria-label={isEnglish ? "Your contact" : "Ваш контакт"}
+                      className={FIELD_CLASS + errorClass("contact") + " flex-1"}
+                    />
+                  </div>
+                </div>
 
                 <label className="flex flex-col gap-1.5 text-xs font-bold text-slate-700 dark:text-[#ADB7BE]">
                   <span>{isEnglish ? "Budget" : "Орієнтовний бюджет"}</span>
