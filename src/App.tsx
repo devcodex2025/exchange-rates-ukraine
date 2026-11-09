@@ -502,6 +502,7 @@ export default function App() {
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
                   <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition hover:text-brand-700">{copy.aboutLink}</Link></li>
+                  <li><a href="https://github.com/devcodex2025/exchange-rates-ukraine" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">{isEnglish ? "Open source on GitHub" : "Відкритий код на GitHub"}<ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                   <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="transition hover:text-brand-700">{copy.contactLink}</Link></li>
                   <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="transition hover:text-brand-700">{copy.privacyLink}</Link></li>
                   <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="transition hover:text-brand-700">{copy.termsLink}</Link></li>

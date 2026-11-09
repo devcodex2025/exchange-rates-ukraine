@@ -3,6 +3,7 @@
 [![CI Quality & Build](https://github.com/devcodex2025/exchange-rates-ukraine/actions/workflows/ci.yml/badge.svg)](https://github.com/devcodex2025/exchange-rates-ukraine/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Production](https://img.shields.io/badge/Production-Live-emerald.svg)](https://exchange-rates-ukraine.vercel.app/)
+[![Install for AI agents](https://img.shields.io/badge/install%20for%20AI%20agents-npx%20skills%20add-2ea44f)](https://www.skills.sh)
 
 **UAH.today** is a modern, high-performance currency comparison platform that helps people find the best exchange rates across Ukrainian banks and the National Bank of Ukraine (NBU).
 
@@ -193,8 +194,10 @@ The platform answers three vital questions for consumers and businesses:
 
 UAH.today provides open endpoints for search crawlers, research, and AI integrations (see [Section 9](#9-skills-for-ai-agents-installable) for the turn-key agent skill):
 
+**Browser-ready**: every endpoint answers with `Access-Control-Allow-Origin: *` — a plain GET, no preflight, no keys. A news site or blog can embed live rates with zero server code; a ready copy-paste client ships with the agent skill ([playbooks.md §7](.agents/skills/uah-today-api/playbooks.md)).
+
 ### 1. `GET /api/rates` (or `/rates.json`)
-Returns real-time aggregated rates across all supported banks.
+Returns real-time aggregated rates across all supported banks. Edge-cached 15 min (`s-maxage=900`; `?fresh=1` bypasses).
 
 **Response Structure:**
 ```json
@@ -238,7 +241,7 @@ UAH.today ships an **installable agent skill** — plain markdown, no keys, no a
 | File | Purpose |
 |---|---|
 | [`SKILL.md`](.agents/skills/uah-today-api/SKILL.md) | Complete API reference: `/api/rates` and `/api/history` schemas, rate semantics (`buy` vs `sell` vs NBU reference), monobank numeric currency-code map, `rateCross` fallback, per-source health states, cache TTLs |
-| [`playbooks.md`](.agents/skills/uah-today-api/playbooks.md) | Task recipes: best buy/sell scan per currency, spread vs NBU, direction-correct conversion math, history → CSV / trend summaries |
+| [`playbooks.md`](.agents/skills/uah-today-api/playbooks.md) | Task recipes: best buy/sell scan per currency, spread vs NBU, direction-correct conversion math, history → CSV / trend summaries, and a drop-in "rate today" embed block for news sites (§7) |
 
 **What the skill enforces** (the agent follows these rules from the markdown alone):
 
@@ -252,22 +255,36 @@ UAH.today ships an **installable agent skill** — plain markdown, no keys, no a
 - «Де найвигідніше продати 1000 доларів за гривню сьогодні? Покажи курси всіх банків і час оновлення.»
 - «Картковий чи готівковий курс: як найдешевше купити 500 євро, враховуючи відділення.»
 - «Збери CSV офіційного курсу долара НБУ за останні 30 днів і підсумуй тренд.»
+- «Додай на наш новинний сайт блок курсу долара сьогодні: найкращий курс купівлі та продажу USD у банках, офіційний курс НБУ, час оновлення й атрибуція — готовий embed-код входить у скіл (playbook №7).»
+- "Add a 'USD today' block to our news site: best buy and sell prices across banks, the official NBU rate, update time, and a 'Data: UAH.today' credit — the embed snippet ships with the skill (playbook #7)."
 
 ### Installation
 
+**Recommended: one line** via the open [skills CLI](https://www.skills.sh) (requires Node.js 22.20+). It auto-detects installed agents — OpenCode, Claude Code, Codex, Cursor and 75+ more — and writes the skill into each agent's canonical project directory (OpenCode: `.opencode/skills/`, Claude Code: `.claude/skills/`):
+
 ```bash
-# shell function that lands the skill in any agent's skills directory
+npx skills add devcodex2025/exchange-rates-ukraine --skill uah-today-api -y
+```
+
+Afterwards, `npx skills update` keeps the skill current and `npx skills list` shows what is installed.
+
+<details>
+<summary>No Node.js? Manual curl fallback</summary>
+
+```bash
+# shell function that copies the files straight from the repository
 install_skill() {
   mkdir -p "$1/uah-today-api"
   curl -fsSL https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/SKILL.md     -o "$1/uah-today-api/SKILL.md"
   curl -fsSL https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/playbooks.md -o "$1/uah-today-api/playbooks.md"
 }
 
-install_skill .agents/skills   # OpenCode — project skill
+install_skill .agents/skills   # OpenCode — legacy-compatible project path
 install_skill .claude/skills   # Claude Code — project skill
 ```
+</details>
 
-Alternatively, paste both files into the agent's system prompt, or point it at the human-readable docs on the site: [`/skills`](https://exchange-rates-ukraine.vercel.app/skills) (UA) and [`/en/skills`](https://exchange-rates-ukraine.vercel.app/en/skills) (EN).
+Alternatively, paste both files into the agent's system prompt, or point the agent at the human-readable docs on the site: [`/skills`](https://exchange-rates-ukraine.vercel.app/skills) (UA) and [`/en/skills`](https://exchange-rates-ukraine.vercel.app/en/skills) (EN).
 
 ---
 

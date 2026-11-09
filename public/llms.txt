@@ -28,6 +28,7 @@ Machine-readable data:
 Skills for AI agents:
 - /skills (installation guide, Ukrainian)
 - /en/skills (installation guide, English)
+- Install with one command: npx skills add devcodex2025/exchange-rates-ukraine --skill uah-today-api
 - Skill files: https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/SKILL.md
 
 Definitions:

@@ -97,12 +97,14 @@ export const SkillsPage: React.FC<SkillsPageProps> = ({ locale = "uk" }) => {
         "\"Bank cards vs cash: what is the cheapest way to buy 500 EUR, cash desks included.\"",
         "\"Build a CSV of NBU USD rate for the last 30 days and summarize the trend.\"",
         "\"How far is the average bank EUR price from the official NBU rate right now?\"",
+        "\"Add a 'USD today' block to our news site: best buy and sell prices across banks, the official NBU rate, update time, and a 'Data: UAH.today' credit. The ready embed code is in the installed playbook.\"",
       ]
     : [
         "«Де найвигідніше продати 1000 доларів за гривню сьогодні? Покажи курси всіх банків і час оновлення.»",
         "«Картковий чи готівковий курс: як найдешевше купити 500 євро, враховуючи відділення.»",
         "«Збери CSV офіційного курсу долара НБУ за останні 30 днів і підсумуй тренд.»",
         "«Наскільки середній банківський курс євро відрізняється від офіційного курсу НБУ зараз?»",
+        "«Додай на наш новинний сайт блок курсу долара сьогодні: найкращий курс купівлі та продажу USD у банках, офіційний курс НБУ, час оновлення й атрибуція „Дані: UAH.today“ — готовий embed-код є в скілі.»",
       ];
 
   return (
@@ -148,8 +150,26 @@ export const SkillsPage: React.FC<SkillsPageProps> = ({ locale = "uk" }) => {
             </h2>
             <p className="mt-2">
               {isEnglish
-                ? "The skill lives in this repository at .agents/skills/uah-today-api/ (SKILL.md + playbooks.md). Fetch both files with curl:"
-                : "Скіл живе в цьому репозиторії за шляхом .agents/skills/uah-today-api/ (SKILL.md + playbooks.md). Завантажте обидва файли через curl:"}
+                ? "One line installs the skill for OpenCode, Claude Code, Cursor, Codex and 75+ agents — the open skills CLI detects your agents and writes the files where each of them looks:"
+                : "Встановлення однією командою для OpenCode, Claude Code, Cursor, Codex та 75+ інших агентів — відкритий skills CLI сам визначає ваші агенти і кладає файли туди, де їх шукатиме кожен з них:"}
+            </p>
+            <div className="mt-3 rounded-xl border-2 border-brand-600/50 bg-brand-600/5 p-4 dark:border-brand-400/40 dark:bg-brand-400/10">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                {isEnglish ? "skills CLI — recommended" : "skills CLI — рекомендовано"}
+              </p>
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#ADB7BE]">
+                {isEnglish
+                  ? "Needs Node.js 22.20+. Update later with npx skills update."
+                  : "Потрібен Node.js 22.20+. Оновлення потім: npx skills update."}
+              </p>
+              <div className="mt-3">
+                <CodeBlock code="npx skills add devcodex2025/exchange-rates-ukraine --skill uah-today-api -y" />
+              </div>
+            </div>
+            <p className="mt-4">
+              {isEnglish
+                ? "Or copy the two markdown files manually (the skill lives in this repository at .agents/skills/uah-today-api/):"
+                : "Або скопіюйте два markdown-файли вручну (скіл живе в репозиторії за шляхом .agents/skills/uah-today-api/):"}
             </p>
             <div className="mt-3 space-y-4">
               {installs.map((inst) => (

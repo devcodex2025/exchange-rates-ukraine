@@ -5,7 +5,7 @@ description: Live Ukrainian hryvnia (UAH) exchange rates from UAH.today — bank
 
 # UAH.today Rates API
 
-Free, public, no auth, no keys, CORS on. Two endpoints, both GET-only.
+Free, public, no auth. Two endpoints, both simple GET requests answered with `Access-Control-Allow-Origin: *` — callable straight from any web page's JavaScript (no preflight, no keys) or from your server.
 
 **Service:** UAH.today — independent Ukrainian currency comparison platform.
 **Base URL:** `https://exchange-rates-ukraine.vercel.app`

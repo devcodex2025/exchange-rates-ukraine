@@ -63,3 +63,64 @@ const pct = (change / first) * 100;
 - Rate guarantees — quotes move intraday; never present a fetched rate as a booking.
 - Forward/futures rates, interbank forex quotes — the service covers Ukrainian retail cash + monobank card rates and NBU reference only.
 - Storing/publishing full raw responses as your own "live feed" — link or credit UAH.today instead.
+
+## 7. Rate widget — embed a "rate today" block on any site
+
+Goal: a news site, blog or CMS page shows a compact live "Долар сьогодні / USD today" block. No keys, no server code — the API answers browser `fetch` with `Access-Control-Allow-Origin: *` (plain GET, no preflight).
+
+Drop-in client script (vanilla JS):
+
+```html
+<div id="uah-rates"></div>
+<script>
+(function () {
+  const el = document.getElementById("uah-rates");
+  const KEY = "uah_rates_cache";
+  const TTL = 10 * 60 * 1000; // re-query the API at most every 10 minutes
+
+  const fmt = (v) => (v == null ? "n/a" : Number(v).toFixed(2));
+
+  function render(d) {
+    const rows = [
+      ["Privat", d.privat && d.privat.find((r) => r.ccy === "USD")],
+      ["Raiffeisen", d.raif && d.raif.find((r) => r.cc === "USD")],
+      ["Oschad", d.oschad && d.oschad.find((r) => r.cc === "USD")],
+      ["PUMB", d.pumb && d.pumb.find((r) => r.cc === "USD")]
+    ].filter((x) => x[1] && x[1].buy != null && x[1].sale != null);
+
+    if (!rows.length) { el.textContent = "n/a"; return; }
+    const bestBuy = rows.reduce((a, b) => (b[1].buy > a[1].buy ? b : a));   // bank buys your USD (cash)
+    const bestSell = rows.reduce((a, b) => (b[1].sale < a[1].sale ? b : a)); // bank sells USD (cash)
+    const nbu = d.nbu && d.nbu.find((r) => r.cc === "USD");
+    el.innerHTML =
+      "<b>Долар сьогодні</b><br>" +
+      "продати USD: " + fmt(bestBuy[1].buy) + " грн — " + bestBuy[0] + "<br>" +
+      "купити USD: " + fmt(bestSell[1].sale) + " грн — " + bestSell[0] + "<br>" +
+      "НБУ: " + fmt(nbu && nbu.rate) + " грн<br>" +
+      "<small>Оновлено " + d.updatedAt +
+      ' · <a href="https://exchange-rates-ukraine.vercel.app/">Дані: UAH.today</a></small>';
+  }
+
+  const cached = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (cached && Date.now() - cached.t < TTL) { render(cached.d); return; }
+
+  fetch("https://exchange-rates-ukraine.vercel.app/api/rates")
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((d) => {
+      localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), d }));
+      render(d);
+    })
+    .catch(() => { el.textContent = "Курс тимчасово недоступний"; });
+})();
+</script>
+```
+
+Rules that keep the widget honest and the API scalable:
+
+- Cache client-side (localStorage, ~10 min TTL). On failure show «Курс тимчасово недоступний», not yesterday's data — and never cache a failed response.
+- `?fresh=1` only behind an explicit refresh button: it re-queries all six sources (cold start takes a few seconds). Pageviews must never trigger it.
+- monobank is a card rate — if shown, a separate row labeled «картковий», never mixed into the cash best-buy/sell.
+- `null` stays «n/a»; never fill a missing bank quote from NBU.
+- Attribution is mandatory: the `updatedAt` timestamp plus a "Дані: UAH.today" link.
+
+SSR note: `/api/rates` is edge-cached on our side for 15 min (`s-maxage=900`), so server-side renders can fetch on every render without hurting the API. The browser-facing `Cache-Control` is normalized by Vercel to `max-age=0, must-revalidate`, so browser fallbacks should keep their own TTL as above.
