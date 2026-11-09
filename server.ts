@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
+import { RatesAggregatorService } from "./src/services/rates/rates-aggregator.service";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,114 +10,73 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
-// Cache for currency data
-let cache: { [key: string]: { data: any; timestamp: number } } = {};
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes overall
-const MONO_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes for monobank (strict limits)
+// History cache
+let historyCache: { [key: string]: { data: any; timestamp: number } } = {};
+const HISTORY_CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours for NBU historical data
 
-  async function fetchWithCache(key: string, url: string, forceFresh = false) {
-    const now = Date.now();
-    const duration = key === "mono" ? MONO_CACHE_DURATION : CACHE_DURATION;
-    
-    if (!forceFresh && cache[key] && now - cache[key].timestamp < duration) {
-      return cache[key].data;
-    }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout per bank
-
-    try {
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-
-      if (response.status === 429) {
-        console.warn(`Rate limit hit for ${key}, using cache if available`);
-        return cache[key] ? cache[key].data : null;
-      }
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      cache[key] = { data, timestamp: now };
-      return data;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      console.error(`Error fetching ${key}:`, error);
-      return cache[key] ? cache[key].data : null; // Return stale data if available
-    }
-  }
+const formatNbuDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}${month}${day}`;
+};
 
 // API Routes
+app.get("/api/history", async (req, res) => {
+  const currency = typeof req.query.currency === "string" ? req.query.currency.toUpperCase() : "USD";
+  const requestedDays = Number.parseInt(String(req.query.days || "7"), 10);
+  const days = [7, 30, 90].includes(requestedDays) ? requestedDays : 7;
+  const cacheKey = `history:${currency}:${days}`;
+  const now = Date.now();
+
+  if (historyCache[cacheKey] && now - historyCache[cacheKey].timestamp < HISTORY_CACHE_DURATION) {
+    res.setHeader("Cache-Control", "s-maxage=21600, stale-while-revalidate=43200");
+    return res.json(historyCache[cacheKey].data);
+  }
+
+  try {
+    const today = new Date();
+    const dates = Array.from({ length: days }, (_, index) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() - (days - 1 - index));
+      return date;
+    });
+
+    const points = await Promise.all(
+      dates.map(async (date) => {
+        const nbuDate = formatNbuDate(date);
+        try {
+          const res = await fetch(
+            `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${currency}&date=${nbuDate}&json`,
+          );
+          if (!res.ok) return { date: date.toISOString().slice(0, 10), rate: null };
+          const data = await res.json();
+          const first = Array.isArray(data) ? data[0] : null;
+          return {
+            date: date.toISOString().slice(0, 10),
+            rate: typeof first?.rate === "number" ? first.rate : null,
+          };
+        } catch {
+          return { date: date.toISOString().slice(0, 10), rate: null };
+        }
+      }),
+    );
+
+    const payload = { currency, base: "UAH", days, points, updatedAt: new Date().toISOString(), source: "NBU official API" };
+    historyCache[cacheKey] = { data: payload, timestamp: now };
+    res.setHeader("Cache-Control", "s-maxage=21600, stale-while-revalidate=43200");
+    res.json(payload);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch history", currency, points: [] });
+  }
+});
+
 app.get("/api/rates", async (req, res) => {
   try {
     const forceFresh = req.query.fresh === "1" || req.query.fresh === "true";
-    const [nbu, privat, mono] = await Promise.all([
-      fetchWithCache("nbu", "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json", forceFresh),
-      fetchWithCache("privat", "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5", forceFresh),
-      fetchWithCache("mono", "https://api.monobank.ua/bank/currency", forceFresh)
-    ]);
-
-    const fetchBankRates = async (bankSlug: string) => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout for scraping
-
-      try {
-        const res = await fetch(`https://finance.ua/ua/currency/banks/${bankSlug}`, { 
-          signal: controller.signal,
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        }).catch(() => null);
-        
-        clearTimeout(timeoutId);
-
-        if (res && res.ok) {
-          const html = await res.text();
-          const usdMatch = html.match(/USD.*?([0-9]+\.[0-9]+).*?([0-9]+\.[0-9]+)/s);
-          const eurMatch = html.match(/EUR.*?([0-9]+\.[0-9]+).*?([0-9]+\.[0-9]+)/s);
-          const rates = [];
-          if (usdMatch) rates.push({ cc: "USD", buy: parseFloat(usdMatch[1]), sale: parseFloat(usdMatch[2]) });
-          if (eurMatch) rates.push({ cc: "EUR", buy: parseFloat(eurMatch[1]), sale: parseFloat(eurMatch[2]) });
-          return rates;
-        }
-      } catch (e) {
-        clearTimeout(timeoutId);
-        console.error(`Scraping error for ${bankSlug}:`, e);
-      }
-      return [];
-    };
-
-    const [pumbRates, raifRates, oschadRates] = await Promise.all([
-      fetchBankRates("pumb"),
-      fetchBankRates("raif"),
-      fetchBankRates("oshhadbank")
-    ]);
-
-    const getWithFallback = (rates: any[]) => {
-      if (rates.length > 0) return rates;
-      return [];
-    };
-
+    const data = await RatesAggregatorService.getAggregatedRates(forceFresh);
     res.setHeader("Cache-Control", forceFresh ? "no-store" : "s-maxage=900, stale-while-revalidate=1800");
-    const updatedAt = new Date().toISOString();
-    const sources = {
-      nbu: { ok: Array.isArray(nbu) && nbu.length > 0, source: "NBU official API", count: Array.isArray(nbu) ? nbu.length : 0, updatedAt },
-      privat: { ok: Array.isArray(privat) && privat.length > 0, source: "PrivatBank public API", count: Array.isArray(privat) ? privat.length : 0, updatedAt },
-      mono: { ok: Array.isArray(mono) && mono.length > 0, source: "monobank public API", count: Array.isArray(mono) ? mono.length : 0, updatedAt },
-      raif: { ok: raifRates.length > 0, source: "finance.ua bank page", count: raifRates.length, updatedAt },
-      pumb: { ok: pumbRates.length > 0, source: "finance.ua bank page", count: pumbRates.length, updatedAt },
-      oschad: { ok: oschadRates.length > 0, source: "finance.ua bank page", count: oschadRates.length, updatedAt },
-    };
-
-    res.json({
-      base: "UAH",
-      nbu,
-      privat,
-      mono,
-      raif: getWithFallback(raifRates),
-      pumb: getWithFallback(pumbRates),
-      oschad: getWithFallback(oschadRates),
-      sources,
-      updatedAt
-    });
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch rates" });
   }
@@ -136,7 +96,7 @@ app.get("/llms.txt", (_req, res) => {
   res.type("text/plain");
   res.send(`# UAH.today
 
-Live exchange rates in Ukraine for USD, EUR, PLN and GBP.
+Live exchange rates in Ukraine for USD, EUR, PLN, GBP and CHF.
 
 Machine-readable data:
 - /api/rates
@@ -166,21 +126,16 @@ async function setupVite() {
     });
     app.use(vite.middlewares);
   } else {
-    // In production mode, explicitly serve static files from dist
     app.use(express.static(distPath));
-    
-    // SPA Fallback for routes not handled by static or API
     app.get("*", (req, res) => {
-      // Avoid infinite loops if assets are missing
-      if (req.url.startsWith('/api') || req.url.includes('.')) {
-        return res.status(404).send('Not found');
+      if (req.url.startsWith("/api") || req.url.includes(".")) {
+        return res.status(404).send("Not found");
       }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
 }
 
-// Start the server (Cloud Run/Local)
 if (!process.env.VERCEL) {
   setupVite().then(() => {
     app.listen(PORT, "0.0.0.0", () => {
@@ -188,13 +143,9 @@ if (!process.env.VERCEL) {
     });
   });
 } else {
-  // On Vercel, setupVite logic (SPA fallback) still needs to run
-  // but we can't await it top-level if we want synchronous export
-  // However, Express handles routes in order. The API and Static are already registered.
-  // We just need the wildcard.
   app.get("*", (req, res) => {
-    if (req.url.startsWith('/api') || req.url.includes('.')) {
-      return res.status(404).send('Not found');
+    if (req.url.startsWith("/api") || req.url.includes(".")) {
+      return res.status(404).send("Not found");
     }
     res.sendFile(path.join(distPath, "index.html"));
   });

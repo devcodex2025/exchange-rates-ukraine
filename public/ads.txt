@@ -1,0 +1,3 @@
+# Google AdSense ads.txt for UAH.today
+# Add your Google Publisher ID once approved by AdSense:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

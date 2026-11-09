@@ -1,11 +1,22 @@
-import React, { useMemo } from "react";
-import { ArrowRight, Bot, CheckCircle2, Globe2, RefreshCw, ShieldCheck, SunMoon } from "lucide-react";
+import React, { lazy, Suspense, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { ArrowRight, Bot, CheckCircle2, Globe2, RefreshCw, ShieldCheck, SunMoon, AlertCircle } from "lucide-react";
 import { CurrencyCard } from "../components/CurrencyCard";
 import { CurrencyConverter } from "../components/CurrencyConverter";
 import { FullFAQ } from "../components/FullFAQ";
 import { RatesTable } from "../components/RatesTable";
+import { BestRateFinder } from "../components/BestRateFinder";
+import { MarketInsights } from "../components/MarketInsights";
+import { EditorialContent } from "../components/EditorialContent";
+import { AdSlot } from "../components/AdSlot";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatDateTime, formatRate, getBestRates, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
+import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+
+const UsdHistoryChart = lazy(() => import("../components/UsdHistoryChart").then((module) => ({ default: module.UsdHistoryChart })));
 
 interface DashboardProps {
   data: RawRatesResponse | null;
@@ -28,161 +39,234 @@ export const Dashboard: React.FC<DashboardProps> = ({
   locale,
   setLocale,
 }) => {
+  const { pathname } = useLocation();
   const rates = useMemo(() => normalizeRates(data), [data]);
   const sources = useMemo(() => getSourceSummary(data), [data]);
   const updatedAt = data?.updatedAt || null;
   const copy = UI_COPY[locale];
   const isEnglish = locale === "en";
 
-  const heroRates = CURRENCY_CODES.slice(0, 3).map((code) => {
-    const { bestBuy, bestSell } = getBestRates(rates, code);
-    const nbu = rates.find((rate) => rate.code === code && rate.bankId === "nbu")?.nbu ?? null;
-    return { code, bestBuy, bestSell, nbu };
-  });
+  // Derive initial tab and topic from pathname
+  const initialTab = useMemo(() => {
+    if (pathname.includes("kurs-nbu")) return "nbu";
+    if (pathname.includes("converter") || pathname.includes("konverter")) return "converter";
+    return "banks";
+  }, [pathname]);
+
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  const topic = useMemo(() => {
+    if (pathname.includes("dolara") || pathname.includes("usd")) return "usd";
+    if (pathname.includes("evro") || pathname.includes("eur")) return "eur";
+    if (pathname.includes("zlotogo")) return "pln";
+    if (pathname.includes("funta")) return "gbp";
+    if (pathname.includes("nbu")) return "nbu";
+    return "general";
+  }, [pathname]);
 
   return (
     <>
-      <header className="relative -mx-4 -mt-4 overflow-hidden bg-white text-slate-950 dark:bg-slate-950 dark:text-white sm:-mx-6 lg:-mx-8">
-        <div className="absolute inset-0 hidden opacity-45 dark:block">
-          <video aria-hidden="true" autoPlay className="hidden h-full w-full object-cover md:block" loop muted playsInline preload="metadata">
-            <source src="/hero-fintech.webm" type="video/webm" />
-          </video>
-          <img className="h-full w-full object-cover md:hidden" src="/hero-mobile.webp" alt="" loading="eager" />
-        </div>
-        <div className="absolute inset-0 hidden bg-slate-950/45 dark:block" />
+      {/* Modern Fintech Header & Quick Bar */}
+      <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-7">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <span className="inline-block text-xs font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
+              {copy.eyebrow}
+            </span>
+            <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-4xl">
+              {copy.heroTitle}
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:text-base">
+              {copy.heroSubtitle}
+            </p>
 
-        <div className="relative mx-auto flex min-h-[100dvh] max-w-7xl flex-col px-4 py-3 sm:px-6 lg:px-8">
-          <nav className="border-b border-slate-200/80 py-3 dark:border-white/10">
-            <div className="flex items-center justify-between gap-3">
-              <a className="text-lg font-black tracking-tight" href="/">
-                UAH.today
+            <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <a href="#best-rates" className="rounded-lg bg-slate-950 px-3 py-1.5 font-bold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
+                {copy.navBest} &darr;
               </a>
-              <div className="flex items-center gap-2">
-                <button
-                  className="inline-flex h-10 items-center gap-1 rounded-md border border-slate-200 px-3 text-sm font-black transition active:scale-[0.98] dark:border-white/15"
-                  onClick={() => setLocale(isEnglish ? "uk" : "en")}
-                  type="button"
-                >
-                  <Globe2 size={15} /> {isEnglish ? "UK" : "EN"}
-                </button>
-                <button
-                  aria-label={isEnglish ? "Toggle theme" : "Перемкнути тему"}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 transition active:scale-[0.98] dark:border-white/15"
-                  onClick={() => setDarkMode(!darkMode)}
-                  type="button"
-                >
-                  <SunMoon size={16} />
-                </button>
-              </div>
-            </div>
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#rates-table">
+              <a href="#rates-table" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
                 {copy.navRates}
               </a>
-              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#converter">
+              <a href="#converter" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
                 {copy.navConverter}
               </a>
-              <a className="shrink-0 rounded-md px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:text-slate-200 dark:hover:bg-white/10" href="#faq">
-                {copy.faq}
+              <a href="#market-insights" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
+                {copy.navInsights}
               </a>
             </div>
-          </nav>
+          </div>
 
-          <section className="grid flex-1 gap-8 py-10 md:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <div className="max-w-3xl self-center">
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-200">
-                {copy.eyebrow}
-              </p>
-              <h1 className="text-4xl font-black leading-none tracking-tight md:text-6xl">
-                {copy.heroTitle}
-              </h1>
-              <p className="mt-5 max-w-[65ch] text-base leading-7 text-slate-600 dark:text-slate-200 md:text-lg">
-                {copy.heroSubtitle}
-              </p>
+          {/* Quick Refresh & Source Health Panel */}
+          <div className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/60 lg:min-w-[280px]">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                {copy.lastUpdate}
+              </span>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={fetchData}
+                aria-label={copy.refresh}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-black text-slate-700 transition hover:border-cyan-500 hover:text-cyan-600 active:scale-[0.98] disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+              >
+                <RefreshCw size={12} className={loading ? "animate-spin text-cyan-600" : ""} />
+                <span>{copy.refresh}</span>
+              </button>
+            </div>
 
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a className="rounded-lg bg-cyan-500 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-400 active:scale-[0.98]" href="#rates-table">
-                  {copy.viewRates} <ArrowRight className="inline" size={16} />
-                </a>
-                <a className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-black transition hover:bg-slate-100 active:scale-[0.98] dark:border-white/25 dark:hover:bg-white/10" href="#converter">
-                  {copy.converter}
-                </a>
+            <div className="font-mono text-base font-black text-slate-900 dark:text-white">
+              {formatDateTime(updatedAt, isEnglish ? "en-US" : "uk-UA")}
+            </div>
+
+            <div className="border-t border-slate-200/60 pt-2.5 dark:border-slate-800">
+              <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                {copy.liveSources}
               </div>
-
-              <div className="mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-                {heroRates.map((item) => (
-                  <article className="border-t border-slate-200 pt-4 dark:border-white/15" key={item.code}>
-                    <p className="font-mono text-sm font-black text-cyan-700 dark:text-cyan-200">{item.code}/UAH</p>
-                    <p className="mt-2 font-mono text-3xl font-black">{formatRate(item.bestSell?.sell ?? item.nbu)}</p>
-                    <p className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-300">
-                      {copy.sell} {formatRate(item.bestSell?.sell)} · {copy.buy} {formatRate(item.bestBuy?.buy)}
-                    </p>
-                  </article>
+              <div className="mt-1.5 grid grid-cols-3 gap-1.5 text-[11px] font-bold">
+                {sources.slice(0, 6).map((source) => (
+                  <div key={source.id} className="flex items-center gap-1 text-slate-700 dark:text-slate-300" title={`${source.name}: ${source.ok ? copy.available : copy.unavailable}`}>
+                    <CheckCircle2 size={12} className={source.ok ? "text-emerald-500" : "text-amber-500"} />
+                    <span className="truncate">{source.shortName}</span>
+                  </div>
                 ))}
               </div>
             </div>
-
-            <aside className="self-end rounded-xl border border-slate-200 bg-white p-5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-slate-950/55 dark:shadow-none dark:backdrop-blur">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">{copy.lastUpdate}</p>
-              <p className="mt-2 text-2xl font-black">{formatDateTime(updatedAt, isEnglish ? "en-US" : "uk-UA")}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-200">{copy.definitions}</p>
-              <button
-                className="mt-4 rounded-md bg-slate-950 px-3 py-2 text-sm font-black text-white transition active:scale-[0.98] disabled:opacity-60 dark:bg-white dark:text-slate-950"
-                disabled={loading}
-                onClick={fetchData}
-                type="button"
-              >
-                <RefreshCw className={loading ? "inline animate-spin" : "inline"} size={15} /> {copy.refresh}
-              </button>
-
-              <div className="mt-5 border-t border-slate-200 pt-4 dark:border-white/10">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">{copy.liveSources}</p>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  {sources.map((source) => (
-                    <div className="flex items-center gap-2 text-xs font-bold" key={source.id}>
-                      <CheckCircle2 className={source.ok ? "text-cyan-600 dark:text-cyan-300" : "text-amber-500"} size={14} />
-                      <span>{source.shortName}</span>
-                      <span className="text-slate-400">{source.ok ? copy.available : copy.unavailable}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-          </section>
+          </div>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-bold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
-          {error}
+        <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-bold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+          <AlertCircle size={16} />
+          <span>{error}</span>
         </div>
       ) : null}
 
-      <section aria-label={isEnglish ? "Key exchange rate cards" : "Ключові картки курсів валют"} className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {/* 1. Best Rate Finder (PRD Section 3.5) */}
+      <BestRateFinder rates={rates} locale={locale} />
+
+      {/* 2. Key Currency Cards (PRD Section 3.2) */}
+      <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {CURRENCY_CODES.map((code) => (
           <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
         ))}
       </section>
 
+      {/* Non-intrusive Ad Placement 1 */}
+      <AdSlot slotId="ad-top-banner" locale={locale} />
+
+      {/* 3. Smart Currency Converter (PRD Section 3.4) */}
+      <CurrencyConverter rates={rates} locale={locale} />
+
+      {/* 4. Currency Market Insights (PRD Section 3.6) */}
+      <MarketInsights rates={rates} locale={locale} />
+
+      {/* 5. Bank Comparison Table & Historical Chart (PRD Section 3.3) */}
       <section className="grid gap-5 xl:grid-cols-[1fr_320px]">
-        <div className="flex flex-col gap-5">
-          <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} />
-          <CurrencyConverter rates={rates} locale={locale} />
-        </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList>
+            <TabsTrigger value="banks">{isEnglish ? "Banks" : "Банки"}</TabsTrigger>
+            <TabsTrigger value="nbu">{copy.nbu}</TabsTrigger>
+            <TabsTrigger value="exchange">{isEnglish ? "Exchange offices" : "Обмінники"}</TabsTrigger>
+            <TabsTrigger value="crypto">{isEnglish ? "Crypto" : "Крипта"}</TabsTrigger>
+            <TabsTrigger value="converter">{copy.navConverter}</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="banks">
+            <div className="flex flex-col gap-5">
+              <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} sourceFilter="banks" />
+              <Suspense
+                fallback={
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>USD/UAH</CardTitle>
+                      <CardDescription>{isEnglish ? "Loading chart..." : "Завантажуємо графік..."}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                }
+              >
+                <UsdHistoryChart locale={locale} />
+              </Suspense>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="nbu">
+            <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} sourceFilter="nbu" title={isEnglish ? "NBU official rates" : "Офіційний курс НБУ"} />
+          </TabsContent>
+
+          <TabsContent value="exchange">
+            <Card>
+              <CardHeader>
+                <CardTitle>{isEnglish ? "Exchange offices" : "Обмінники"}</CardTitle>
+                <CardDescription>{isEnglish ? "Verified exchange offices will be added after API integration." : "Сертифіковані пункти обміну будуть підключені після валідації API."}</CardDescription>
+              </CardHeader>
+              <CardContent><Badge variant="outline">{copy.noData}</Badge></CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="crypto">
+            <Card>
+              <CardHeader>
+                <CardTitle>{isEnglish ? "Crypto (USDT/UAH)" : "Крипта (USDT/UAH)"}</CardTitle>
+                <CardDescription>{isEnglish ? "Crypto market quotes are shown once authorized providers are attached." : "Криптовалютні котирування будуть увімкнені після підключення ліцензованого провайдера."}</CardDescription>
+              </CardHeader>
+              <CardContent><Badge variant="outline">{copy.noData}</Badge></CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="converter">
+            <Card>
+              <CardHeader>
+                <CardTitle>{copy.converter}</CardTitle>
+                <CardDescription>{isEnglish ? "The smart converter is placed above for quick calculations." : "Розумний конвертер доступний вище на сторінці для швидкого розрахунку."}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <a className="text-sm font-black text-cyan-700 dark:text-cyan-300 hover:underline" href="#converter">
+                  {copy.converter} &uarr;
+                </a>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        {/* Sidebar Info & Trust */}
         <aside className="hidden flex-col gap-5 xl:flex">
-          <section className="rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <ShieldCheck className="text-cyan-600" size={24} />
-            <h2 className="mt-3 text-lg font-black text-slate-950 dark:text-white">{copy.trustTitle}</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{copy.trustBody}</p>
-          </section>
-          <section className="rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <Bot className="text-cyan-600" size={24} />
-            <h2 className="mt-3 text-lg font-black text-slate-950 dark:text-white">{copy.aiTitle}</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{copy.aiBody}</p>
-          </section>
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2 text-cyan-600">
+                <ShieldCheck size={20} />
+                <CardTitle className="text-base">{copy.trustTitle}</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xs leading-6 text-slate-600 dark:text-slate-300">
+                {copy.trustBody}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2 text-cyan-600">
+                <Bot size={20} />
+                <CardTitle className="text-base">{copy.aiTitle}</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xs leading-6 text-slate-600 dark:text-slate-300">
+                {copy.aiBody}
+              </p>
+            </CardContent>
+          </Card>
+
+          <AdSlot slotId="ad-sidebar" locale={locale} />
         </aside>
       </section>
 
+      {/* 6. Editorial Knowledge & Guide (PRD Section 5.4) */}
+      <EditorialContent topic={topic} locale={locale} />
+
+      {/* 7. Full FAQ */}
       <FullFAQ locale={locale} />
     </>
   );

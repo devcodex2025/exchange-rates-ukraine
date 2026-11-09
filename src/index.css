@@ -1,3 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Bebas+Neue&family=Space+Mono&family=Montserrat:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
-@variant dark (&:where(.dark, .dark *));
+@theme {
+  /* Colors */
+  --color-canvas-white: #ffffff;
+  --color-midnight-black: #000000;
+  --color-subtle-gray: #b7b7b7;
+  --color-anchor-gray: #333333;
+  --color-faded-gray: #858585;
+
+  /* Typography */
+  --font-sterlingvf: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-formative: 'Bebas Neue', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-voyager: 'Space Mono', ui-monospace, monospace;
+  --font-anthrovf: 'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1.71;
+  --text-body: 14px;
+  --leading-body: 1.5;
+  --tracking-body: 0.17px;
+  --text-body-lg: 16px;
+  --leading-body-lg: 1.5;
+  --text-display-sm: 115px;
+  --leading-display-sm: 1.2;
+  --text-display: 158px;
+  --leading-display: 1;
+  --tracking-display: -2px;
+
+  /* Spacing */
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-36: 36px;
+  --spacing-112: 112px;
+  --spacing-136: 136px;
+  --spacing-160: 160px;
+
+  /* Border Radius */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+}
+
+body {
+  font-family: var(--font-sterlingvf);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  background-color: var(--color-canvas-white);
+  color: var(--color-midnight-black);
+}
