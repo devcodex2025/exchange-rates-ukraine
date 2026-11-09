@@ -26,9 +26,9 @@ export const CURRENCY_NAMES: Record<string, { uk: string; en: string; symbol: st
 export const BANKS = [
   { id: "privat", name: "PrivatBank", shortName: "Privat", logo: "/logos/privat.svg", source: "Public API" },
   { id: "mono", name: "monobank", shortName: "mono", logo: "/logos/mono.svg", source: "Public API" },
-  { id: "raif", name: "Raiffeisen Bank", shortName: "Raif", logo: "/logos/raiffeisen.svg", source: "Finance.ua page" },
-  { id: "oschad", name: "Oschadbank", shortName: "Oschad", logo: "/logos/oschad.svg", source: "Finance.ua page" },
-  { id: "pumb", name: "PUMB", shortName: "PUMB", logo: "/logos/pumb.svg", source: "Finance.ua page" },
+  { id: "raif", name: "Raiffeisen Bank", shortName: "Raif", logo: "/logos/raiffeisen.svg", source: "Minfin page" },
+  { id: "oschad", name: "Oschadbank", shortName: "Oschad", logo: "/logos/oschad.svg", source: "Minfin page" },
+  { id: "pumb", name: "PUMB", shortName: "PUMB", logo: "/logos/pumb.svg", source: "Minfin page" },
   { id: "nbu", name: "National Bank of Ukraine", shortName: "NBU", logo: "/logos/nbu.svg", source: "Official API" },
 ] as const;
 
