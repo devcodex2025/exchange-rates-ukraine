@@ -6,11 +6,11 @@
 
 **UAH.today** is a modern, high-performance currency comparison platform that helps people find the best exchange rates across Ukrainian banks and the National Bank of Ukraine (NBU).
 
-| Dashboard · light theme | Dashboard · dark theme |
+| Dashboard · light theme | Bank comparison table · dark theme |
 |---|---|
-| ![UAH.today dashboard with best-rate cards and a full-bleed hero glow, light theme](docs/screenshots/dashboard-light.png) | ![UAH.today dashboard in dark theme with best-rate cards](docs/screenshots/dashboard-dark.png) |
-| **Bank comparison table** | **English version** |
-| ![Sortable bank comparison table with USD, EUR, PLN, GBP and CHF quotes](docs/screenshots/rates-overview.png) | ![English version of the dashboard](docs/screenshots/en-dashboard.png) |
+| ![UAH.today dashboard with best-rate cards and a full-bleed hero glow, light theme](docs/screenshots/dashboard-light.png) | ![Dark-theme bank comparison table with best buy and sell quotes across banks](docs/screenshots/dashboard-dark.png) |
+| **Currency overview cards** | **English version** |
+| ![Currency overview cards with best buy and sell quotes for USD, EUR, PLN, GBP and CHF](docs/screenshots/rates-overview.png) | ![English version of the dashboard](docs/screenshots/en-dashboard.png) |
 
 **Try it live:** [exchange-rates-ukraine.vercel.app](https://exchange-rates-ukraine.vercel.app/) (UA) · [exchange-rates-ukraine.vercel.app/en](https://exchange-rates-ukraine.vercel.app/en) (EN)
 
