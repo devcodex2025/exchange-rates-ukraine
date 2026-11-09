@@ -7,6 +7,7 @@ import { FullFAQ } from "../components/FullFAQ";
 import { RatesTable } from "../components/RatesTable";
 import { BestRateFinder } from "../components/BestRateFinder";
 import { MarketInsights } from "../components/MarketInsights";
+import { SourcesTicker } from "../components/SourcesTicker";
 import { EditorialContent } from "../components/EditorialContent";
 import { TaglineReveal } from "../components/TaglineReveal";
 import { RatesSkeleton } from "../components/RatesSkeleton";
@@ -202,34 +203,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </section>
 
-      {/* Data sources strip per B8 transparency */}
-      {!loading && rates.length > 0 ? (
-        <section
-          aria-label={isEnglish ? "Data sources" : "Джерела даних"}
-          className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-[#ADB7BE]"
-        >
-          <span className="font-semibold uppercase tracking-wider text-slate-700 dark:text-[#ADB7BE]">
-            {isEnglish ? "Sources" : "Джерела"}
-          </span>
-          <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            {sources.map((source) => (
-              <li
-                key={source.id}
-                className="t-tip-group relative inline-flex items-center gap-1.5"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-1.5 w-1.5 rounded-full ${source.ok ? "bg-emerald-500" : "bg-slate-300 dark:bg-[#2E2E2E]"}`}
-                />
-                <span>{source.name}</span>
-                <span className="t-tip" role="tooltip">
-                  {source.source}: {source.count} {isEnglish ? "rates" : "курсів"}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      {/* Data sources band - infinite ui8-style marquee, pauses on hover */}
+      {!loading && rates.length > 0 ? <SourcesTicker sources={sources} isEnglish={isEnglish} /> : null}
 
       {error ? (
         <div

@@ -7,6 +7,17 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          // GSAP changes rarely - keep it in its own cacheable chunk so app
+          // code updates do not invalidate the motion library in vendor cache.
+          manualChunks: {
+            gsap: ["gsap", "gsap/ScrollTrigger"],
+          },
+        },
+      },
+    },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },

@@ -748,6 +748,35 @@ p, li, td {
   to { transform: translate3d(-8%, -6%, 0) scale(0.97); }
 }
 
+/* Sources ticker: infinite bank-chip marquee (ui8 spirit).
+   GSAP owns the translate3d motion; CSS owns the edge fade, the vertical
+   escape hatch for tips (overflow-x clip keeps tooltips alive) and the
+   reduced-motion fallback (copies collapse into a static wrapped row). */
+.sources-ticker {
+  overflow-x: clip;
+  overflow-y: visible;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sources-ticker {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .sources-ticker-track {
+    display: block;
+    width: 100%;
+  }
+  .sources-ticker-track ul {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .sources-ticker-clone {
+    display: none;
+  }
+}
+
 .hero-glow {
   background:
     radial-gradient(42% 55% at 78% 28%, rgba(101, 128, 154, 0.11), transparent 72%),
