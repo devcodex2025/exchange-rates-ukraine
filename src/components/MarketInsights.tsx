@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { BarChart3, HelpCircle, Info, Percent, TrendingDown, TrendingUp } from "lucide-react";
-import { CURRENCY_CODES, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
+import { BarChart3, Info } from "lucide-react";
+import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatRate, getMarketInsights, NormalizedRate } from "../lib/rates";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import { Badge } from "./ui/badge";
 
 interface MarketInsightsProps {
   rates: NormalizedRate[];
@@ -18,24 +17,24 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
   const insights = getMarketInsights(rates, selectedCurrency);
 
   return (
-    <Card className="border-slate-200 shadow-sm dark:border-slate-800" id="market-insights">
-      <CardHeader className="pb-3">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <Card className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="market-insights">
+      <CardHeader className="pb-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-blue-600/10 p-2.5 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-blue-50 text-blue-600 dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-blue-400">
               <BarChart3 size={20} />
             </div>
             <div>
-              <CardTitle className="text-lg font-black text-slate-950 dark:text-white sm:text-xl">
+              <CardTitle className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.insightsTitle}
               </CardTitle>
-              <CardDescription className="text-xs sm:text-sm">
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
                 {copy.insightsSubtitle}
               </CardDescription>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Insight currencies">
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Insight currencies">
             {CURRENCY_CODES.map((code) => {
               const active = selectedCurrency === code;
               return (
@@ -44,10 +43,10 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
                   role="tab"
                   aria-selected={active}
                   onClick={() => setSelectedCurrency(code)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-black transition ${
+                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
                   }`}
                 >
                   {code}
@@ -58,48 +57,48 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="pt-0">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Metric 1: NBU vs Bank Spread */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+          {/* Metric 1 */}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#272727] dark:bg-[#1F1F1F]">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
               {isEnglish ? "Official NBU rate" : "Офіційний курс НБУ"}
             </span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="font-mono text-2xl font-black text-slate-950 dark:text-white">
+              <span className="font-mono text-2xl font-semibold text-slate-950 dark:text-white">
                 {formatRate(insights.nbuRate)}
               </span>
-              <span className="text-xs font-bold text-slate-400">UAH</span>
+              <span className="font-mono text-xs text-slate-400">UAH</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
               {isEnglish ? "National bank benchmark" : "Базовий орієнтир ринку"}
             </p>
           </div>
 
-          {/* Metric 2: Best Available Spread */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+          {/* Metric 2 */}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#272727] dark:bg-[#1F1F1F]">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
               {isEnglish ? "Minimum market spread" : "Мінімальний спред"}
             </span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="font-mono text-2xl font-black text-slate-950 dark:text-white">
+              <span className="font-mono text-2xl font-semibold text-slate-950 dark:text-white">
                 {insights.bestSpread !== null ? `${insights.bestSpread.toFixed(2)}` : "—"}
               </span>
-              <span className="text-xs font-bold text-slate-400">UAH</span>
+              <span className="font-mono text-xs text-slate-400">UAH</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
               {isEnglish ? "Difference between best sell and buy" : "Різниця кращого продажу і купівлі"}
             </p>
           </div>
 
-          {/* Metric 3: Bank buy dispersion */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+          {/* Metric 3 */}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#272727] dark:bg-[#1F1F1F]">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
               {isEnglish ? "Bank buy range" : "Діапазон купівлі банків"}
             </span>
-            <div className="mt-2 flex items-baseline gap-1 font-mono text-base font-black text-slate-950 dark:text-white">
+            <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
               <span>{formatRate(insights.worstBuyRate)}</span>
-              <span className="text-slate-400 font-normal">...</span>
+              <span className="font-normal text-slate-400">...</span>
               <span>{formatRate(insights.bestBuyRate)}</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
@@ -109,14 +108,14 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
             </p>
           </div>
 
-          {/* Metric 4: Bank sell dispersion */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+          {/* Metric 4 */}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#272727] dark:bg-[#1F1F1F]">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
               {isEnglish ? "Bank sell range" : "Діапазон продажу банків"}
             </span>
-            <div className="mt-2 flex items-baseline gap-1 font-mono text-base font-black text-slate-950 dark:text-white">
+            <div className="mt-2 flex items-baseline gap-1 font-mono text-sm font-semibold text-slate-950 dark:text-white">
               <span>{formatRate(insights.bestSellRate)}</span>
-              <span className="text-slate-400 font-normal">...</span>
+              <span className="font-normal text-slate-400">...</span>
               <span>{formatRate(insights.worstSellRate)}</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
@@ -127,12 +126,12 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
           </div>
         </div>
 
-        {/* Short educational market definition box */}
-        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50/50 p-3.5 text-xs text-slate-700 dark:border-blue-950/40 dark:bg-blue-950/20 dark:text-slate-300">
+        {/* Informational callout */}
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-700 dark:border-[#272727] dark:bg-[#1F1F1F] dark:text-slate-300">
           <div className="flex items-start gap-2.5">
-            <Info size={16} className="mt-0.5 shrink-0 text-blue-600 dark:text-blue-400" />
+            <Info size={16} className="mt-0.5 shrink-0 text-cyan-600 dark:text-cyan-400" />
             <div>
-              <strong className="font-bold text-slate-900 dark:text-white">
+              <strong className="font-semibold text-slate-900 dark:text-white">
                 {isEnglish ? "How to interpret market spread:" : "Як рахується вигода від спреду:"}
               </strong>{" "}
               {isEnglish

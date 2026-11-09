@@ -21,52 +21,63 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
   const spread = bestBuy?.buy && bestSell?.sell ? bestSell.sell - bestBuy.buy : null;
 
   return (
-    <Card className="transition active:scale-[0.99]">
-      <CardHeader className="pb-4">
-        <div>
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <CardTitle className="font-mono text-2xl">{code}</CardTitle>
-                <Badge variant="secondary">{currency?.symbol}</Badge>
-              </div>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{currency?.[locale] || code}</p>
+    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-md active:scale-[0.99] dark:border-[#272727] dark:bg-[#181818]">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <CardTitle className="font-mono text-xl font-semibold">{code}</CardTitle>
+              <Badge variant="secondary" className="font-mono text-xs font-semibold">{currency?.symbol}</Badge>
             </div>
-            {bank?.logo ? (
-              <img className="h-8 max-w-20 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
-            ) : (
-              <TrendingUp className="text-cyan-600" size={22} />
-            )}
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{currency?.[locale] || code}</p>
           </div>
+          {bank?.logo ? (
+            <img className="h-7 max-w-16 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
+          ) : (
+            <TrendingUp className="text-cyan-600 dark:text-cyan-400" size={20} />
+          )}
         </div>
       </CardHeader>
 
-      <CardContent>
-      <dl className="grid grid-cols-2 gap-3">
-        <div className="rounded-lg bg-cyan-50 p-3 dark:bg-cyan-950/30">
-          <dt className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-cyan-700 dark:text-cyan-300">
-            <ArrowUp size={12} /> {copy.buy}
-          </dt>
-          <dd className="mt-1 font-mono text-2xl font-black text-slate-950 dark:text-white">{formatRate(bestBuy?.buy)}</dd>
-          <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{bestBuy?.bankName || copy.noData}</p>
-        </div>
-        <div className="rounded-lg bg-amber-50 p-3 dark:bg-amber-950/30">
-          <dt className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-amber-700 dark:text-amber-300">
-            <ArrowDown size={12} /> {copy.sell}
-          </dt>
-          <dd className="mt-1 font-mono text-2xl font-black text-slate-950 dark:text-white">{formatRate(bestSell?.sell)}</dd>
-          <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{bestSell?.bankName || copy.noData}</p>
-        </div>
-      </dl>
+      <CardContent className="pt-0">
+        <dl className="grid grid-cols-2 gap-2.5">
+          <div className="rounded-xl border border-emerald-500/10 bg-emerald-50/50 p-2.5 dark:border-emerald-500/20 dark:bg-emerald-950/20">
+            <dt className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+              <ArrowUp size={11} /> {copy.buy}
+            </dt>
+            <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
+              {formatRate(bestBuy?.buy)}
+            </dd>
+            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              {bestBuy?.bankName || copy.noData}
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-cyan-500/10 bg-cyan-50/50 p-2.5 dark:border-cyan-500/20 dark:bg-cyan-950/20">
+            <dt className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
+              <ArrowDown size={11} /> {copy.sell}
+            </dt>
+            <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
+              {formatRate(bestSell?.sell)}
+            </dd>
+            <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              {bestSell?.bankName || copy.noData}
+            </p>
+          </div>
+        </dl>
       </CardContent>
 
-      <CardFooter className="justify-between border-t border-slate-100 pt-4 text-xs dark:border-slate-800">
-        <span className="font-semibold text-slate-500 dark:text-slate-400">{copy.nbu} {formatRate(nbu)}</span>
+      <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#272727]">
+        <span className="font-mono text-xs font-medium text-slate-500 dark:text-slate-400">
+          {copy.nbu} {formatRate(nbu)}
+        </span>
         {bestSell || bestBuy ? (
-          <Badge variant="success">{locale === "en" ? "Best rate" : "Найкращий курс"}</Badge>
+          <Badge variant="outline" className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+            {locale === "en" ? "Top rate" : "Топ курс"}
+          </Badge>
         ) : (
-          <span className="flex items-center gap-1 font-bold text-slate-600 dark:text-slate-300">
-            <Minus size={12} /> {copy.spread} {formatRate(spread)}
+          <span className="flex items-center gap-1 font-mono text-xs text-slate-500">
+            <Minus size={11} /> {copy.spread} {formatRate(spread)}
           </span>
         )}
       </CardFooter>

@@ -309,30 +309,28 @@ export default function App() {
   return (
     <Router>
       <SeoManager locale={locale} setLocale={setLocale} />
-      <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
-        {/* Navigation Bar */}
-        <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/90">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-[#000000] dark:text-slate-100">
+        
+        {/* Floating Navigation Island per rule B7 */}
+        <div className="sticky top-4 z-40 mx-auto max-w-5xl px-4 sm:px-6">
+          <header className="flex h-14 items-center justify-between rounded-2xl border border-slate-200/90 bg-white/85 px-4 shadow-sm backdrop-blur-md transition-colors duration-300 dark:border-[#272727] dark:bg-[#181818]/85 sm:px-6">
             <Link to={isEnglish ? "/en" : "/"} className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tight text-slate-950 dark:text-white">
+              <span className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
                 UAH<span className="text-cyan-600 dark:text-cyan-400">.today</span>
-              </span>
-              <span className="hidden text-xs font-bold text-slate-500 sm:inline">
-                {isEnglish ? "Exchange Rates Ukraine" : "Курси валют в Україні"}
               </span>
             </Link>
 
-            <nav className="hidden items-center gap-6 text-sm font-bold md:flex">
-              <Link to={isEnglish ? "/en/usd-uah-rate" : "/kurs-dolara"} className="hover:text-cyan-600 dark:hover:text-cyan-400">
-                {isEnglish ? "USD Rate" : "Курс долара"}
+            <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
+              <Link to={isEnglish ? "/en/usd-uah-rate" : "/kurs-dolara"} className="transition-colors hover:text-cyan-600 dark:hover:text-cyan-400">
+                {isEnglish ? "USD" : "Долар"}
               </Link>
-              <Link to={isEnglish ? "/en/eur-uah-rate" : "/kurs-evro"} className="hover:text-cyan-600 dark:hover:text-cyan-400">
-                {isEnglish ? "EUR Rate" : "Курс євро"}
+              <Link to={isEnglish ? "/en/eur-uah-rate" : "/kurs-evro"} className="transition-colors hover:text-cyan-600 dark:hover:text-cyan-400">
+                {isEnglish ? "EUR" : "Євро"}
               </Link>
-              <Link to={isEnglish ? "/en/currency-converter" : "/konverter-valyut"} className="hover:text-cyan-600 dark:hover:text-cyan-400">
+              <Link to={isEnglish ? "/en/currency-converter" : "/konverter-valyut"} className="transition-colors hover:text-cyan-600 dark:hover:text-cyan-400">
                 {copy.converter}
               </Link>
-              <Link to={isEnglish ? "/en/about" : "/pro-nas"} className="hover:text-cyan-600 dark:hover:text-cyan-400">
+              <Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition-colors hover:text-cyan-600 dark:hover:text-cyan-400">
                 {copy.aboutLink}
               </Link>
             </nav>
@@ -340,9 +338,9 @@ export default function App() {
             <div className="flex items-center gap-2">
               <Link
                 to={isEnglish ? "/" : "/en"}
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-black transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727]"
               >
-                <Globe2 size={14} />
+                <Globe2 size={13} />
                 <span>{isEnglish ? "UA" : "EN"}</span>
               </Link>
 
@@ -350,16 +348,16 @@ export default function App() {
                 type="button"
                 aria-label={isEnglish ? "Toggle dark mode" : "Перемкнути тему"}
                 onClick={() => setDarkMode(!darkMode)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727]"
               >
-                {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+                {darkMode ? <Sun size={15} /> : <Moon size={15} />}
               </button>
             </div>
-          </div>
-        </header>
+          </header>
+        </div>
 
         {/* Main Content Area */}
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
           <Routes>
             {dashboardPaths.map((path) => (
               <React.Fragment key={path}>
@@ -416,12 +414,11 @@ export default function App() {
           </Routes>
 
           {/* Full Footer with SEO Sitemap & Legal Links */}
-          <footer className="mt-12 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
+          <footer className="mt-16 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-[#272727] dark:text-slate-400">
             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
-              {/* Col 1: Brand & Identity */}
               <div>
-                <p className="text-base font-black text-slate-900 dark:text-white">UAH.today</p>
-                <p className="mt-2 leading-5">
+                <p className="text-base font-semibold text-slate-900 dark:text-white">UAH.today</p>
+                <p className="mt-2 leading-5 text-slate-600 dark:text-slate-400">
                   {isEnglish
                     ? "Independent Ukrainian currency comparison platform. Compare live bank rates, find the best deal, and convert money in seconds."
                     : "Незалежний фінансовий сервіс порівняння курсів валют в банках України. Знаходьте найвигідніший курс за лічені секунди."}
@@ -431,44 +428,41 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Col 2: Currency Rates */}
               <div>
-                <p className="font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                <p className="font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   {isEnglish ? "Currencies" : "Курси валют"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to="/kurs-dolara" className="hover:text-cyan-600">Курс долара (USD)</Link></li>
-                  <li><Link to="/kurs-evro" className="hover:text-cyan-600">Курс євро (EUR)</Link></li>
-                  <li><Link to="/kurs-zlotogo" className="hover:text-cyan-600">Курс злотого (PLN)</Link></li>
-                  <li><Link to="/kurs-funta" className="hover:text-cyan-600">Курс фунта (GBP)</Link></li>
-                  <li><Link to="/kurs-nbu" className="hover:text-cyan-600">Офіційний курс НБУ</Link></li>
+                  <li><Link to="/kurs-dolara" className="transition hover:text-cyan-600">Курс долара (USD)</Link></li>
+                  <li><Link to="/kurs-evro" className="transition hover:text-cyan-600">Курс євро (EUR)</Link></li>
+                  <li><Link to="/kurs-zlotogo" className="transition hover:text-cyan-600">Курс злотого (PLN)</Link></li>
+                  <li><Link to="/kurs-funta" className="transition hover:text-cyan-600">Курс фунта (GBP)</Link></li>
+                  <li><Link to="/kurs-nbu" className="transition hover:text-cyan-600">Офіційний курс НБУ</Link></li>
                 </ul>
               </div>
 
-              {/* Col 3: Popular Banks & Tools */}
               <div>
-                <p className="font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                <p className="font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   {isEnglish ? "Banks & Tools" : "Банки та інструменти"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to="/konverter-valyut" className="hover:text-cyan-600">{copy.converter}</Link></li>
-                  <li><Link to="/kurs-dolara-privatbank" className="hover:text-cyan-600">Курс у ПриватБанку</Link></li>
-                  <li><Link to="/kurs-dolara-monobank" className="hover:text-cyan-600">Курс у monobank</Link></li>
-                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-cyan-600">API /rates <ArrowUpRight size={12} /></a></li>
-                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-cyan-600">llms.txt <ArrowUpRight size={12} /></a></li>
+                  <li><Link to="/konverter-valyut" className="transition hover:text-cyan-600">{copy.converter}</Link></li>
+                  <li><Link to="/kurs-dolara-privatbank" className="transition hover:text-cyan-600">Курс у ПриватБанку</Link></li>
+                  <li><Link to="/kurs-dolara-monobank" className="transition hover:text-cyan-600">Курс у monobank</Link></li>
+                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 transition hover:text-cyan-600">API /rates <ArrowUpRight size={12} /></a></li>
+                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 transition hover:text-cyan-600">llms.txt <ArrowUpRight size={12} /></a></li>
                 </ul>
               </div>
 
-              {/* Col 4: Legal & Policy */}
               <div>
-                <p className="font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                <p className="font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   {isEnglish ? "About & Legal" : "Інформація та правила"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="hover:text-cyan-600">{copy.aboutLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="hover:text-cyan-600">{copy.contactLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="hover:text-cyan-600">{copy.privacyLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="hover:text-cyan-600">{copy.termsLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition hover:text-cyan-600">{copy.aboutLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="transition hover:text-cyan-600">{copy.contactLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="transition hover:text-cyan-600">{copy.privacyLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="transition hover:text-cyan-600">{copy.termsLink}</Link></li>
                   <li>
                     <button
                       type="button"
@@ -476,7 +470,7 @@ export default function App() {
                         localStorage.removeItem("uah_cookie_consent");
                         window.location.reload();
                       }}
-                      className="text-left hover:text-cyan-600"
+                      className="text-left transition hover:text-cyan-600"
                     >
                       {isEnglish ? "Reset Cookie Preferences" : "Налаштування файлів cookie"}
                     </button>
@@ -485,13 +479,13 @@ export default function App() {
               </div>
             </div>
 
-            <div className="border-t border-slate-200/60 pt-4 text-[11px] leading-5 text-slate-400 dark:border-slate-800/60">
+            <div className="border-t border-slate-200/60 pt-4 text-[11px] leading-5 text-slate-400 dark:border-[#272727]">
               <p>{copy.footerNote}</p>
             </div>
           </footer>
         </div>
 
-        {/* GDPR & AdSense Compliant Cookie Consent Banner */}
+        {/* Cookie Consent */}
         <CookieConsent locale={locale} />
       </div>
     </Router>

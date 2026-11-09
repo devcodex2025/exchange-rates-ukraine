@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowRight, Bot, CheckCircle2, Globe2, RefreshCw, ShieldCheck, SunMoon, AlertCircle } from "lucide-react";
+import { ArrowRight, Bot, CheckCircle2, RefreshCw, ShieldCheck, AlertCircle, ArrowUpRight } from "lucide-react";
 import { CurrencyCard } from "../components/CurrencyCard";
 import { CurrencyConverter } from "../components/CurrencyConverter";
 import { FullFAQ } from "../components/FullFAQ";
@@ -8,11 +8,11 @@ import { RatesTable } from "../components/RatesTable";
 import { BestRateFinder } from "../components/BestRateFinder";
 import { MarketInsights } from "../components/MarketInsights";
 import { EditorialContent } from "../components/EditorialContent";
+import { TaglineReveal } from "../components/TaglineReveal";
 import { AdSlot } from "../components/AdSlot";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
-import { formatDateTime, formatRate, getBestRates, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
+import { formatDateTime, getSourceSummary, normalizeRates, RawRatesResponse } from "../lib/rates";
 import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 
@@ -34,10 +34,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   loading,
   error,
   fetchData,
-  darkMode,
-  setDarkMode,
   locale,
-  setLocale,
 }) => {
   const { pathname } = useLocation();
   const rates = useMemo(() => normalizeRates(data), [data]);
@@ -46,7 +43,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const copy = UI_COPY[locale];
   const isEnglish = locale === "en";
 
-  // Derive initial tab and topic from pathname
   const initialTab = useMemo(() => {
     if (pathname.includes("kurs-nbu")) return "nbu";
     if (pathname.includes("converter") || pathname.includes("konverter")) return "converter";
@@ -66,105 +62,118 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <>
-      {/* Modern Fintech Header & Quick Bar */}
-      <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-7">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <span className="inline-block text-xs font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
+      {/* Hero Section per rules B5, B7 and Praveen Kumar style */}
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-10 lg:p-12">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="max-w-[680px]">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-50/60 px-3 py-1 text-xs font-semibold text-cyan-700 dark:border-cyan-500/30 dark:bg-cyan-950/40 dark:text-cyan-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
               {copy.eyebrow}
             </span>
-            <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-4xl">
-              {copy.heroTitle}
+
+            {/* Heading text gradient per B5 */}
+            <h1 className="hero-gradient-text mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl sm:leading-tight">
+              {isEnglish ? (
+                <>
+                  Find the Best Exchange Rate <br className="hidden sm:inline" />
+                  Across Ukrainian Banks
+                </>
+              ) : (
+                <>
+                  Знайдіть найкращий курс валют <br className="hidden sm:inline" />
+                  у банках України сьогодні
+                </>
+              )}
             </h1>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:text-base">
+
+            <p className="mt-4 max-w-[640px] text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
               {copy.heroSubtitle}
             </p>
 
-            <div className="mt-4 flex flex-wrap gap-2 text-xs">
-              <a href="#best-rates" className="rounded-lg bg-slate-950 px-3 py-1.5 font-bold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
-                {copy.navBest} &darr;
+            {/* Primary & Secondary Actions */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#best-rates"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-semibold text-white shadow-sm transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+              >
+                <span>{copy.navBest}</span>
+                <ArrowRight size={16} />
               </a>
-              <a href="#rates-table" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
-                {copy.navRates}
-              </a>
-              <a href="#converter" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
-                {copy.navConverter}
-              </a>
-              <a href="#market-insights" className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
-                {copy.navInsights}
+              <a
+                href="#converter"
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-200 dark:hover:bg-[#272727]"
+              >
+                {copy.converter}
               </a>
             </div>
-          </div>
 
-          {/* Quick Refresh & Source Health Panel */}
-          <div className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/60 lg:min-w-[280px]">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                {copy.lastUpdate}
-              </span>
+            {/* Quick telemetry footer */}
+            <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-5 text-xs text-slate-500 dark:border-[#272727] dark:text-slate-400">
+              <div className="flex items-center gap-2">
+                <span>{copy.lastUpdate}:</span>
+                <strong className="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  {formatDateTime(updatedAt, isEnglish ? "en-US" : "uk-UA")}
+                </strong>
+              </div>
               <button
                 type="button"
                 disabled={loading}
                 onClick={fetchData}
-                aria-label={copy.refresh}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-black text-slate-700 transition hover:border-cyan-500 hover:text-cyan-600 active:scale-[0.98] disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                className="inline-flex items-center gap-1.5 font-semibold text-cyan-600 hover:underline active:scale-[0.98] disabled:opacity-50 dark:text-cyan-400"
               >
-                <RefreshCw size={12} className={loading ? "animate-spin text-cyan-600" : ""} />
+                <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
                 <span>{copy.refresh}</span>
               </button>
             </div>
+          </div>
 
-            <div className="font-mono text-base font-black text-slate-900 dark:text-white">
-              {formatDateTime(updatedAt, isEnglish ? "en-US" : "uk-UA")}
-            </div>
-
-            <div className="border-t border-slate-200/60 pt-2.5 dark:border-slate-800">
-              <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                {copy.liveSources}
-              </div>
-              <div className="mt-1.5 grid grid-cols-3 gap-1.5 text-[11px] font-bold">
-                {sources.slice(0, 6).map((source) => (
-                  <div key={source.id} className="flex items-center gap-1 text-slate-700 dark:text-slate-300" title={`${source.name}: ${source.ok ? copy.available : copy.unavailable}`}>
-                    <CheckCircle2 size={12} className={source.ok ? "text-emerald-500" : "text-amber-500"} />
-                    <span className="truncate">{source.shortName}</span>
-                  </div>
-                ))}
-              </div>
+          {/* 3D Fintech Art Canvas */}
+          <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-2xl dark:border-[#313131]">
+              <img
+                src="/illustrations/hero-3d-fintech.jpg"
+                alt="3D Liquid Glass Currency Art"
+                className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
+                loading="eager"
+              />
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
       {error ? (
-        <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-bold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+        <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs font-semibold text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
           <AlertCircle size={16} />
           <span>{error}</span>
         </div>
       ) : null}
 
-      {/* 1. Best Rate Finder (PRD Section 3.5) */}
+      {/* 1. Best Rate Finder */}
       <BestRateFinder rates={rates} locale={locale} />
 
-      {/* 2. Key Currency Cards (PRD Section 3.2) */}
+      {/* 2. Key Currency Cards */}
       <section aria-label={isEnglish ? "Currency overview cards" : "Огляд курсів валют"} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {CURRENCY_CODES.map((code) => (
           <CurrencyCard code={code} key={code} locale={locale} rates={rates} updatedAt={updatedAt} />
         ))}
       </section>
 
-      {/* Non-intrusive Ad Placement 1 */}
+      {/* Mandatory Tagline Reveal Section per rule B11 */}
+      <TaglineReveal locale={locale} />
+
+      {/* Non-intrusive Ad Placement */}
       <AdSlot slotId="ad-top-banner" locale={locale} />
 
-      {/* 3. Smart Currency Converter (PRD Section 3.4) */}
+      {/* 3. Smart Currency Converter */}
       <CurrencyConverter rates={rates} locale={locale} />
 
-      {/* 4. Currency Market Insights (PRD Section 3.6) */}
+      {/* 4. Currency Market Insights */}
       <MarketInsights rates={rates} locale={locale} />
 
-      {/* 5. Bank Comparison Table & Historical Chart (PRD Section 3.3) */}
-      <section className="grid gap-5 xl:grid-cols-[1fr_320px]">
+      {/* 5. Bank Comparison Table & Historical Chart */}
+      <section className="grid gap-6 xl:grid-cols-[1fr_340px]">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
+          <TabsList className="bg-slate-100 p-1 dark:bg-[#181818] dark:border dark:border-[#272727]">
             <TabsTrigger value="banks">{isEnglish ? "Banks" : "Банки"}</TabsTrigger>
             <TabsTrigger value="nbu">{copy.nbu}</TabsTrigger>
             <TabsTrigger value="exchange">{isEnglish ? "Exchange offices" : "Обмінники"}</TabsTrigger>
@@ -177,7 +186,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <RatesTable rates={rates} updatedAt={updatedAt} locale={locale} sourceFilter="banks" />
               <Suspense
                 fallback={
-                  <Card>
+                  <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#272727] dark:bg-[#181818]">
                     <CardHeader>
                       <CardTitle>USD/UAH</CardTitle>
                       <CardDescription>{isEnglish ? "Loading chart..." : "Завантажуємо графік..."}</CardDescription>
@@ -195,7 +204,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="exchange">
-            <Card>
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#272727] dark:bg-[#181818]">
               <CardHeader>
                 <CardTitle>{isEnglish ? "Exchange offices" : "Обмінники"}</CardTitle>
                 <CardDescription>{isEnglish ? "Verified exchange offices will be added after API integration." : "Сертифіковані пункти обміну будуть підключені після валідації API."}</CardDescription>
@@ -205,7 +214,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="crypto">
-            <Card>
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#272727] dark:bg-[#181818]">
               <CardHeader>
                 <CardTitle>{isEnglish ? "Crypto (USDT/UAH)" : "Крипта (USDT/UAH)"}</CardTitle>
                 <CardDescription>{isEnglish ? "Crypto market quotes are shown once authorized providers are attached." : "Криптовалютні котирування будуть увімкнені після підключення ліцензованого провайдера."}</CardDescription>
@@ -215,13 +224,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
 
           <TabsContent value="converter">
-            <Card>
+            <Card className="rounded-2xl border border-slate-200 bg-white dark:border-[#272727] dark:bg-[#181818]">
               <CardHeader>
                 <CardTitle>{copy.converter}</CardTitle>
                 <CardDescription>{isEnglish ? "The smart converter is placed above for quick calculations." : "Розумний конвертер доступний вище на сторінці для швидкого розрахунку."}</CardDescription>
               </CardHeader>
               <CardContent>
-                <a className="text-sm font-black text-cyan-700 dark:text-cyan-300 hover:underline" href="#converter">
+                <a className="text-sm font-semibold text-cyan-600 hover:underline dark:text-cyan-400" href="#converter">
                   {copy.converter} &uarr;
                 </a>
               </CardContent>
@@ -229,41 +238,40 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
         </Tabs>
 
-        {/* Sidebar Info & Trust */}
+        {/* Sidebar Info & Trust with 3D Shield Art */}
         <aside className="hidden flex-col gap-5 xl:flex">
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2 text-cyan-600">
-                <ShieldCheck size={20} />
-                <CardTitle className="text-base">{copy.trustTitle}</CardTitle>
+          <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#272727] dark:bg-[#181818]">
+            <div className="flex items-center gap-3">
+              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
+                <img
+                  src="/illustrations/trust-shield-3d.jpg"
+                  alt="3D Trust Shield"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xs leading-6 text-slate-600 dark:text-slate-300">
-                {copy.trustBody}
-              </p>
-            </CardContent>
+              <CardTitle className="text-base font-semibold">{copy.trustTitle}</CardTitle>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+              {copy.trustBody}
+            </p>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2 text-cyan-600">
-                <Bot size={20} />
-                <CardTitle className="text-base">{copy.aiTitle}</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xs leading-6 text-slate-600 dark:text-slate-300">
-                {copy.aiBody}
-              </p>
-            </CardContent>
+          <Card className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#272727] dark:bg-[#181818]">
+            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+              <Bot size={20} />
+              <CardTitle className="text-base font-semibold">{copy.aiTitle}</CardTitle>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+              {copy.aiBody}
+            </p>
           </Card>
 
           <AdSlot slotId="ad-sidebar" locale={locale} />
         </aside>
       </section>
 
-      {/* 6. Editorial Knowledge & Guide (PRD Section 5.4) */}
+      {/* 6. Editorial Knowledge & Guide */}
       <EditorialContent topic={topic} locale={locale} />
 
       {/* 7. Full FAQ */}
