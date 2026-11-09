@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { ArrowDownUp, Search } from "lucide-react";
 import { CURRENCY_CODES, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
-import { bankLogos, formatDateTime, getBestRates, NormalizedRate } from "../lib/rates";
+import { formatDateTime, getBestRates, NormalizedRate } from "../lib/rates";
 import { PopNumber } from "./ui/pop-number";
+import { BankLogo } from "./ui/bank-logo";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
@@ -101,8 +102,8 @@ export const RatesTable: React.FC<RatesTableProps> = ({ rates, updatedAt, locale
                 <TableRow key={`${rate.bankId}-${rate.code}`} className="border-b border-slate-100 transition-colors hover:bg-slate-50/70 dark:border-[#2E2E2E] dark:hover:bg-[#2A2A2A]/60">
                   <TableCell className="font-semibold text-slate-900 dark:text-slate-100">
                     <span className="flex items-center gap-3">
-                      {bankLogos.get(rate.bankId) ? (
-                        <img className="h-6 w-14 object-contain" src={bankLogos.get(rate.bankId)} alt={rate.bankName} loading="lazy" />
+                      {rate.bankLogo ? (
+                        <BankLogo src={rate.bankLogo} alt={rate.bankName} className="h-6 w-14 object-contain" />
                       ) : null}
                       <span>{rate.bankName}</span>
                     </span>

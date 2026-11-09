@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp, Minus, TrendingUp } from "lucide-react";
 import { BANKS, CURRENCY_NAMES, Locale, UI_COPY } from "../constants";
 import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
 import { PopNumber } from "./ui/pop-number";
+import { BankLogo } from "./ui/bank-logo";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
@@ -38,7 +39,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
             </div>
           </div>
           {bank?.logo ? (
-            <img className="h-7 max-w-16 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
+            <BankLogo src={bank.logo} alt={bank.name} className="h-7 max-w-16 object-contain" />
           ) : (
             <TrendingUp className="text-brand-600 dark:text-brand-300" size={18} />
           )}

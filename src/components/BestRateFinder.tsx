@@ -3,6 +3,7 @@ import { ArrowDownLeft, ArrowUpRight, Sparkles, Landmark } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { getBestRates, NormalizedRate } from "../lib/rates";
 import { PopNumber } from "./ui/pop-number";
+import { BankLogo } from "./ui/bank-logo";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Badge } from "./ui/badge";
 
@@ -100,11 +101,10 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#2E2E2E]">
               <div className="flex items-center gap-2">
                 {bestSell?.bankLogo ? (
-                  <img
+                  <BankLogo
                     src={bestSell.bankLogo}
                     alt={bestSell.bankName}
                     className="h-6 w-6 rounded object-contain"
-                    loading="lazy"
                   />
                 ) : (
                   <Landmark size={18} className="text-slate-400" />
@@ -151,11 +151,10 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-[#2E2E2E]">
               <div className="flex items-center gap-2">
                 {bestBuy?.bankLogo ? (
-                  <img
+                  <BankLogo
                     src={bestBuy.bankLogo}
                     alt={bestBuy.bankName}
                     className="h-6 w-6 rounded object-contain"
-                    loading="lazy"
                   />
                 ) : (
                   <Landmark size={18} className="text-slate-400" />
