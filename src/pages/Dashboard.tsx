@@ -321,20 +321,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </TabsContent>
         </Tabs>
 
-        {/* Sidebar Info & Trust with 3D Shield Art */}
+        {/* Sidebar Info & Trust */}
         <aside className="hidden flex-col gap-5 xl:flex">
           <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020]">
             <div className="flex items-center gap-3">
-              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#2E2E2E]">
-                <img
-                  src="/illustrations/trust-shield-3d.jpg"
-                  alt={isEnglish ? "Glass shield with a check mark" : "Скляний щит із позначкою перевірки"}
-                  width={256}
-                  height={256}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
+              <div aria-hidden="true" className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-[#2E2E2E]">
+                <span className="absolute -top-2 left-1/2 h-7 w-11 -translate-x-1/2 rounded-full bg-brand-500/25 blur-md" />
+                <ShieldCheck size={20} strokeWidth={2.2} className="relative text-brand-200" />
               </div>
               <CardTitle className="text-base font-semibold">{copy.trustTitle}</CardTitle>
             </div>

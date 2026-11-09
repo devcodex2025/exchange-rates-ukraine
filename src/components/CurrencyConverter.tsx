@@ -37,16 +37,9 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
     <section id="converter" className="t-reveal rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#2E2E2E] dark:bg-[#202020] sm:p-7">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#2E2E2E]">
-            <img
-              src="/illustrations/smart-converter-3d.jpg"
-              alt={isEnglish ? "Two glass coins linked by exchange arrows" : "Дві скляні монети зі стрілками обміну"}
-              width={256}
-              height={256}
-              className="h-full w-full object-cover"
-              loading="lazy"
-              decoding="async"
-            />
+          <div aria-hidden="true" className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-[#2E2E2E]">
+            <span className="absolute -top-2 left-1/2 h-8 w-12 -translate-x-1/2 rounded-full bg-brand-500/25 blur-md" />
+            <ArrowRightLeft size={22} strokeWidth={2.2} className="relative text-brand-200" />
           </div>
           <div>
             <p className="eyebrow">{isEnglish ? "Calculator" : "Калькулятор"}</p>

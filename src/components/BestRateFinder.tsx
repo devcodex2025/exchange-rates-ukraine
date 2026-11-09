@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowDownLeft, ArrowUpRight, Sparkles, Landmark } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, Landmark } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { getBestRates, NormalizedRate } from "../lib/rates";
 import { PopNumber } from "./ui/pop-number";
@@ -26,16 +26,9 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#2E2E2E]">
-              <img
-                src="/illustrations/best-rate-finder-3d.jpg"
-                alt={isEnglish ? "Magnifying glass over coins with a rising arrow" : "Лупа над монетами зі стрілкою вгору"}
-                width={256}
-                height={256}
-                className="h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
+            <div aria-hidden="true" className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-[#2E2E2E]">
+              <span className="absolute -top-2 left-1/2 h-8 w-12 -translate-x-1/2 rounded-full bg-brand-500/25 blur-md" />
+              <Search size={22} strokeWidth={2.2} className="relative text-brand-200" />
             </div>
             <div>
               <p className="eyebrow">{isEnglish ? "Best on the market" : "Найкращий курс"}</p>
