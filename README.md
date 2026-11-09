@@ -6,6 +6,16 @@
 
 **UAH.today** is a modern, high-performance currency comparison platform that helps people find the best exchange rates across Ukrainian banks and the National Bank of Ukraine (NBU).
 
+| Dashboard · light theme | Dashboard · dark theme |
+|---|---|
+| ![UAH.today dashboard with best-rate cards and a full-bleed hero glow, light theme](docs/screenshots/dashboard-light.png) | ![UAH.today dashboard in dark theme with best-rate cards](docs/screenshots/dashboard-dark.png) |
+| **Bank comparison table** | **English version** |
+| ![Sortable bank comparison table with USD, EUR, PLN, GBP and CHF quotes](docs/screenshots/rates-overview.png) | ![English version of the dashboard](docs/screenshots/en-dashboard.png) |
+
+**Try it live:** [exchange-rates-ukraine.vercel.app](https://exchange-rates-ukraine.vercel.app/) (UA) · [exchange-rates-ukraine.vercel.app/en](https://exchange-rates-ukraine.vercel.app/en) (EN)
+
+**Contents**: [1. Purpose](#1-product-purpose--identity) · [2. USP](#2-unique-value-proposition-usp) · [3. Currencies & Institutions](#3-supported-currencies--institutions) · [4. Architecture](#4-architecture-overview) · [5. Tech Stack](#5-technology-stack) · [6. Installation](#6-installation--development) · [7. Env Variables](#7-environment-variables) · [8. API](#8-machine-readable-api--open-data) · [9. Skills for AI Agents](#9-skills-for-ai-agents-installable) · [10. AdSense](#10-google-adsense--policy-compliance) · [11. Contributing](#11-contributing) · [12. License](#12-license)
+
 ---
 
 ## 1. Product Purpose & Identity
@@ -52,59 +62,66 @@ The platform answers three vital questions for consumers and businesses:
 ## 4. Architecture Overview
 
 ```
-├── api/                           # Vercel Serverless Functions
-│   ├── rates.ts                   # /api/rates endpoint with CDN caching
-│   ├── history.ts                 # /api/history NBU historical archive endpoint
-│   └── contact.ts                 # /api/contact advertising form proxy
+├── server.ts                        # Express dev server (mirrors Vercel behavior incl. prerendered routes)
+├── api/                             # Vercel Serverless Functions
+│   ├── rates.ts                     # /api/rates endpoint with CDN caching
+│   └── history.ts                   # /api/history NBU historical archive endpoint
 ├── src/
-│   ├── components/                # React UI Components
-│   │   ├── BestRateFinder.tsx     # Top buy/sell rate comparison widget
-│   │   ├── CurrencyCard.tsx       # Currency overview cards
-│   │   ├── CurrencyConverter.tsx  # Smart bidirectional converter
-│   │   ├── MarketInsights.tsx     # Spreads, variance and NBU difference
-│   │   ├── RatesTable.tsx         # Sortable, searchable comparison table
-│   │   ├── UsdHistoryChart.tsx    # Candle history card (NBU daily rates)
-│   │   ├── EditorialContent.tsx   # Topic-specific SEO guides
-│   │   ├── CookieConsent.tsx      # GDPR & AdSense compliant consent banner
-│   │   ├── AdSlot.tsx             # Non-intrusive AdSense ready slot
-│   │   └── ui/                    # Reusable primitive UI components
+│   ├── components/                  # React UI Components
+│   │   ├── BestRateFinder.tsx       # Top buy/sell rate comparison widget
+│   │   ├── RatesTable.tsx           # Sortable, searchable comparison table
+│   │   ├── CurrencyCard.tsx         # Currency overview cards
+│   │   ├── CurrencyConverter.tsx    # Smart bidirectional converter
+│   │   ├── MarketInsights.tsx       # Spreads, variance and NBU difference
+│   │   ├── UsdHistoryChart.tsx      # NBU daily-rate history chart
+│   │   ├── SourcesTicker.tsx        # Full-bleed live source-health ticker band
+│   │   ├── SiteHeader.tsx           # Navigation, locale & theme switcher
+│   │   ├── EditorialContent.tsx     # Topic-specific SEO guides
+│   │   ├── CookieConsent.tsx        # GDPR & AdSense compliant consent banner
+│   │   ├── AdSlot.tsx               # Non-intrusive AdSense ready slot
+│   │   └── ui/                      # Reusable primitives (button, card, pop-number, …)
 │   ├── lib/
-│   │   └── rates/
-│   │       ├── normalize.ts       # Rate normalization & conversions
-│   │       └── validation.ts      # Number sanitation & rate bounds check
-│   ├── pages/                     # Routed pages (UA & EN)
-│   │   ├── Dashboard.tsx          # Main high-performance dashboard
-│   │   ├── About.tsx              # About Us & methodology
-│   │   ├── Contact.tsx            # Contact information & editorial form
-│   │   ├── SkillsPage.tsx         # Human-readable docs for the agent skill
-│   │   ├── AddBankPage.tsx        # Contributor guide (add a bank source)
-│   │   ├── AdvertisePage.tsx      # Advertising order form
-│   │   ├── PrivacyPolicy.tsx      # Detailed GDPR & AdSense policy
-│   │   └── Terms.tsx              # Terms of Use & legal disclaimer
+│   │   ├── rates.ts                 # Response types & derived-rate helpers
+│   │   ├── rates/
+│   │   │   ├── normalize.ts         # Rate normalization & conversions
+│   │   │   └── validation.ts        # Number sanitation & rate bounds check
+│   │   ├── useScrollReveal.ts       # Scroll-triggered reveal hook
+│   │   └── utils.ts
+│   ├── pages/                       # Routed pages (UA & EN)
+│   │   ├── Dashboard.tsx            # Main high-performance dashboard
+│   │   ├── About.tsx                # About Us & methodology
+│   │   ├── Contact.tsx              # Contact information (mailto feedback)
+│   │   ├── SkillsPage.tsx           # Human-readable docs for the agent skill
+│   │   ├── AddBankPage.tsx          # Contributor guide (add a bank source)
+│   │   ├── PrivacyPolicy.tsx        # Detailed GDPR & AdSense policy
+│   │   ├── Terms.tsx                # Terms of Use & legal disclaimer
+│   │   └── NotFound.tsx
 │   ├── services/
 │   │   ├── cache/
-│   │   │   └── cache.service.ts   # In-memory deduplicating cache
-│   │   ├── contact-form.service.ts # Form validation, rate limiting & inbox delivery
-│   │   └── rates/                 # Isolated bank provider clients
+│   │   │   └── cache.service.ts     # In-memory deduplicating cache
+│   │   └── rates/                   # Isolated bank provider clients
 │   │       ├── nbu.service.ts
 │   │       ├── privatbank.service.ts
 │   │       ├── monobank.service.ts
 │   │       ├── raiffeisen.service.ts
 │   │       ├── oschadbank.service.ts
 │   │       ├── pumb.service.ts
+│   │       ├── minfin.service.ts    # minfin.com.ua cash-rate feeds (server-rendered, no key)
 │   │       └── rates-aggregator.service.ts
-│   ├── constants.ts               # Localized copy, currencies & bank metadata
-│   └── index.css                  # Tailwind CSS styling
+│   ├── constants.ts                 # Localized copy, currencies & bank metadata
+│   └── index.css                    # Tailwind CSS styling
 ├── .agents/
 │   └── skills/
-│       └── uah-today-api/         # Installable AI-agent skill (markdown)
-│           ├── SKILL.md           # API reference & data semantics
-│           └── playbooks.md       # Task recipes for coding agents
+│       └── uah-today-api/           # Installable AI-agent skill (markdown, see §9)
+│           ├── SKILL.md             # API reference & data semantics
+│           └── playbooks.md         # Task recipes for coding agents
+├── docs/
+│   └── screenshots/                 # App screenshots used in this README
 ├── scripts/
-│   ├── check-i18n.mjs             # Automated localization leak test
-│   └── prerender.mjs              # SSG generator for 22 indexable routes
+│   ├── check-i18n.mjs               # Automated localization leak test
+│   └── prerender.mjs                # SSG generator for 27 prerendered SEO routes
 └── tests/
-    └── rates.test.ts              # Unit tests for calculations & validation
+    └── rates.test.ts                # Unit tests for calculations & validation
 ```
 
 ---
