@@ -57,11 +57,14 @@ export const TaglineReveal: React.FC<TaglineRevealProps> = ({ locale }) => {
   return (
     <section
       ref={containerRef}
-      className="relative my-16 overflow-hidden px-6 py-8 sm:px-10"
+      className="relative my-16 py-8"
       aria-label="Core Value Tagline"
     >
-      <div aria-hidden="true" className="tagline-glow absolute inset-x-0 top-0 h-full" />
-      <div className="relative mx-auto max-w-3xl text-center">
+      <div
+        aria-hidden="true"
+        className="tagline-glow absolute left-1/2 top-0 h-full w-screen -translate-x-1/2 overflow-hidden rounded-3xl"
+      />
+      <div className="relative mx-auto max-w-3xl px-6 py-2 text-center sm:px-10">
         <p className="eyebrow">
           {isEnglish ? "Our Promise" : "Наш головний принцип"}
         </p>

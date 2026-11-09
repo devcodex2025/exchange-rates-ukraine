@@ -382,7 +382,7 @@ export default function App() {
   return (
     <Router>
       <SeoManager locale={locale} setLocale={setLocale} />
-      <div className="min-h-screen bg-[var(--surface-primary)] text-slate-900 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-[#121212] dark:text-slate-100">
+      <div className="min-h-screen overflow-x-clip bg-[var(--surface-primary)] text-slate-900 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-[#121212] dark:text-slate-100">
 
         {/* Skip to content — B10 Accessibility */}
         <a
