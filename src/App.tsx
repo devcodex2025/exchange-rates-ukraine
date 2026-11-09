@@ -5,6 +5,7 @@ import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { Terms } from "./pages/Terms";
+import { NotFound } from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
 import { FAQ_EN, FAQ_UK, Locale, SITE_URL, UI_COPY } from "./constants";
 import { RawRatesResponse } from "./lib/rates";
@@ -310,6 +311,14 @@ export default function App() {
     <Router>
       <SeoManager locale={locale} setLocale={setLocale} />
       <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-[#000000] dark:text-slate-100">
+
+        {/* Skip to content — B10 Accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-cyan-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+        >
+          {locale === "en" ? "Skip to content" : "Перейти до змісту"}
+        </a>
         
         {/* Floating Navigation Island per rule B7 */}
         <div className="sticky top-4 z-40 mx-auto max-w-5xl px-4 sm:px-6">
@@ -395,21 +404,10 @@ export default function App() {
             <Route path="/terms" element={<Terms locale="uk" />} />
             <Route path="/en/terms" element={<Terms locale="en" />} />
 
-            {/* Fallback */}
+            {/* 404 fallback */}
             <Route
               path="*"
-              element={
-                <Dashboard
-                  data={data}
-                  error={error}
-                  fetchData={fetchData}
-                  loading={loading}
-                  darkMode={darkMode}
-                  setDarkMode={setDarkMode}
-                  locale={locale}
-                  setLocale={setLocale}
-                />
-              }
+              element={<NotFound locale={locale} />}
             />
           </Routes>
 

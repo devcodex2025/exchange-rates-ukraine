@@ -27,9 +27,12 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
               <img
                 src="/illustrations/best-rate-finder-3d.jpg"
-                alt="3D Rate Finder"
+                alt={isEnglish ? "Magnifying glass over coins with a rising arrow" : "Лупа над монетами зі стрілкою вгору"}
+                width={256}
+                height={256}
                 className="h-full w-full object-cover"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div>

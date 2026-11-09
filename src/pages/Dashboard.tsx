@@ -63,7 +63,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   return (
     <>
       {/* Hero Section per rules B5, B7 and Praveen Kumar style */}
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-10 lg:p-12">
+      <section id="main-content" className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-10 lg:p-12">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="max-w-[680px]">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-50/60 px-3 py-1 text-xs font-semibold text-cyan-700 dark:border-cyan-500/30 dark:bg-cyan-950/40 dark:text-cyan-400">
@@ -132,9 +132,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-2xl dark:border-[#313131]">
               <img
                 src="/illustrations/hero-3d-fintech.jpg"
-                alt="3D Liquid Glass Currency Art"
+                srcSet="/illustrations/hero-3d-fintech-832.jpg 832w, /illustrations/hero-3d-fintech.jpg 1664w"
+                sizes="(min-width: 1024px) 45vw, (min-width: 640px) 512px, 100vw"
+                alt={isEnglish ? "Glass hryvnia coin surrounded by floating currency charts" : "Скляна монета гривні в оточенні валютних графіків"}
+                width={1664}
+                height={928}
                 className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -245,9 +251,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
                 <img
                   src="/illustrations/trust-shield-3d.jpg"
-                  alt="3D Trust Shield"
+                  alt={isEnglish ? "Glass shield with a check mark" : "Скляний щит із позначкою перевірки"}
+                  width={256}
+                  height={256}
                   className="h-full w-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <CardTitle className="text-base font-semibold">{copy.trustTitle}</CardTitle>

@@ -40,9 +40,12 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ rates, loc
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-[#313131]">
             <img
               src="/illustrations/smart-converter-3d.jpg"
-              alt="3D Smart Converter"
+              alt={isEnglish ? "Two glass coins linked by exchange arrows" : "Дві скляні монети зі стрілками обміну"}
+              width={256}
+              height={256}
               className="h-full w-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div>
