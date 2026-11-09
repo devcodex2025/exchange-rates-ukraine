@@ -5,6 +5,7 @@ import { formatRate, getBestRates, NormalizedRate } from "../lib/rates";
 import { PopNumber } from "./ui/pop-number";
 import { BankLogo } from "./ui/bank-logo";
 import { Badge } from "./ui/badge";
+import { CurrencyGlyph, hasCurrencyGlyph } from "./ui/currency-glyph";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
 // Full bank names ("Oschadbank", "Raiffeisen Bank") overflow the buy/sell cells
@@ -37,7 +38,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               aria-hidden="true"
               className="grid h-9 w-9 place-items-center rounded-[10px] border border-slate-200/80 bg-slate-50 font-mono text-sm font-semibold text-slate-700 dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-slate-200"
             >
-              {currency?.symbol || code}
+              {hasCurrencyGlyph(code) ? <CurrencyGlyph code={code} size={17} /> : currency?.symbol || code}
             </span>
             <div className="min-w-0">
               <CardTitle className="title-3 text-slate-950 dark:text-white">{code}</CardTitle>
