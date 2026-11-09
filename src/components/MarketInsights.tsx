@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BarChart3, Info } from "lucide-react";
+import { Activity, Info } from "lucide-react";
 import { CURRENCY_CODES, Locale, UI_COPY } from "../constants";
 import { formatRate, getMarketInsights, NormalizedRate } from "../lib/rates";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
@@ -22,7 +22,7 @@ export const MarketInsights: React.FC<MarketInsightsProps> = ({ rates, locale })
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-brand-50 text-brand-600 dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-brand-300">
-              <BarChart3 size={20} />
+              <Activity size={20} />
             </div>
             <div>
               <p className="eyebrow">{isEnglish ? "Market pulse" : "Пульс ринку"}</p>

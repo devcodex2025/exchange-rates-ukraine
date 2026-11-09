@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen, CheckCircle, HelpCircle, Lightbulb, ShieldCheck } from "lucide-react";
+import { BookOpen, CheckCircle, Lightbulb, ShieldCheck } from "lucide-react";
 import { Locale } from "../constants";
 
 interface EditorialContentProps {

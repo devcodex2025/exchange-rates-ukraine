@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { ArrowDownRight, ArrowRightLeft, ArrowUpRight, Calculator, Landmark } from "lucide-react";
+import { ArrowDownRight, ArrowRightLeft, ArrowUpRight, Landmark } from "lucide-react";
 import { BANKS, CURRENCY_NAMES, Locale } from "../constants";
 import { convertCurrency, formatRate, NormalizedRate } from "../lib/rates";
 
