@@ -11,16 +11,16 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
 
   return (
     <main className="mx-auto max-w-4xl py-8">
-      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-slate-800">
-          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] md:p-10">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#313131]">
+          <div className="rounded-xl bg-brand-600/10 p-2.5 text-brand-700 dark:bg-brand-500/10 dark:text-brand-400">
             <Info size={24} />
           </div>
           <div>
             <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "About UAH.today" : "Про платформу UAH.today"}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
               {isEnglish
                 ? "Independent Ukrainian Currency Exchange Comparison Platform"
                 : "Незалежний фінансовий сервіс порівняння курсів валют в Україні"}
@@ -58,36 +58,36 @@ export const About: React.FC<AboutProps> = ({ locale = "uk" }) => {
           </section>
 
           <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
               <Sparkles className="text-emerald-700 dark:text-emerald-400" size={20} />
               <h3 className="mt-2 font-black text-slate-900 dark:text-white">
                 {isEnglish ? "Best Rate Finder" : "Кращий курс"}
               </h3>
-              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
                 {isEnglish
                   ? "Identifies optimal buy and sell options independently without requiring manual inspection of dozens of rows."
                   : "Автоматично знаходить банк із найвищим курсом прийому та найнижчим курсом продажу валюти."}
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
-              <ShieldCheck className="text-cyan-700 dark:text-cyan-400" size={20} />
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
+              <ShieldCheck className="text-brand-700 dark:text-brand-400" size={20} />
               <h3 className="mt-2 font-black text-slate-900 dark:text-white">
                 {isEnglish ? "Verified Sources" : "Офіційні джерела"}
               </h3>
-              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
                 {isEnglish
                   ? "Direct integrations with National Bank of Ukraine (NBU), PrivatBank, monobank, Raiffeisen, Oschadbank, and PUMB."
                   : "Прямі інтеграції з API НБУ, ПриватБанку, monobank, Райффайзен Банку, Ощадбанку та ПУМБ."}
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
               <RefreshCw className="text-blue-600 dark:text-blue-400" size={20} />
               <h3 className="mt-2 font-black text-slate-900 dark:text-white">
                 {isEnglish ? "No Fabricated Data" : "Без штучних замін"}
               </h3>
-              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">
                 {isEnglish
                   ? "We never replace missing rates with fake numbers or zeros. Every figure is validated against realistic market boundaries."
                   : "Ми ніколи не домальовуємо нулі або фейкові курси. Усі значення супроводжуються датою оновлення."}

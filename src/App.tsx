@@ -335,7 +335,7 @@ export default function App() {
         {/* Skip to content — B10 Accessibility */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-cyan-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
         >
           {locale === "en" ? "Skip to content" : "Перейти до змісту"}
         </a>
@@ -392,11 +392,11 @@ export default function App() {
           </RouteTransition>
 
           {/* Full Footer with SEO Sitemap & Legal Links */}
-          <footer className="mt-16 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-[#272727] dark:text-slate-400">
+          <footer className="mt-16 flex flex-col gap-8 border-t border-slate-200 py-10 text-xs text-slate-500 dark:border-[#313131] dark:text-slate-300">
             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
               <div>
                 <p className="text-base font-semibold text-slate-900 dark:text-white">UAH.today</p>
-                <p className="mt-2 leading-5 text-slate-600 dark:text-slate-400">
+                <p className="mt-2 leading-5 text-slate-600 dark:text-slate-300">
                   {isEnglish
                     ? "Independent Ukrainian currency comparison platform. Compare live bank rates, find the best deal, and convert money in seconds."
                     : "Незалежний фінансовий сервіс порівняння курсів валют в банках України. Знаходьте найвигідніший курс за лічені секунди."}
@@ -411,11 +411,11 @@ export default function App() {
                   {isEnglish ? "Currencies" : "Курси валют"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to="/kurs-dolara" className="transition hover:text-cyan-700">Курс долара (USD)</Link></li>
-                  <li><Link to="/kurs-evro" className="transition hover:text-cyan-700">Курс євро (EUR)</Link></li>
-                  <li><Link to="/kurs-zlotogo" className="transition hover:text-cyan-700">Курс злотого (PLN)</Link></li>
-                  <li><Link to="/kurs-funta" className="transition hover:text-cyan-700">Курс фунта (GBP)</Link></li>
-                  <li><Link to="/kurs-nbu" className="transition hover:text-cyan-700">Офіційний курс НБУ</Link></li>
+                  <li><Link to="/kurs-dolara" className="transition hover:text-brand-700">Курс долара (USD)</Link></li>
+                  <li><Link to="/kurs-evro" className="transition hover:text-brand-700">Курс євро (EUR)</Link></li>
+                  <li><Link to="/kurs-zlotogo" className="transition hover:text-brand-700">Курс злотого (PLN)</Link></li>
+                  <li><Link to="/kurs-funta" className="transition hover:text-brand-700">Курс фунта (GBP)</Link></li>
+                  <li><Link to="/kurs-nbu" className="transition hover:text-brand-700">Офіційний курс НБУ</Link></li>
                 </ul>
               </div>
 
@@ -424,11 +424,11 @@ export default function App() {
                   {isEnglish ? "Banks & Tools" : "Банки та інструменти"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to="/konverter-valyut" className="transition hover:text-cyan-700">{copy.converter}</Link></li>
-                  <li><Link to="/kurs-dolara-privatbank" className="transition hover:text-cyan-700">Курс у ПриватБанку</Link></li>
-                  <li><Link to="/kurs-dolara-monobank" className="transition hover:text-cyan-700">Курс у monobank</Link></li>
-                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-cyan-700">API /rates <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
-                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-cyan-700">llms.txt <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
+                  <li><Link to="/konverter-valyut" className="transition hover:text-brand-700">{copy.converter}</Link></li>
+                  <li><Link to="/kurs-dolara-privatbank" className="transition hover:text-brand-700">Курс у ПриватБанку</Link></li>
+                  <li><Link to="/kurs-dolara-monobank" className="transition hover:text-brand-700">Курс у monobank</Link></li>
+                  <li><a href="/api/rates" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">API /rates <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
+                  <li><a href="/llms.txt" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">llms.txt <ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                 </ul>
               </div>
 
@@ -437,10 +437,10 @@ export default function App() {
                   {isEnglish ? "About & Legal" : "Інформація та правила"}
                 </p>
                 <ul className="mt-3 space-y-2 font-medium">
-                  <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition hover:text-cyan-700">{copy.aboutLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="transition hover:text-cyan-700">{copy.contactLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="transition hover:text-cyan-700">{copy.privacyLink}</Link></li>
-                  <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="transition hover:text-cyan-700">{copy.termsLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition hover:text-brand-700">{copy.aboutLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="transition hover:text-brand-700">{copy.contactLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="transition hover:text-brand-700">{copy.privacyLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="transition hover:text-brand-700">{copy.termsLink}</Link></li>
                   <li>
                     <button
                       type="button"
@@ -448,7 +448,7 @@ export default function App() {
                         localStorage.removeItem("uah_cookie_consent");
                         window.location.reload();
                       }}
-                      className="text-left transition hover:text-cyan-700"
+                      className="text-left transition hover:text-brand-700"
                     >
                       {isEnglish ? "Reset Cookie Preferences" : "Налаштування файлів cookie"}
                     </button>
@@ -457,7 +457,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="border-t border-slate-200/60 pt-4 text-xs leading-5 text-slate-500 dark:border-[#272727]">
+            <div className="border-t border-slate-200/60 pt-4 text-xs leading-5 text-slate-500 dark:border-[#313131]">
               <p>{copy.footerNote}</p>
             </div>
           </footer>

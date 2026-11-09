@@ -44,7 +44,7 @@ export const Toast: React.FC<ToastProps> = ({ open, message }) => {
         ref={elementRef}
         role="status"
         aria-live="polite"
-        className="t-toast rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-lg dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-100"
+        className="t-toast rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-lg dark:border-[#313131] dark:bg-[#272727] dark:text-slate-100"
       >
         {message}
       </div>

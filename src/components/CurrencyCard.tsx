@@ -22,7 +22,7 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
   const spread = bestBuy?.buy && bestSell?.sell ? bestSell.sell - bestBuy.buy : null;
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-md active:scale-[0.99] dark:border-[#272727] dark:bg-[#181818]">
+    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] dark:border-[#313131] dark:bg-[#1F1F1F]">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -30,12 +30,12 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
               <CardTitle className="font-mono text-xl font-semibold">{code}</CardTitle>
               <Badge variant="secondary" className="font-mono text-xs font-semibold">{currency?.symbol}</Badge>
             </div>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{currency?.[locale] || code}</p>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">{currency?.[locale] || code}</p>
           </div>
           {bank?.logo ? (
             <img className="h-7 max-w-16 object-contain" src={bank.logo} alt={bank.name} loading="lazy" />
           ) : (
-            <TrendingUp className="text-cyan-700 dark:text-cyan-400" size={20} />
+            <TrendingUp className="text-brand-700 dark:text-brand-400" size={20} />
           )}
         </div>
       </CardHeader>
@@ -49,27 +49,27 @@ export const CurrencyCard: React.FC<CurrencyCardProps> = ({ code, rates, locale 
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
               <SubtleNumber value={bestBuy?.buy} />
             </dd>
-            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
+            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-300">
               {bestBuy?.bankName || copy.noData}
             </p>
           </div>
 
-          <div className="rounded-xl border border-cyan-500/10 bg-cyan-50/50 p-2.5 dark:border-cyan-500/20 dark:bg-cyan-950/20">
-            <dt className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
+          <div className="rounded-xl border border-brand-500/10 bg-brand-50/50 p-2.5 dark:border-brand-500/20 dark:bg-brand-950/20">
+            <dt className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-400">
               <ArrowDown size={11} /> {copy.sell}
             </dt>
             <dd className="mt-1 font-mono text-xl font-semibold text-slate-950 dark:text-white">
               <SubtleNumber value={bestSell?.sell} />
             </dd>
-            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
+            <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-300">
               {bestSell?.bankName || copy.noData}
             </p>
           </div>
         </dl>
       </CardContent>
 
-      <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#272727]">
-        <span className="font-mono text-xs font-medium text-slate-500 dark:text-slate-400">
+      <CardFooter className="justify-between border-t border-slate-100 pt-3 text-xs dark:border-[#313131]">
+        <span className="font-mono text-xs font-medium text-slate-500 dark:text-slate-300">
           {copy.nbu} <SubtleNumber value={nbu} />
         </span>
         {bestSell || bestBuy ? (

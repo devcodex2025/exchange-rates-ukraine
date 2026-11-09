@@ -10,7 +10,7 @@ interface SiteHeaderProps {
 }
 
 const linkBase =
-  "relative py-1 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-cyan-700 dark:hover:text-cyan-400";
+  "relative py-1 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-brand-700 dark:hover:text-brand-400";
 
 export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDarkMode }) => {
   const isEnglish = locale === "en";
@@ -49,10 +49,10 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
 
   return (
     <div className="sticky top-4 z-40 mx-auto max-w-5xl px-4 sm:px-6">
-      <header className="flex h-14 items-center justify-between rounded-2xl border border-slate-200/90 bg-white/85 px-4 shadow-sm backdrop-blur-md transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:border-[#272727] dark:bg-[#181818]/85 sm:px-6">
+      <header className="flex h-14 items-center justify-between rounded-2xl border border-slate-200/90 bg-white/85 px-4 shadow-sm backdrop-blur-md transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:border-[#313131] dark:bg-[#1F1F1F]/85 sm:px-6">
         <Link to={isEnglish ? "/en" : "/"} className="flex items-center gap-2">
           <span className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
-            UAH<span className="text-cyan-700 dark:text-cyan-400">.today</span>
+            UAH<span className="text-gold-600 dark:text-gold-400">.today</span>
           </span>
         </Link>
 
@@ -71,8 +71,8 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
                   {item.label}
                   <span
                     aria-hidden="true"
-                    className={`absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-cyan-700 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-cyan-400 ${
-                      isActive ? "opacity-100" : "opacity-0"
+                    className={`absolute -bottom-1 left-0 h-0.5 w-full origin-left rounded-full bg-brand-700 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] dark:bg-brand-400 ${
+                      isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
                     }`}
                   />
                 </>
@@ -84,7 +84,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
         <div className="flex items-center gap-2">
           <Link
             to={isEnglish ? "/" : "/en"}
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
           >
             <Globe2 size={14} />
             <span>{isEnglish ? "UA" : "EN"}</span>
@@ -103,7 +103,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
             }
             aria-pressed={darkMode}
             onClick={() => setDarkMode(!darkMode)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
           >
             <span className="t-icon-swap" data-state={darkMode ? "b" : "a"} aria-hidden="true">
               <Sun className="t-icon" data-icon="b" size={16} />
@@ -116,7 +116,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-[#272727] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131] md:hidden"
           >
             <Menu size={18} />
           </button>
@@ -140,13 +140,13 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
           <div className="relative flex h-full flex-col overflow-y-auto px-6 py-4">
             <div className="flex h-14 items-center justify-between">
               <span className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
-                UAH<span className="text-cyan-700 dark:text-cyan-400">.today</span>
+                UAH<span className="text-gold-600 dark:text-gold-400">.today</span>
               </span>
               <button
                 type="button"
                 aria-label={isEnglish ? "Close menu" : "Закрити меню"}
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-100 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-300"
               >
                 <X size={18} />
               </button>
@@ -163,7 +163,7 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
                   className={({ isActive }) =>
                     `menu-item text-3xl font-semibold tracking-tight transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       isActive
-                        ? "text-cyan-700 dark:text-cyan-400"
+                        ? "text-brand-700 dark:text-brand-400"
                         : "text-slate-900 dark:text-slate-100"
                     }`
                   }
@@ -177,12 +177,12 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ locale, darkMode, setDar
               <Link
                 to={isEnglish ? "/" : "/en"}
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-200"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#272727] dark:text-slate-200"
               >
                 <Globe2 size={15} />
                 {isEnglish ? "Switch to Ukrainian" : "Перейти на англійську"}
               </Link>
-              <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-center text-xs text-slate-500 dark:text-slate-300">
                 {isEnglish ? "Live rates from Ukrainian banks and the NBU" : "Актуальні курси банків України та НБУ"}
               </p>
             </div>

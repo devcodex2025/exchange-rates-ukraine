@@ -14,11 +14,11 @@ export const TableBody: React.FC<React.HTMLAttributes<HTMLTableSectionElement>> 
 );
 
 export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({ className, ...props }) => (
-  <tr className={cn("border-b border-slate-100 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/45", className)} {...props} />
+  <tr className={cn("border-b border-slate-100 transition-colors hover:bg-slate-50 dark:border-[#313131] dark:hover:bg-slate-800/45", className)} {...props} />
 );
 
 export const TableHead: React.FC<React.ThHTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (
-  <th className={cn("h-11 px-4 text-left align-middle text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400", className)} {...props} />
+  <th className={cn("h-11 px-4 text-left align-middle text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-300", className)} {...props} />
 );
 
 export const TableCell: React.FC<React.TdHTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (

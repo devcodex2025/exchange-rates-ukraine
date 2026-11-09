@@ -12,22 +12,22 @@ export const FullFAQ: React.FC<FullFAQProps> = ({ locale }) => {
   const copy = UI_COPY[locale];
 
   return (
-    <section id="faq" className="t-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <section id="faq" className="t-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F]">
       <div className="flex items-center gap-3">
-        <div className="rounded-lg bg-cyan-50 p-2 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300">
+        <div className="rounded-lg bg-brand-50 p-2 text-brand-700 dark:bg-brand-950 dark:text-brand-300">
           <HelpCircle size={20} />
         </div>
         <div>
           <h2 className="text-xl font-black text-slate-950 dark:text-white">
             {copy.faqTitle}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-slate-500 dark:text-slate-300">
             {copy.faqSubtitle}
           </p>
         </div>
       </div>
 
-      <div className="mt-5 divide-y divide-slate-100 dark:divide-slate-800">
+      <div className="mt-5 divide-y divide-slate-100 dark:divide-[#313131]">
         {faq.map((item, index) => {
           const open = openIndex === index;
           return (
@@ -41,7 +41,7 @@ export const FullFAQ: React.FC<FullFAQProps> = ({ locale }) => {
                 id={`faq-trigger-${index}`}
               >
                 <h3 className="font-bold text-slate-800 dark:text-slate-100">{item.question}</h3>
-                <span className="t-acc-chevron text-slate-500 dark:text-slate-400" aria-hidden="true">
+                <span className="t-acc-chevron text-slate-500 dark:text-slate-300" aria-hidden="true">
                   <ChevronDown size={18} />
                 </span>
               </button>

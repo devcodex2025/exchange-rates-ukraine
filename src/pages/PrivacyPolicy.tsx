@@ -11,8 +11,8 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
 
   return (
     <main className="mx-auto max-w-4xl py-8">
-      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-slate-800">
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] md:p-10">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#313131]">
           <div className="rounded-xl bg-slate-950 p-2.5 text-white dark:bg-white dark:text-slate-950">
             <Shield size={24} />
           </div>
@@ -20,7 +20,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
             <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Privacy Policy" : "Політика конфіденційності"}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
               {isEnglish ? "Last updated: November 9, 2026" : "Останнє оновлення: 9 листопада 2026 року"} · UAH.today
             </p>
           </div>
@@ -30,7 +30,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           {/* Section 1: Intro */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Eye size={18} className="text-cyan-700" />
+              <Eye size={18} className="text-brand-700" />
               {isEnglish ? "1. General Information & Scope" : "1. Загальні положення та сфера дії"}
             </h2>
             <p className="mt-2">
@@ -43,7 +43,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           {/* Section 2: Server Logs */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <ShieldCheck size={18} className="text-cyan-700" />
+              <ShieldCheck size={18} className="text-brand-700" />
               {isEnglish ? "2. Server Logs and Technical Information" : "2. Серверні логи та технічні дані"}
             </h2>
             <p className="mt-2">
@@ -56,7 +56,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           {/* Section 3: Cookies & Storage */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Cookie size={18} className="text-cyan-700" />
+              <Cookie size={18} className="text-brand-700" />
               {isEnglish ? "3. Cookies and Local Browser Storage" : "3. Файли cookie та локальне сховище"}
             </h2>
             <p className="mt-2">
@@ -69,7 +69,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           {/* Section 4: Google AdSense and Third-Party Advertising */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Lock size={18} className="text-cyan-700" />
+              <Lock size={18} className="text-brand-700" />
               {isEnglish ? "4. Google AdSense & Third-Party Advertising Vendors" : "4. Google AdSense та реклама сторонніх постачальників"}
             </h2>
             <p className="mt-2">
@@ -87,7 +87,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           {/* Section 5: User Rights */}
           <section>
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Shield size={18} className="text-cyan-700" />
+              <Shield size={18} className="text-brand-700" />
               {isEnglish ? "5. Your Rights as a Data Subject" : "5. Права користувачів"}
             </h2>
             <p className="mt-2">
@@ -98,9 +98,9 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ locale = "uk" }) =
           </section>
 
           {/* Section 6: Contacts */}
-          <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
+          <section className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950 dark:text-white">
-              <Mail size={18} className="text-cyan-700" />
+              <Mail size={18} className="text-brand-700" />
               {isEnglish ? "6. Privacy Inquiries and Contact" : "6. Контактна інформація з питань конфіденційності"}
             </h2>
             <p className="mt-2">

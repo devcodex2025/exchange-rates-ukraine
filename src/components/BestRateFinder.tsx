@@ -21,7 +21,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
   const nbuRate = rates.find((r) => r.code === selectedCurrency && r.bankId === "nbu")?.buy ?? null;
 
   return (
-    <Card className="skel-content-enter rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:p-4" id="best-rates">
+    <Card className="skel-content-enter rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] sm:p-4" id="best-rates">
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
@@ -40,7 +40,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
               <CardTitle className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {copy.bestRateFinderTitle}
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
                 {copy.bestRateFinderSubtitle}
               </CardDescription>
             </div>
@@ -58,7 +58,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                   className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
                       ? "bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-sm"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#272727] dark:text-slate-300 dark:hover:bg-[#313131]"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#313131] dark:text-slate-300 dark:hover:bg-[#313131]"
                   }`}
                 >
                   {code}
@@ -72,7 +72,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
       <CardContent className="pt-0">
         <div className="grid gap-4 md:grid-cols-2">
           {/* Best bank to BUY from */}
-          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#272727] dark:bg-[#1F1F1F]">
+          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#313131] dark:bg-[#272727]">
             <div>
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
@@ -91,7 +91,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
 
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
                 {copy.whereToBuy}
               </p>
             </div>
@@ -123,14 +123,14 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
           </div>
 
           {/* Best bank to SELL to */}
-          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#272727] dark:bg-[#1F1F1F]">
+          <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#313131] dark:bg-[#272727]">
             <div>
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  <ArrowUpRight className="text-cyan-700 dark:text-cyan-400" size={16} />
+                  <ArrowUpRight className="text-brand-700 dark:text-brand-400" size={16} />
                   {copy.bestToSellTitle} ({selectedCurrency})
                 </span>
-                <Badge variant="outline" className="border-cyan-500/30 text-cyan-700 dark:text-cyan-400 bg-cyan-50/50 dark:bg-cyan-950/30">
+                <Badge variant="outline" className="border-brand-500/30 text-brand-700 dark:text-brand-400 bg-brand-50/50 dark:bg-brand-950/30">
                   {isEnglish ? "Highest price" : "Максимальна ціна"}
                 </Badge>
               </div>
@@ -142,7 +142,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
                 <span className="font-mono text-sm font-medium text-slate-500">UAH</span>
               </div>
 
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
                 {copy.whereToSell}
               </p>
             </div>
@@ -175,7 +175,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
         </div>
 
         {nbuRate ? (
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500 dark:text-slate-400">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500 dark:text-slate-300">
             <span>
               {isEnglish ? "Official NBU reference:" : "Офіційний курс НБУ:"}{" "}
               <strong className="font-mono font-semibold text-slate-700 dark:text-slate-200">
@@ -184,7 +184,7 @@ export const BestRateFinder: React.FC<BestRateFinderProps> = ({ rates, locale })
             </span>
             <a
               href="#converter"
-              className="font-medium text-cyan-700 hover:underline dark:text-cyan-400"
+              className="font-medium text-brand-700 hover:underline dark:text-brand-400"
             >
               {copy.converter} &rarr;
             </a>

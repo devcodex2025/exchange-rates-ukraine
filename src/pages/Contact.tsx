@@ -20,16 +20,16 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
 
   return (
     <main className="mx-auto max-w-4xl py-8">
-      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-slate-800">
-          <div className="rounded-xl bg-cyan-600/10 p-2.5 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] md:p-10">
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-5 dark:border-[#313131]">
+          <div className="rounded-xl bg-brand-600/10 p-2.5 text-brand-700 dark:bg-brand-500/10 dark:text-brand-400">
             <Mail size={24} />
           </div>
           <div>
             <h1 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">
               {isEnglish ? "Contact & Editorial Office" : "Контакти та редакція UAH.today"}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-300 sm:text-sm">
               {isEnglish
                 ? "Reach out for technical questions, data verification, or editorial proposals"
                 : "Зв'язок із командою з технічних питань, уточнення даних або співпраці"}
@@ -44,7 +44,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               <h2 className="text-base font-black text-slate-950 dark:text-white">
                 {isEnglish ? "Direct Inquiries" : "Електронна пошта"}
               </h2>
-              <p className="mt-1 text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-slate-500 dark:text-slate-300">
                 {isEnglish
                   ? "We respond to user inquiries and bank API updates within 24 hours."
                   : "Ми розглядаємо запити користувачів та звернення представників банків протягом робочого дня."}
@@ -52,33 +52,33 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
               <div className="mt-3 flex flex-col gap-2">
                 <a
                   href="mailto:support@uah.today"
-                  className="font-mono font-bold text-cyan-700 hover:underline dark:text-cyan-400"
+                  className="font-mono font-bold text-brand-700 hover:underline dark:text-brand-400"
                 >
                   support@uah.today
                 </a>
                 <a
                   href="mailto:editorial@uah.today"
-                  className="font-mono font-bold text-cyan-700 hover:underline dark:text-cyan-400"
+                  className="font-mono font-bold text-brand-700 hover:underline dark:text-brand-400"
                 >
                   editorial@uah.today
                 </a>
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#313131] dark:bg-[#0A0A0A]">
               <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white">
-                <MapPin size={18} className="text-cyan-700" />
+                <MapPin size={18} className="text-brand-700" />
                 <span>{isEnglish ? "Location" : "Місцезнаходження"}</span>
               </div>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
                 Kyiv, Ukraine (Digital Editorial Office)
               </p>
 
               <div className="mt-3 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
-                <Clock size={18} className="text-cyan-700" />
+                <Clock size={18} className="text-brand-700" />
                 <span>{isEnglish ? "Monitoring Hours" : "Графік моніторингу"}</span>
               </div>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
                 {isEnglish
                   ? "Automatic 24/7 rate sync. Editorial team available Monday–Friday, 09:00–18:00 (Kyiv time)."
                   : "Автоматична синхронізація курсів 24/7. Редакційна підтримка: Пн–Пт, 09:00–18:00."}
@@ -87,14 +87,14 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
           </div>
 
           {/* Feedback Form */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/50">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-5 dark:border-[#313131] dark:bg-[#0A0A0A]/50">
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <CheckCircle2 size={40} className="text-emerald-500" />
                 <h3 className="mt-3 text-lg font-black text-slate-950 dark:text-white">
                   {isEnglish ? "Message Sent" : "Повідомлення надіслано"}
                 </h3>
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-300">
                   {isEnglish
                     ? "Thank you for contacting us. We will get back to you shortly."
                     : "Дякуємо за звернення. Ми зв'яжемося з вами найближчим часом."}
@@ -113,7 +113,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-cyan-500/20 focus:ring-4 dark:border-slate-800 dark:bg-slate-900"
+                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
                   />
                 </label>
 
@@ -124,7 +124,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-cyan-500/20 focus:ring-4 dark:border-slate-800 dark:bg-slate-900"
+                    className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
                   />
                 </label>
 
@@ -135,7 +135,7 @@ export const Contact: React.FC<ContactProps> = ({ locale = "uk" }) => {
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white p-3 text-sm font-normal outline-none ring-cyan-500/20 focus:ring-4 dark:border-slate-800 dark:bg-slate-900"
+                    className="rounded-lg border border-slate-200 bg-white p-3 text-sm font-normal outline-none ring-brand-500/20 focus:ring-4 dark:border-[#313131] dark:bg-[#1F1F1F]"
                   />
                 </label>
 

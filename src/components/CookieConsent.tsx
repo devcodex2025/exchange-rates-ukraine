@@ -44,10 +44,10 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
     <aside
       ref={elementRef}
       aria-label={copy.cookieConsentTitle}
-      className="t-modal fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 sm:bottom-6 sm:left-6 sm:p-5"
+      className="t-modal fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-[#313131] dark:bg-[#0A0A0A]/95 sm:bottom-6 sm:left-6 sm:p-5"
     >
       <div className="flex items-start gap-3">
-        <div className="rounded-xl bg-cyan-600/10 p-2 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
+        <div className="rounded-xl bg-brand-600/10 p-2 text-brand-700 dark:bg-brand-500/10 dark:text-brand-400">
           <Cookie size={22} />
         </div>
         <div className="flex-1">
@@ -58,7 +58,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
             {copy.cookieConsentText}{" "}
             <a
               href={locale === "en" ? "/en/privacy-policy" : "/privacy-policy"}
-              className="font-bold underline hover:text-cyan-700"
+              className="font-bold underline hover:text-brand-700"
             >
               {copy.privacyLink}
             </a>
@@ -75,7 +75,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ locale }) => {
             <button
               type="button"
               onClick={handleDecline}
-              className="rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 active:scale-[0.98] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 active:scale-[0.98] dark:border-[#313131] dark:bg-[#1F1F1F] dark:text-slate-300 dark:hover:bg-slate-800"
             >
               {copy.cookieDecline}
             </button>

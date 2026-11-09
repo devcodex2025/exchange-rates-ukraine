@@ -57,11 +57,11 @@ export const TaglineReveal: React.FC<TaglineRevealProps> = ({ locale }) => {
   return (
     <section
       ref={containerRef}
-      className="my-16 rounded-2xl border border-slate-200 bg-white px-6 py-14 shadow-sm dark:border-[#272727] dark:bg-[#181818] sm:px-10 sm:py-20"
+      className="my-16 rounded-2xl border border-slate-200 bg-white px-6 py-14 shadow-sm dark:border-[#313131] dark:bg-[#1F1F1F] sm:px-10 sm:py-20"
       aria-label="Core Value Tagline"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-cyan-700 dark:text-cyan-400">
+        <p className="text-xs font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">
           {isEnglish ? "Our Promise" : "Наш головний принцип"}
         </p>
 
@@ -88,7 +88,7 @@ export const TaglineReveal: React.FC<TaglineRevealProps> = ({ locale }) => {
         <div className="mt-8 flex justify-center gap-3">
           <a
             href="#best-rates"
-            className="inline-flex h-10 items-center justify-center rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition duration-300 hover:bg-slate-800 active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+            className="inline-flex h-10 items-center justify-center rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition duration-300 hover:bg-brand-700 active:scale-[0.98] dark:bg-brand-500 dark:hover:bg-brand-400"
           >
             {isEnglish ? "View Best Rates Today" : "Переглянути кращий курс"}
           </a>

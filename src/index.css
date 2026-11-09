@@ -10,6 +10,23 @@
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 
+  /* Brand palette: Ukrainian blue plus a gold accent */
+  --color-brand-50: #eaf2ff;
+  --color-brand-100: #d8e6ff;
+  --color-brand-300: #9dc0ff;
+  --color-brand-400: #7aaeff;
+  --color-brand-500: #2f6fdb;
+  --color-brand-600: #0057b7;
+  --color-brand-700: #004a9c;
+  --color-brand-800: #003d82;
+  --color-brand-900: #002f66;
+  --color-brand-950: #001a38;
+
+  --color-gold-400: #ffd500;
+  --color-gold-500: #f2c200;
+  --color-gold-600: #a16207;
+  --color-gold-700: #854d0e;
+
   /* Strict Spacing Tokens per B2 */
   --spacing-25: 2px;
   --spacing-50: 4px;
@@ -42,10 +59,10 @@
   color-scheme: dark;
   --surface-primary: #000000;
   --surface-secondary: #131209;
-  --surface-card: #181818;
-  --border-subtle: #272727;
+  --surface-card: #1F1F1F;
+  --border-subtle: #313131;
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-muted: #b6c2d1;
 }
 
 body {
@@ -56,25 +73,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Visible keyboard focus on every interactive element per B9 */
+/* Tailwind v4 no longer applies a pointer cursor to buttons. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Brand color for keyboard focus instead of the browser default. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid #0e7490;
+  outline: 2px solid #0057b7;
   outline-offset: 2px;
   border-radius: 8px;
 }
 
 .dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline-color: #22d3ee;
+  outline-color: #7aaeff;
 }
 
 ::selection {
-  background-color: #cffafe;
+  background-color: #ffe86b;
   color: #0f172a;
 }
 
 .dark ::selection {
-  background-color: #155e75;
-  color: #f8fafc;
+  background-color: #0057b7;
+  color: #ffffff;
 }
 
 /* Mobile menu entrance per B7 */
@@ -479,6 +508,30 @@ body {
     filter: blur(0);
   }
 }
+
+/* Hero entrance: the copy column rises in reading order. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.hero-stagger > * {
+  animation: hero-rise var(--duration-very-slow) var(--ease-smooth-out) both;
+}
+
+.hero-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.hero-stagger > *:nth-child(2) { animation-delay: 60ms; }
+.hero-stagger > *:nth-child(3) { animation-delay: 120ms; }
+.hero-stagger > *:nth-child(4) { animation-delay: 180ms; }
+.hero-stagger > *:nth-child(5) { animation-delay: 240ms; }
 
 /* Copy rules per B1 */
 h1, h2, h3, h4, h5, h6 {

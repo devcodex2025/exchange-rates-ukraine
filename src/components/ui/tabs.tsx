@@ -62,7 +62,7 @@ export const TabsList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ class
       ref={listRef}
       role="tablist"
       className={cn(
-        "relative inline-flex w-full gap-1 overflow-x-auto rounded-lg border border-slate-200 bg-slate-100 p-1 dark:border-[#272727] dark:bg-[#181818]",
+        "relative inline-flex w-full gap-1 overflow-x-auto rounded-lg border border-slate-200 bg-slate-100 p-1 dark:border-[#313131] dark:bg-[#1F1F1F]",
         className,
       )}
       {...props}
@@ -89,7 +89,7 @@ export const TabsTrigger: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
         "relative z-[1] shrink-0 rounded-md px-3 py-2 text-sm font-black transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         active
           ? "text-slate-950 dark:text-white"
-          : "text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white",
+          : "text-slate-500 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white",
         className,
       )}
       onClick={() => context?.onValueChange(value)}

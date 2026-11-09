@@ -86,7 +86,7 @@ export const UsdHistoryChart: React.FC<UsdHistoryChartProps> = ({ locale }) => {
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-slate-200 text-sm font-bold text-slate-500 dark:border-slate-800 dark:text-slate-400">
+            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-slate-200 text-sm font-bold text-slate-500 dark:border-[#313131] dark:text-slate-300">
               {loading
                 ? isEnglish
                   ? "Loading NBU history..."
