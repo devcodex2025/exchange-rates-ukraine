@@ -23,6 +23,7 @@ const formatNbuDate = (date: Date) => {
 
 // API Routes
 app.get("/api/history", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const currency = typeof req.query.currency === "string" ? req.query.currency.toUpperCase() : "USD";
   const requestedDays = Number.parseInt(String(req.query.days || "7"), 10);
   const days = [7, 30, 90].includes(requestedDays) ? requestedDays : 7;
@@ -72,6 +73,7 @@ app.get("/api/history", async (req, res) => {
 });
 
 app.get("/api/rates", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   try {
     const forceFresh = req.query.fresh === "1" || req.query.fresh === "true";
     const data = await RatesAggregatorService.getAggregatedRates(forceFresh);
@@ -92,6 +94,8 @@ app.get("/robots.txt", (req, res) => {
 });
 
 app.get("/rates.json", async (_req, res) => {
+  // CORS must ride the redirect leg too: fetch requires ACAO on every hop.
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.redirect(307, "/api/rates");
 });
 

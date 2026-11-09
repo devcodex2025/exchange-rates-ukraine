@@ -32,6 +32,10 @@ async function fetchNbuHistory(currency: string, date: Date) {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Open-data endpoint: any web page may call this from browser JS
+  // (simple GET, no preflight). Applies to 405/500 responses too.
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
   const currencyParam = Array.isArray(req.query?.currency) ? req.query.currency[0] : req.query?.currency;

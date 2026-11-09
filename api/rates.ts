@@ -17,6 +17,10 @@ interface VercelResponse {
 export const config = { maxDuration: 60 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Open-data endpoint: any web page may call this from browser JS
+  // (simple GET, no preflight). Applies to 405/503 responses too.
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
