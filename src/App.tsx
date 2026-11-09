@@ -390,12 +390,13 @@ export default function App() {
             />
             </Routes>
           </RouteTransition>
+        </div>
 
-          {/* Full Footer with SEO Sitemap & Legal Links · ui8 inspired gradient atmosphere */}
-          <footer className="footer-shell relative mt-16 overflow-hidden text-xs text-slate-500 dark:text-[#ADB7BE]">
+        {/* Full Footer with SEO Sitemap & Legal Links · ui8 inspired gradient atmosphere */}
+        <footer className="footer-shell relative mt-16 overflow-hidden text-xs text-slate-500 dark:text-[#ADB7BE]">
             <div aria-hidden="true" className="footer-hairline" />
             <div aria-hidden="true" className="footer-glow absolute inset-x-0 top-0 h-full" />
-            <div className="relative flex flex-col gap-8 py-10">
+            <div className="relative mx-auto flex max-w-7xl flex-col gap-8 py-10 px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
               <div>
                 <p className="text-base font-semibold text-slate-900 dark:text-white">UAH.today</p>
@@ -465,7 +466,6 @@ export default function App() {
             </div>
             </div>
           </footer>
-        </div>
 
         {/* Cookie Consent */}
         <CookieConsent locale={locale} />
