@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import { RatesAggregatorService } from "./src/services/rates/rates-aggregator.service";
-import { submitContactForm } from "./src/services/contact-form.service";
+import contactHandler from "./api/contact";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,16 +83,10 @@ app.get("/api/rates", async (req, res) => {
   }
 });
 
-// Advertising form: validate on the server, then forward to the inbox.
-app.post("/api/contact", express.json({ limit: "16kb" }), async (req, res) => {
-  try {
-    const userAgent = typeof req.headers["user-agent"] === "string" ? req.headers["user-agent"] : undefined;
-    const result = await submitContactForm(req.body, req.ip || "unknown", userAgent);
-    res.setHeader("Cache-Control", "no-store");
-    res.status(result.status).json(result.body);
-  } catch (error) {
-    res.status(502).json({ ok: false, error: "upstream" });
-  }
+// Advertising form: the dev route delegates to the same handler Vercel runs,
+// so local behavior matches production.
+app.post("/api/contact", express.json({ limit: "16kb" }), (req, res) => {
+  void contactHandler(req as never, res as never);
 });
 
 // Robots
