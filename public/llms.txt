@@ -16,6 +16,12 @@ Primary pages:
 Machine-readable data:
 - /api/rates
 - /rates.json
+- /api/history?currency=USD&days=7 (NBU daily history; days=7|30|90)
+
+Skills for AI agents:
+- /skills (installation guide, Ukrainian)
+- /en/skills (installation guide, English)
+- Skill files: https://raw.githubusercontent.com/devcodex2025/exchange-rates-ukraine/main/.agents/skills/uah-today-api/SKILL.md
 
 Definitions:
 - buy: the rate a bank pays when buying foreign currency from a customer.
