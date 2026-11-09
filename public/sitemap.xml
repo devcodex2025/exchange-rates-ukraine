@@ -180,21 +180,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  <!-- Agent skills & contributor docs -->
+  <!-- Advertising -->
   <url>
-    <loc>https://exchange-rates-ukraine.vercel.app/skills</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/skills"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/skills"/>
+    <loc>https://exchange-rates-ukraine.vercel.app/reklama</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/reklama"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/advertising"/>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://exchange-rates-ukraine.vercel.app/en/skills</loc>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/skills"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/skills"/>
+    <loc>https://exchange-rates-ukraine.vercel.app/en/advertising</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/reklama"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exchange-rates-ukraine.vercel.app/en/advertising"/>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  <!-- Contributor docs -->
   <url>
     <loc>https://exchange-rates-ukraine.vercel.app/dodaty-bank</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://exchange-rates-ukraine.vercel.app/dodaty-bank"/>

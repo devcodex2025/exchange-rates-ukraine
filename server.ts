@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import { RatesAggregatorService } from "./src/services/rates/rates-aggregator.service";
+import { submitContactForm } from "./src/services/contact-form.service";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -79,6 +80,18 @@ app.get("/api/rates", async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch rates" });
+  }
+});
+
+// Advertising form: validate on the server, then forward to the inbox.
+app.post("/api/contact", express.json({ limit: "16kb" }), async (req, res) => {
+  try {
+    const userAgent = typeof req.headers["user-agent"] === "string" ? req.headers["user-agent"] : undefined;
+    const result = await submitContactForm(req.body, req.ip || "unknown", userAgent);
+    res.setHeader("Cache-Control", "no-store");
+    res.status(result.status).json(result.body);
+  } catch (error) {
+    res.status(502).json({ ok: false, error: "upstream" });
   }
 });
 
