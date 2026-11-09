@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import "dotenv/config";
+import dotenv from "dotenv";
+// First file wins per key; missing files are skipped silently, so production
+// (Vercel has no local env files) is unaffected.
+dotenv.config({ path: [".env.local", ".env"] });
 import { RatesAggregatorService } from "./src/services/rates/rates-aggregator.service";
 import contactHandler from "./api/contact";
 
