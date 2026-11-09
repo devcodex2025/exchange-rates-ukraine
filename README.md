@@ -273,7 +273,8 @@ Alternatively, paste both files into the agent's system prompt, or point it at t
 
 ## 10. Google AdSense & Policy Compliance
 
-- **ads.txt**: Pre-configured in `/public/ads.txt`.
+- **ads.txt**: Deployed at [`/ads.txt`](https://exchange-rates-ukraine.vercel.app/ads.txt) with the live Google publisher identifier (`pub-5995594246081561`, DIRECT, `f08c47fec0942fa0`).
+- **Site ownership**: The `google-adsense-account` meta tag and the Auto Ads loader are present in the `<head>` of every rendered page (template + all 27 prerendered routes).
 - **Consent Management**: Cookie consent banner configured with granular preferences and footer reset toggle.
 - **Mandatory Disclosures**: Full Privacy Policy (`/privacy-policy` and `/en/privacy-policy`) disclosing third-party advertising cookies, server telemetry, and Google AdSense partner terms.
 - **Ad Slot Placement**: Designed to prevent accidental clicks with clear "Реклама" / "Advertisement" labeling.
