@@ -7,6 +7,7 @@ import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { Terms } from "./pages/Terms";
 import { SkillsPage } from "./pages/SkillsPage";
 import { AddBankPage } from "./pages/AddBankPage";
+import { AdvertisePage } from "./pages/AdvertisePage";
 import { NotFound } from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
 import { SiteHeader } from "./components/SiteHeader";
@@ -86,6 +87,11 @@ export const routeMeta: Record<string, RouteMetaItem> = {
     description: "Зв'яжіться з редакцією UAH.today: технічна підтримка, запити щодо даних API, зворотний зв'язок.",
     locale: "uk",
   },
+  "/reklama": {
+    title: "Реклама на UAH.today: замовити розміщення, банери, брендування | UAH.today",
+    description: "Замовити рекламу на UAH.today — незалежному сервісі порівняння курсів валют у банках України. Банери, брендування конвертера, спонсорські блоки. Заявка у Telegram редакції.",
+    locale: "uk",
+  },
   "/privacy-policy": {
     title: "Політика конфіденційності | UAH.today",
     description: "Політика конфіденційності та обробки даних веб-сайту UAH.today. Використання файлів cookie та Google AdSense.",
@@ -156,6 +162,11 @@ export const routeMeta: Record<string, RouteMetaItem> = {
   "/en/contact": {
     title: "Contact Editorial Team | UAH.today",
     description: "Contact UAH.today for data inquiries, editorial questions, and partnership.",
+    locale: "en",
+  },
+  "/en/advertising": {
+    title: "Advertise on UAH.today: Banners, Converter Branding | UAH.today",
+    description: "Order advertising on UAH.today — Ukraine's independent currency comparison platform. Banner placements, converter branding, sponsored blocks. Apply via the Telegram chat.",
     locale: "en",
   },
   "/en/privacy-policy": {
@@ -434,6 +445,10 @@ export default function App() {
             <Route path="/contact" element={<Contact locale="uk" />} />
             <Route path="/en/contact" element={<Contact locale="en" />} />
 
+            <Route path="/reklama" element={<AdvertisePage locale="uk" />} />
+            <Route path="/advertising" element={<AdvertisePage locale="uk" />} />
+            <Route path="/en/advertising" element={<AdvertisePage locale="en" />} />
+
             <Route path="/privacy-policy" element={<PrivacyPolicy locale="uk" />} />
             <Route path="/privacy" element={<PrivacyPolicy locale="uk" />} />
             <Route path="/en/privacy-policy" element={<PrivacyPolicy locale="en" />} />
@@ -504,6 +519,7 @@ export default function App() {
                   <li><Link to={isEnglish ? "/en/about" : "/pro-nas"} className="transition hover:text-brand-700">{copy.aboutLink}</Link></li>
                   <li><a href="https://github.com/devcodex2025/exchange-rates-ukraine" target="_blank" rel="noreferrer" className="learn-more inline-flex items-center gap-1 transition hover:text-brand-700">{isEnglish ? "Open source on GitHub" : "Відкритий код на GitHub"}<ArrowUpRight className="learn-more-icon" size={12} /></a></li>
                   <li><Link to={isEnglish ? "/en/contact" : "/kontakty"} className="transition hover:text-brand-700">{copy.contactLink}</Link></li>
+                  <li><Link to={isEnglish ? "/en/advertising" : "/reklama"} className="transition hover:text-brand-700">{isEnglish ? "Advertise with us" : "Реклама на сайті"}</Link></li>
                   <li><Link to={isEnglish ? "/en/privacy-policy" : "/privacy-policy"} className="transition hover:text-brand-700">{copy.privacyLink}</Link></li>
                   <li><Link to={isEnglish ? "/en/terms" : "/terms"} className="transition hover:text-brand-700">{copy.termsLink}</Link></li>
                   <li>

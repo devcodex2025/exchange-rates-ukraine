@@ -116,6 +116,14 @@ const routes = [
     h1: "Умови використання",
     lead: "Правові засади користування сервісом UAH.today та відкритими даними.",
   },
+  {
+    path: "/reklama",
+    title: "Реклама на UAH.today: замовити розміщення, банери, брендування | UAH.today",
+    description: "Замовити рекламу на UAH.today — незалежному сервісі порівняння курсів валют у банках України. Банери, брендування конвертера, спонсорські блоки. Заявка у Telegram редакції.",
+    locale: "uk",
+    h1: "Реклама на UAH.today",
+    lead: "Спонсорські лоти, банери та брендування на платформі курсів валют. Заявки — у чат Telegram редакції.",
+  },
   // English Routes
   {
     path: "/en",
@@ -228,6 +236,14 @@ const routes = [
     locale: "en",
     h1: "Terms of Use",
     lead: "General legal terms and informational disclaimer for platform visitors.",
+  },
+  {
+    path: "/en/advertising",
+    title: "Advertise on UAH.today: Banners, Converter Branding | UAH.today",
+    description: "Order advertising on UAH.today — Ukraine's independent currency comparison platform. Banner placements, converter branding, sponsored blocks. Apply via the Telegram chat.",
+    locale: "en",
+    h1: "Advertise on UAH.today",
+    lead: "Sponsored slots, banners and converter branding for brands reaching people exchanging currency right now.",
   },
 ];
 

@@ -19,6 +19,8 @@ Primary pages:
 - /en/best-exchange-rate-ukraine
 - /dodaty-bank (how to add a new bank source via Pull Request)
 - /en/add-bank (English version)
+- /reklama (advertising page, Ukrainian — apply via Telegram)
+- /en/advertising (advertising page, English — apply via Telegram)
 
 Machine-readable data:
 - /api/rates
