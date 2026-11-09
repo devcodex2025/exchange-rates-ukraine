@@ -1,0 +1,270 @@
+/* USD/UAH history — candle price card rebuilt in the transitions.dev
+   "Crypto Candle Chart" style (community draft cZuiBEY7Ogh, Jakub Antalik).
+   Adapted to UAH.today: theme-aware tokens (base = light, html.dark = dark),
+   honest daily candles (body = previous -> current official NBU rate, no
+   synthetic wicks), crosshair scrub readout, sliding-pill range tabs and
+   cross-blur text swaps. Motion respects prefers-reduced-motion. */
+
+.uahc {
+  --uahc-morph-dur: 400ms;
+  --uahc-morph-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --uahc-quick: 150ms;
+  --uahc-soft-dur: 200ms;
+  --uahc-soft-blur: 2px;
+  --uahc-soft-ease: ease-in-out;
+  --uahc-resize-dur: 240ms;
+  --uahc-tabs-dur: 250ms;
+
+  --uahc-stage-bg: #f8fafc;
+  --uahc-stage-border: rgba(226, 232, 240, 0.9);
+  --uahc-grid: rgba(15, 23, 42, 0.07);
+  --uahc-cross: rgba(15, 23, 42, 0.24);
+  --uahc-up: #059669;
+  --uahc-down: #dc2626;
+  --uahc-flat: #94a3b8;
+  --uahc-price: #0f172a;
+  --uahc-muted: #64748b;
+  --uahc-badge-ink: #166534;
+  --uahc-badge-fill: #dcfce7;
+  --uahc-badge-ink-down: #b91c1c;
+  --uahc-badge-fill-down: #fee2e2;
+  --uahc-tabs-bg: #f1f5f9;
+  --uahc-pill-bg: #ffffff;
+  --uahc-pill-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  --uahc-tab-muted: #64748b;
+  --uahc-tab-active: #0f172a;
+}
+html.dark .uahc {
+  --uahc-stage-bg: #2a2a2a;
+  --uahc-stage-border: #2e2e2e;
+  --uahc-grid: rgba(255, 255, 255, 0.07);
+  --uahc-cross: rgba(255, 255, 255, 0.2);
+  --uahc-up: #34d399;
+  --uahc-down: #f87171;
+  --uahc-flat: #94a3b8;
+  --uahc-price: #f8fafc;
+  --uahc-muted: #adb7be;
+  --uahc-badge-fill: #24372c;
+  --uahc-badge-ink: #7ee2a0;
+  --uahc-badge-fill-down: #3a1719;
+  --uahc-badge-ink-down: #ff9a9a;
+  --uahc-tabs-bg: rgba(255, 255, 255, 0.07);
+  --uahc-pill-bg: rgba(255, 255, 255, 0.12);
+  --uahc-pill-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  --uahc-tab-muted: rgba(173, 183, 190, 0.85);
+  --uahc-tab-active: #f8fafc;
+}
+
+/* ── price block ─────────────────────────────────────────────────────────── */
+
+.uahc-price-block { display: flex; flex-direction: column; }
+.uahc-price {
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--uahc-price);
+}
+.uahc-caption {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--uahc-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* badge with tone swap (green up / red down) */
+.uahc-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 50px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--uahc-badge-ink);
+  background: var(--uahc-badge-fill);
+  transition: background-color var(--uahc-soft-dur) var(--uahc-soft-ease), color var(--uahc-soft-dur) var(--uahc-soft-ease);
+}
+.uahc-badge[data-tone="down"] {
+  color: var(--uahc-badge-ink-down);
+  background: var(--uahc-badge-fill-down);
+}
+
+/* cross-blur text swap (transitions.dev "value swap" pattern) */
+.uahc-soft {
+  display: inline-grid;
+  justify-items: start;
+  transition: width var(--uahc-resize-dur) var(--uahc-morph-ease);
+}
+.uahc-soft > span {
+  grid-area: 1 / 1;
+  white-space: pre;
+  transition: filter var(--uahc-soft-dur) var(--uahc-soft-ease), opacity var(--uahc-soft-dur) var(--uahc-soft-ease);
+}
+.uahc-soft .uahc-soft-new { opacity: 0; filter: blur(var(--uahc-soft-blur)); }
+.uahc-soft.is-swapping .uahc-soft-old { opacity: 0; filter: blur(var(--uahc-soft-blur)); }
+.uahc-soft.is-swapping .uahc-soft-new { opacity: 1; filter: blur(0); }
+
+/* ── candle stage ───────────────────────────────────────────────────────── */
+
+.uahc-stage {
+  position: relative;
+  height: 150px;
+  border-radius: 10px;
+  border: 1px solid var(--uahc-stage-border);
+  background: var(--uahc-stage-bg);
+  touch-action: pan-y;
+  cursor: crosshair;
+  overflow: hidden;
+}
+.uahc-stage.is-empty { cursor: default; }
+
+.uahc-gridline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--uahc-grid) 20%, var(--uahc-grid) 80%, transparent);
+  pointer-events: none;
+}
+
+.uahc-cross {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--uahc-cross);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--uahc-quick) var(--uahc-morph-ease);
+}
+.uahc-stage.is-hover .uahc-cross { opacity: 1; }
+
+.uahc-candle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  transition: opacity var(--uahc-quick) var(--uahc-morph-ease);
+  animation: uahc-rise 460ms var(--uahc-morph-ease) backwards;
+  animation-delay: min(calc(var(--i, 0) * 14ms), 640ms);
+}
+.uahc-stage.is-hover .uahc-candle:not(.is-active) { opacity: 0.35; }
+
+.uahc-wick,
+.uahc-body {
+  position: absolute;
+  left: 0;
+  transition: top var(--uahc-morph-dur) var(--uahc-morph-ease), height var(--uahc-morph-dur) var(--uahc-morph-ease), background-color var(--uahc-morph-dur) var(--uahc-morph-ease);
+}
+.uahc-wick {
+  left: 50%;
+  width: 1px;
+  transform: translateX(-0.5px);
+  background: var(--uahc-flat);
+}
+.uahc-body {
+  width: 100%;
+  border-radius: 2px;
+  background: var(--uahc-flat);
+}
+.uahc-candle.is-up .uahc-wick,
+.uahc-candle.is-up .uahc-body { background: var(--uahc-up); }
+.uahc-candle.is-down .uahc-wick,
+.uahc-candle.is-down .uahc-body { background: var(--uahc-down); }
+.uahc-candle.is-flat .uahc-wick,
+.uahc-candle.is-flat .uahc-body { background: var(--uahc-flat); }
+
+@keyframes uahc-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.uahc-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+}
+html.dark .uahc-empty { color: #adb7be; }
+
+/* ── range pill tabs (transitions.dev "tabs sliding") ────────────────────── */
+
+.uahc-tabs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 48px;
+  background: var(--uahc-tabs-bg);
+}
+.uahc-pill {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 30px;
+  background: var(--uahc-pill-bg);
+  border-radius: 48px;
+  box-shadow: var(--uahc-pill-shadow);
+  transition: transform var(--uahc-tabs-dur) var(--uahc-morph-ease), width var(--uahc-tabs-dur) var(--uahc-morph-ease);
+  will-change: transform, width;
+  pointer-events: none;
+}
+.uahc-tab {
+  position: relative;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  flex: 1;
+  height: 30px;
+  padding: 0 14px;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--uahc-tab-muted);
+  cursor: pointer;
+  border-radius: 48px;
+  transition: color var(--uahc-tabs-dur) var(--uahc-morph-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.uahc-tab[aria-selected="true"] { color: var(--uahc-tab-active); }
+@media (hover: hover) and (pointer: fine) {
+  .uahc-tab:not([aria-selected="true"]):hover { color: var(--uahc-tab-active); }
+}
+.uahc-tab:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.uahc-note {
+  font-size: 11px;
+  line-height: 16px;
+  color: #94a3b8;
+}
+html.dark .uahc-note { color: #7b868d; }
+
+@media (prefers-reduced-motion: reduce) {
+  .uahc-soft,
+  .uahc-soft > span,
+  .uahc-pill,
+  .uahc-tab,
+  .uahc-badge,
+  .uahc-cross,
+  .uahc-candle,
+  .uahc-wick,
+  .uahc-body {
+    transition: none !important;
+    animation: none !important;
+  }
+}
