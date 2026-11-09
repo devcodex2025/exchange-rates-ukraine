@@ -94,7 +94,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           page wrapper keeps the breakout scroll-safe (clip, not a scroll container,
           so the sticky header stays sticky). */}
       <section id="main-content" className="relative pt-4 sm:pt-6">
-        <div aria-hidden="true" className="hero-glow absolute left-1/2 top-[-80px] h-[calc(100%+80px)] w-screen -translate-x-1/2 overflow-hidden rounded-3xl" />
+        <div aria-hidden="true" className="hero-glow absolute left-1/2 top-[-80px] h-[calc(100%+80px)] w-screen -translate-x-1/2 overflow-hidden rounded-b-3xl" />
         <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
           <div className="hero-stagger max-w-[680px]">
             <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-[#2E2E2E] dark:bg-[#2A2A2A] dark:text-[#ADB7BE]">
