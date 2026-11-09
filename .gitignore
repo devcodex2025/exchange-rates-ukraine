@@ -6,3 +6,10 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local dev-workflow skills stay on the owner machine, out of the repository
+.agents/skills/figma-designer/
+.agents/skills/landing-page-design/
+.agents/skills/transitions-dev/
+.agents/skills/transitions-polish/
+.claude/
