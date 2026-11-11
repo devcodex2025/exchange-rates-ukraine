@@ -8,7 +8,7 @@ export const SITE_URL =
 export const ADSENSE = {
   client: "ca-pub-5995594246081561",
   slots: {
-    "ad-top-banner": "",
+    "ad-top-banner": "5679807203",
     "ad-sidebar": "",
   } as Record<string, string>,
 };
