@@ -3,6 +3,16 @@ export const SITE_URL =
   (typeof process !== "undefined" && process.env && (process.env.VITE_SITE_URL || process.env.NEXT_PUBLIC_SITE_URL)) ||
   "https://exchange-rates-ukraine.vercel.app";
 
+// Google AdSense units. Leave an entry empty to keep the reserved placeholder;
+// paste the numeric data-ad-slot from the cabinet (Ads → By ad unit) to go live.
+export const ADSENSE = {
+  client: "ca-pub-5995594246081561",
+  slots: {
+    "ad-top-banner": "",
+    "ad-sidebar": "",
+  } as Record<string, string>,
+};
+
 export const CURRENCY_MAP: Record<number, string> = {
   980: "UAH",
   840: "USD",
