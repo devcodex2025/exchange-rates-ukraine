@@ -9,7 +9,7 @@ export const ADSENSE = {
   client: "ca-pub-5995594246081561",
   slots: {
     "ad-top-banner": "5679807203",
-    "ad-sidebar": "",
+    "ad-sidebar": "2786050550",
   } as Record<string, string>,
 };
 
